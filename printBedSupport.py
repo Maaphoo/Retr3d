@@ -12,7 +12,7 @@ import Draft
 
 #Specific to printer
 import globalVars as gv
-import utilityFunctions as Util
+import utilityFunctions as uf
 
 class PrintBedSupport(object):
 	def __init__(self):
@@ -243,13 +243,20 @@ class PrintBedSupport(object):
 		
 		#Make Sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch001')
-		App.activeDocument().Sketch001.Support = (App.ActiveDocument.Pad,["Face10"])
+		App.activeDocument().Sketch001.Support = uf.getFace(App.ActiveDocument.Pad,
+														  None, None,
+														  None, None,
+														  gv.printBedSupportThickness, 0)
 		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch001')
-		App.ActiveDocument.Sketch001.addExternal("Pad","Edge10")
-		App.ActiveDocument.recompute()
-		App.ActiveDocument.Sketch001.addExternal("Pad","Edge4")
-		App.ActiveDocument.recompute()
+		App.ActiveDocument.Sketch001.addExternal("Pad",uf.getEdge(App.ActiveDocument.Pad, 
+														  0,0,
+														  length/2, 0,
+														  gv.printBedSupportThickness, 0))
+		App.ActiveDocument.Sketch001.addExternal("Pad",uf.getEdge(App.ActiveDocument.Pad, 
+														  0,0,
+														  -length/2, 0,
+														  gv.printBedSupportThickness, 0))
 		App.ActiveDocument.Sketch001.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch001.addConstraint(Sketcher.Constraint('PointOnObject',0,1,-4)) 
@@ -383,7 +390,10 @@ class PrintBedSupport(object):
 		
 		#Make Sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch002')
-		App.activeDocument().Sketch002.Support = (App.ActiveDocument.Pocket,["Face5"])
+		App.activeDocument().Sketch002.Support = uf.getFace(App.ActiveDocument.Pocket,
+														  None, None,
+														  None, None,
+														  gv.printBedSupportThickness, 0)
 		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch002')
 		App.ActiveDocument.Sketch002.addGeometry(Part.Circle(App.Vector(p1x,p1y,0),App.Vector(0,0,1),gv.mountToPrintedDia/2))

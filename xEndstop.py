@@ -208,15 +208,24 @@ class XEndstop(object):
 		
 		#Make Sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch001')
-		App.activeDocument().Sketch001.Support = (App.ActiveDocument.Pad,["Face7"])
+		App.activeDocument().Sketch001.Support = uf.getFace(App.ActiveDocument.Pad,
+														  None,None,
+														  None, None,
+														  gv.xEndstopHeight, 0)
 		App.activeDocument().recompute()
+		App.ActiveDocument.Sketch001.addExternal("Pad",uf.getEdge(App.ActiveDocument.Pad, 
+														  0,0,
+														  0,1,
+														  gv.xEndstopHeight, 0))
+		App.ActiveDocument.Sketch001.addExternal("Pad",uf.getEdge(App.ActiveDocument.Pad, 
+														  -width/2,0,
+														  None, None,
+														  gv.xEndstopHeight, 0))
+		App.ActiveDocument.Sketch001.addExternal("Pad",uf.getEdge(App.ActiveDocument.Pad, 
+														  width/2,0,
+														  None, None,
+														  gv.xEndstopHeight, 0))
 #		Gui.activeDocument().setEdit('Sketch001')
-		App.ActiveDocument.Sketch001.addExternal("Pad","Edge10")
-		App.ActiveDocument.recompute()
-		App.ActiveDocument.Sketch001.addExternal("Pad","Edge12")
-		App.ActiveDocument.recompute()
-		App.ActiveDocument.Sketch001.addExternal("Pad","Edge7")
-		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch001.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch001.addConstraint(Sketcher.Constraint('PointOnObject',0,1,-4)) 

@@ -12,7 +12,7 @@ import Draft
 
 #Specific to printer
 import globalVars as gv
-import utilityFunctions as Util
+import utilityFunctions as uf
 
 
 #notes
@@ -217,15 +217,14 @@ class XCarriage(object):
 		App.activeDocument().Pad.Length = 10.0
 		App.ActiveDocument.recompute()
 		Gui.activeDocument().hide("Sketch")
+#		Gui.activeDocument().setEdit('Pad',1)
 		App.ActiveDocument.Pad.Length = gv.xCarriageWidth #width of face
 		App.ActiveDocument.Pad.Reversed = 0
 		App.ActiveDocument.Pad.Midplane = 0
 		App.ActiveDocument.Pad.Length2 = 100.000000
-		App.ActiveDocument.Pad.Type = 0
-		App.ActiveDocument.Pad.UpToFace = None
+ 		App.ActiveDocument.Pad.UpToFace = None
 		App.ActiveDocument.recompute()
 #		Gui.activeDocument().resetEdit()
-
 
 		#sketch profiles for cutting away extra bushing holder material
 
@@ -261,12 +260,26 @@ class XCarriage(object):
 
 		#make Sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch001')
-		App.activeDocument().Sketch001.Support = (App.ActiveDocument.Pad,["Face4"])
+		
+
+		App.activeDocument().Sketch001.Support = uf.getFace(App.ActiveDocument.Pad,
+															gv.xCarriageWidth/2,0,
+															None,None, 
+															gv.xCarriageThickness,0)
 		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch001')
-		App.ActiveDocument.Sketch001.addExternal("Pad","Edge17")
-		App.ActiveDocument.Sketch001.addExternal("Pad","Edge11")
-		App.ActiveDocument.Sketch001.addExternal("Pad","Edge8")
+		App.ActiveDocument.Sketch001.addExternal("Pad",uf.getEdge(App.ActiveDocument.Pad,
+ 																  gv.xCarriageWidth/2,0,
+ 																  height,0,
+ 																  gv.xCarriageThickness,1))#"Edge17")
+		App.ActiveDocument.Sketch001.addExternal("Pad",uf.getEdge(App.ActiveDocument.Pad, 
+ 																  gv.xCarriageWidth/2,0,
+ 																  height-3*gv.xCarriageBushingHolderOR,0,
+ 																  gv.xCarriageThickness,0))#"Edge11")
+		App.ActiveDocument.Sketch001.addExternal("Pad",uf.getEdge(App.ActiveDocument.Pad, 
+ 																  gv.xCarriageWidth/2,0,
+ 																  3*gv.xCarriageBushingHolderOR,0,
+ 																  gv.xCarriageThickness,0))#"Edge8")
 		App.ActiveDocument.Sketch001.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.Sketch001.addGeometry(Part.Line(App.Vector(p2x,p2y,0),App.Vector(p3x,p3y,0)))
 		App.ActiveDocument.Sketch001.addGeometry(Part.Line(App.Vector(p3x,p3y,0),App.Vector(p4x,p4y,0)))
@@ -369,9 +382,16 @@ class XCarriage(object):
 
 		#make sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch002')
-		App.activeDocument().Sketch002.Support = (App.ActiveDocument.Pocket001,["Face6"])
-		App.activeDocument().recompute()#		Gui.activeDocument().setEdit('Sketch002')
-		App.ActiveDocument.Sketch002.addExternal("Pocket001","Edge23")
+		App.activeDocument().Sketch002.Support = uf.getFace(App.ActiveDocument.Pocket001,
+															gv.xCarriageWidth,0, 
+															None,None, 
+															None,None) 
+		App.activeDocument().recompute()
+		#Gui.activeDocument().setEdit('Sketch002')
+		App.ActiveDocument.Sketch002.addExternal("Pocket001",uf.getEdge(App.ActiveDocument.Pocket001, 
+ 																  gv.xCarriageWidth,0,
+ 																  None,None,
+ 																  gv.xCarriageThickness+gv.xCarriageBushingHolderOR,1))
 		App.ActiveDocument.Sketch002.addGeometry(Part.Circle(App.Vector(p1x,p1y,0),App.Vector(0,0,1),gv.xRodDiaTop/2+1))
 		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Coincident',0,3,-3,3)) 
 		App.ActiveDocument.recompute()
@@ -405,12 +425,19 @@ class XCarriage(object):
 
 		#make sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch003')
-		App.activeDocument().Sketch003.Support = (App.ActiveDocument.Pocket002,["Face6"])
+		App.activeDocument().Sketch003.Support = uf.getFace(App.ActiveDocument.Pocket002,
+															(gv.xCarriageWidth+gv.xBushingNutMaxThickness+gv.bushingNutPadding)/2,0, 
+															None, None,
+															None, None)# (App.ActiveDocument.Pocket002,["Face6"])
 		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch003')
 		
 		#xCarriage chokes Here
-		App.ActiveDocument.Sketch003.addExternal("Pocket002","Edge26")
+		App.ActiveDocument.Sketch003.addExternal("Pocket002",uf.getEdge(App.ActiveDocument.Pocket002,
+ 																  gv.xCarriageWidth/2,1,
+ 																  gv.xCarriageBushingHolderOR,0,
+ 																  gv.xCarriageThickness+gv.xCarriageBushingHolderOR,1))
+ 		
 		App.ActiveDocument.Sketch003.addGeometry(Part.Circle(App.Vector(p1x,p1y,0),App.Vector(0,0,1),gv.xRodDiaBottom/2+1))
 		App.ActiveDocument.Sketch003.addConstraint(Sketcher.Constraint('Coincident',0,3,-3,3))
 
@@ -439,7 +466,7 @@ class XCarriage(object):
 
 		#sketch points
 		#sketch points
-		mat = Util.hexagonPoints(height-gv.xCarriageBushingHolderOR,
+		mat = uf.hexagonPoints(height-gv.xCarriageBushingHolderOR,
 							gv.xCarriageThickness+gv.xCarriageBushingHolderOR,
 							gv.xBushingNutTop[2],
 							math.pi/6)
@@ -461,10 +488,16 @@ class XCarriage(object):
 		hexRadius = mat[7][0]
 		#make Sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch004')
-		App.activeDocument().Sketch004.Support = (App.ActiveDocument.Pocket003,["Face7"])
+		App.activeDocument().Sketch004.Support = uf.getFace(App.ActiveDocument.Pocket003,
+															gv.xCarriageWidth,0, 
+															None,None, 
+															None,None) #(App.ActiveDocument.Pocket003,["Face7"])
 		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch004')
-		App.ActiveDocument.Sketch004.addExternal("Pocket003","Edge35")
+		App.ActiveDocument.Sketch004.addExternal("Pocket003",uf.getEdge(App.ActiveDocument.Pocket003, 
+ 																  gv.xCarriageWidth,0,
+ 																  None,None,
+ 																  gv.xCarriageThickness+gv.xCarriageBushingHolderOR,1))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch004.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.recompute()
@@ -532,7 +565,7 @@ class XCarriage(object):
 
 		#cut nut trap on other top bushing holder
 		#sketch points
-		mat = Util.hexagonPoints(-height+gv.xCarriageBushingHolderOR,
+		mat = uf.hexagonPoints(-height+gv.xCarriageBushingHolderOR,
 							gv.xCarriageThickness+gv.xCarriageBushingHolderOR,
 							gv.xBushingNutTop[2],
 							math.pi/6)
@@ -554,10 +587,16 @@ class XCarriage(object):
 		hexRadius = mat[7][0]
 		#make Sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch005')
-		App.activeDocument().Sketch005.Support = (App.ActiveDocument.Pocket004,["Face2"])
+		App.activeDocument().Sketch005.Support = uf.getFace(App.ActiveDocument.Pocket004,
+															0,0, 
+															None,None, 
+															None,None)#(App.ActiveDocument.Pocket004,["Face2"])
 		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch005')
-		App.ActiveDocument.Sketch005.addExternal("Pocket004","Edge13")
+		App.ActiveDocument.Sketch005.addExternal("Pocket004",uf.getEdge(App.ActiveDocument.Pocket004, 
+ 																  0,0,
+ 																  None, None,
+ 																  gv.xCarriageThickness+gv.xCarriageBushingHolderOR,1))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch005.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.recompute()
@@ -617,7 +656,7 @@ class XCarriage(object):
 #		Gui.ActiveDocument.Pocket005.ShapeColor=Gui.ActiveDocument.Pocket004.ShapeColor
 #		Gui.ActiveDocument.Pocket005.LineColor=Gui.ActiveDocument.Pocket004.LineColor
 #		Gui.ActiveDocument.Pocket005.PointColor=Gui.ActiveDocument.Pocket004.PointColor
-		App.ActiveDocument.Pocket005.Length = 5.000000
+		App.ActiveDocument.Pocket005.Length = gv.xBushingNutTop[3]
 		App.ActiveDocument.Pocket005.Type = 0
 		App.ActiveDocument.Pocket005.UpToFace = None
 		App.ActiveDocument.recompute()
@@ -626,7 +665,7 @@ class XCarriage(object):
 
 		#Make pocket for lower bushing nut
 		#sketch points
-		mat = Util.hexagonPoints(gv.xCarriageBushingHolderOR,
+		mat = uf.hexagonPoints(gv.xCarriageBushingHolderOR,
 							gv.xCarriageThickness+gv.xCarriageBushingHolderOR,
 							gv.xBushingNutBottom[2],
 							math.pi/6)
@@ -648,10 +687,16 @@ class XCarriage(object):
 		hexRadius = mat[7][0]
 		#make Sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch006')
-		App.activeDocument().Sketch006.Support = (App.ActiveDocument.Pocket005,["Face6"])
+		App.activeDocument().Sketch006.Support = uf.getFace(App.ActiveDocument.Pocket005,
+															(gv.xCarriageWidth+gv.xBushingNutMaxThickness+gv.bushingNutPadding)/2,0, 
+															None,None, 
+															None,None)# (App.ActiveDocument.Pocket005,["Face6"])
 		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch006')
-		App.ActiveDocument.Sketch006.addExternal("Pocket005","Edge32")
+		App.ActiveDocument.Sketch006.addExternal("Pocket005",uf.getEdge(App.ActiveDocument.Pocket005, 
+ 																  gv.xCarriageWidth/2,1,
+ 																  gv.xCarriageBushingHolderOR,0,
+ 																  gv.xCarriageThickness+gv.xCarriageBushingHolderOR,1))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch006.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.recompute()
@@ -711,7 +756,7 @@ class XCarriage(object):
 #		Gui.ActiveDocument.Pocket006.ShapeColor=Gui.ActiveDocument.Pocket005.ShapeColor
 #		Gui.ActiveDocument.Pocket006.LineColor=Gui.ActiveDocument.Pocket005.LineColor
 #		Gui.ActiveDocument.Pocket006.PointColor=Gui.ActiveDocument.Pocket005.PointColor
-		App.ActiveDocument.Pocket006.Length = 5.000000
+		App.ActiveDocument.Pocket006.Length = gv.xBushingNutBottom[3]
 		App.ActiveDocument.Pocket006.Type = 0
 		App.ActiveDocument.Pocket006.UpToFace = None
 		App.ActiveDocument.recompute()
@@ -731,10 +776,16 @@ class XCarriage(object):
 		
 		#Make Sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch007')
-		App.activeDocument().Sketch007.Support = (App.ActiveDocument.Pocket006,["Face3"])
+		App.activeDocument().Sketch007.Support = uf.getFace(App.ActiveDocument.Pocket006,
+															None,None, 
+															None,None, 
+															gv.xCarriageThickness,0)#(App.ActiveDocument.Pocket006,["Face3"])
 		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch007')
-		App.ActiveDocument.Sketch007.addExternal("Pocket006","Edge23")
+		App.ActiveDocument.Sketch007.addExternal("Pocket006",uf.getEdge(App.ActiveDocument.Pocket006, 
+ 																  gv.xCarriageWidth,0,
+ 																  height/2,-1,
+ 																  gv.xCarriageThickness,0))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch007.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.recompute()
@@ -809,12 +860,20 @@ class XCarriage(object):
 
 		#Make Sketch of endstop wings
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch008')
-		App.activeDocument().Sketch008.Support = (App.ActiveDocument.Pocket007,["Face8"])
+		App.activeDocument().Sketch008.Support = uf.getFace(App.ActiveDocument.Pocket007,
+															None,None, 
+															None,None, 
+															0,0)#(App.ActiveDocument.Pocket007,["Face8"])
 		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch008')
-		App.ActiveDocument.Sketch008.addExternal("Pocket007","Edge43")
-		App.ActiveDocument.Sketch008.addExternal("Pocket007","Edge53")
-
+		App.ActiveDocument.Sketch008.addExternal("Pocket007",uf.getEdge(App.ActiveDocument.Pocket007, 
+ 																  gv.xCarriageWidth,0,
+ 																  height/2,0,
+ 																  0,0))
+		App.ActiveDocument.Sketch008.addExternal("Pocket007",uf.getEdge(App.ActiveDocument.Pocket007, 
+ 																  gv.xCarriageWidth/2,0,
+ 																  height,0,
+ 																  0,0))
 		App.ActiveDocument.Sketch008.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.Sketch008.addConstraint(Sketcher.Constraint('PointOnObject',0,1,-2)) 
 		App.ActiveDocument.Sketch008.addConstraint(Sketcher.Constraint('Coincident',0,2,-4,1)) 
@@ -883,10 +942,17 @@ class XCarriage(object):
 
 		#Make Sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch009')
-		App.activeDocument().Sketch009.Support = (App.ActiveDocument.Pad002,["Face3"])
+		App.activeDocument().Sketch009.Support = uf.getFace(App.ActiveDocument.Pad002,
+															gv.xCarriageWidth/2,0, 
+															None,None, 
+															gv.xCarriageThickness,0)#(App.ActiveDocument.Pad002,["Face3"])
 		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch009')
-		App.ActiveDocument.Sketch009.addExternal("Pad002","Edge30")
+		#App.ActiveDocument.Sketch009.addExternal("Pad002","Edge30")
+		App.ActiveDocument.Sketch009.addExternal("Pad002",uf.getEdge(App.ActiveDocument.Pad002, 
+ 																  gv.xCarriageWidth,0,
+ 																  height/2,-1,
+ 																  gv.xCarriageThickness,0))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch009.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p4x,p4y,0)))
 		App.ActiveDocument.Sketch009.addGeometry(Part.Line(App.Vector(p4x,p4y,0),App.Vector(p3x,p3y,0)))
@@ -959,12 +1025,21 @@ class XCarriage(object):
 		
 		#Make Sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch010')
-		App.activeDocument().Sketch010.Support = (App.ActiveDocument.Pad004,["Face43"])
+		App.activeDocument().Sketch010.Support = uf.getFace(App.ActiveDocument.Pad004,
+															None,None, 
+															gv.xCarriageBushingHolderOR+gv.xRodSpacing/2+gv.xMotorPulleyDia/2+gv.xBeltAnchorThickness/2,0, 
+															None, None)#(App.ActiveDocument.Pad004,["Face43"])
 		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch010')
-		App.ActiveDocument.Sketch010.addExternal("Pad004","Edge127")
-		App.ActiveDocument.recompute()
-		App.ActiveDocument.Sketch010.addExternal("Pad004","Edge99")
+		#App.ActiveDocument.Sketch010.addExternal("Pad004","Edge127")
+		App.ActiveDocument.Sketch010.addExternal("Pad004",uf.getEdge(App.ActiveDocument.Pad004, 
+ 																  gv.xCarriageWidth/2,0,
+ 																  gv.xCarriageBushingHolderOR+gv.xRodSpacing/2+gv.xMotorPulleyDia/2+gv.xBeltAnchorThickness/2, 0,
+ 																  gv.xCarriageThickness+gv.xBeltAnchorHeight,0))
+		App.ActiveDocument.Sketch010.addExternal("Pad004",uf.getEdge(App.ActiveDocument.Pad004, 
+ 																  gv.xCarriageWidth/2,0,
+ 																  gv.xCarriageBushingHolderOR+gv.xRodSpacing/2+gv.xMotorPulleyDia/2+gv.xBeltAnchorThickness/2, 0,
+ 																  gv.xCarriageThickness,0))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch010.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.recompute()
@@ -1002,7 +1077,7 @@ class XCarriage(object):
 		App.ActiveDocument.Sketch010.addConstraint(Sketcher.Constraint('Symmetric',0,1,2,2,5,1)) 
 		App.ActiveDocument.recompute()
 
-# Anchor widths need to be changes!!!		
+# Anchor widths need to be changed!!!		
 		#Add dimensions
 		App.ActiveDocument.Sketch010.addConstraint(Sketcher.Constraint('Distance',1,2,-3,2,gv.xBeltAnchorWidthTop)) 
 		App.ActiveDocument.recompute()
@@ -1062,26 +1137,30 @@ class XCarriage(object):
 		
 		#Make Sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch011')
-		
-		#The following is a silly trick to get the correct face for sketching on.
-		#Some times they don't get numbered the same.
-		#There must be a more elegant way to do this.
-		if App.ActiveDocument.Pocket009.Shape.Faces[31].Placement.Rotation.Angle == 0.0:
-			App.activeDocument().Sketch011.Support = (App.ActiveDocument.Pocket009,["Face32"])
-		else:
-			App.activeDocument().Sketch011.Support = (App.ActiveDocument.Pocket009,["Face33"])
-			
+		App.activeDocument().Sketch011.Support = uf.getFace(App.ActiveDocument.Pocket009,
+															gv.xCarriageWidth/2,-1, 
+															gv.xCarriageBushingHolderOR+gv.xRodSpacing/2+gv.xMotorPulleyDia/2-gv.xBeltAnchorThickness/2,0, 
+															None, None)#(App.ActiveDocument.Pocket009,["Face32"])	
 
 		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch011')
-		App.ActiveDocument.Sketch011.addExternal("Pocket009","Edge110")
-		App.ActiveDocument.recompute()
-		App.ActiveDocument.Sketch011.addExternal("Pocket009","Edge31")
-		App.ActiveDocument.recompute()
-		App.ActiveDocument.Sketch011.addExternal("Pocket009","Edge61")
-		App.ActiveDocument.recompute()
-		App.ActiveDocument.Sketch011.addExternal("Pocket009","Edge35")
-		App.ActiveDocument.recompute()
+		App.ActiveDocument.Sketch011.addExternal("Pocket009",uf.getEdge(App.ActiveDocument.Pocket009, 
+ 																  gv.xBeltAnchorWidthTop/2,0,
+ 																  gv.xCarriageBushingHolderOR+gv.xRodSpacing/2+gv.xMotorPulleyDia/2-gv.xBeltAnchorThickness/2, 0,
+ 																  gv.xCarriageThickness+gv.xBeltAnchorHeight,0))
+		App.ActiveDocument.Sketch011.addExternal("Pocket009",uf.getEdge(App.ActiveDocument.Pocket009, 
+ 																  gv.xCarriageWidth/2,-1,
+ 																  0, 0,
+ 																  gv.xCarriageThickness,0))
+		App.ActiveDocument.Sketch011.addExternal("Pocket009",uf.getEdge(App.ActiveDocument.Pocket009, 
+ 																  gv.xCarriageWidth-gv.xBeltAnchorWidthTop/2,0,
+ 																  gv.xCarriageBushingHolderOR+gv.xRodSpacing/2+gv.xMotorPulleyDia/2-gv.xBeltAnchorThickness/2, 0,
+ 																  gv.xCarriageThickness+gv.xBeltAnchorHeight,0))
+		App.ActiveDocument.Sketch011.addExternal("Pocket009",uf.getEdge(App.ActiveDocument.Pocket009, 
+ 																  gv.xCarriageWidth/2,1,
+ 																  0, 0,
+ 																  gv.xCarriageThickness,0))
+
 		App.ActiveDocument.Sketch011.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p4x,p4y,0)))
 		App.ActiveDocument.Sketch011.addGeometry(Part.Line(App.Vector(p4x,p4y,0),App.Vector(p3x,p3y,0)))
 		App.ActiveDocument.Sketch011.addGeometry(Part.Line(App.Vector(p3x,p3y,0),App.Vector(p2x,p2y,0)))

@@ -7,6 +7,7 @@ from itertools import product
 import os
 import sys
 import datetime
+import re
 
 #FreeCAD related
 import FreeCAD as App
@@ -17,6 +18,177 @@ import Sketcher
 
 #Specific to printer
 import globalVars as gv
+
+def getFace(feature, x, compX, y, compY, z, compZ):
+	possibleFaces = []
+	for i in range(len(feature.Shape.Faces)):
+		possibleFaces.append([feature.Shape.Faces[i], i])
+
+	#check to see if x condition is met by any of the faces
+	i = 0
+	if x is not None and compX == 0:
+		while i < len(possibleFaces):
+			if abs(possibleFaces[i][0].CenterOfMass.x-x) > 0.00001:
+				possibleFaces.pop(i)
+			else:
+				i = i+1
+	if x is not None and compX == -1:
+		while i < len(possibleFaces):
+			if possibleFaces[i][0].CenterOfMass.x-.00001 >= x:
+				possibleFaces.pop(i)
+			else:
+				i = i+1	
+	if x is not None and compX == 1:
+		while i < len(possibleFaces):
+			if possibleFaces[i][0].CenterOfMass.x+.00001 <= x:
+				possibleFaces.pop(i)
+			else:
+				i = i+1	
+	i = 0
+	if y is not None and compY == 0:
+		while i < len(possibleFaces):
+			if abs(possibleFaces[i][0].CenterOfMass.y-y) > 0.00001:
+				possibleFaces.pop(i)
+			else:
+				i = i+1
+	if y is not None and compY == -1:
+		while i < len(possibleFaces):
+			if possibleFaces[i][0].CenterOfMass.y-.00001 >= y:
+				possibleFaces.pop(i)
+			else:
+				i = i+1	
+	if y is not None and compY == 1:
+		while i < len(possibleFaces):
+			if possibleFaces[i][0].CenterOfMass.y+.00001 <= y:
+				possibleFaces.pop(i)
+			else:
+				i = i+1	
+	i = 0
+	if z is not None and compZ == 0:
+		while i < len(possibleFaces):
+			if abs(possibleFaces[i][0].CenterOfMass.z-z) > 0.00001:
+				possibleFaces.pop(i)
+			else:
+				i = i+1
+	if z is not None and compZ == -1:
+		while i < len(possibleFaces):
+			if possibleFaces[i][0].CenterOfMass.z-.00001 >= z:
+				possibleFaces.pop(i)
+			else:
+				i = i+1	
+	if z is not None and compZ == 1:
+		while i < len(possibleFaces):
+			if possibleFaces[i][0].CenterOfMass.z+.00001 <= z:
+				possibleFaces.pop(i)
+			else:
+				i = i+1	
+
+	if len(possibleFaces) == 1:
+		string = "Face"+str(possibleFaces[0][1]+1)
+		return (feature, [string])
+	elif len(possibleFaces) > 1:
+		raise Exception("getFace() error: Unable to determine a unique face.")
+	else:
+		raise Exception("getFace() error: No such face exists.")
+
+
+def getEdge(feature, x, compX, y, compY, z, compZ, radius = None,  face = None):
+	possibleEdges = []
+	for i in range(len(feature.Shape.Edges)):
+		possibleEdges.append([feature.Shape.Edges[i], i])
+
+	#If a face is defined, automatically remove all edges not on that face
+	#Can't just use the Face's edges directly because there is no way to get their index in the feature
+	#The following isn't the most efficient way to find the overlap. 
+	if face is not None:
+		possibleEdgesTemp = []
+	
+		for i in range(len(possibleEdges)):
+			for j in range(len(face.Edges)):
+				if possibleEdges[i][0].CenterOfMass == face.Edges[j].CenterOfMass:
+					possibleEdgesTemp.append(possibleEdges[i])
+
+		possibleEdges = possibleEdgesTemp
+
+	#check to see if x condition is met by any of the faces
+	i = 0
+	if x is not None and compX == 0:
+		while i < len(possibleEdges):
+			if abs(possibleEdges[i][0].CenterOfMass.x-x) > 0.00001:
+				possibleEdges.pop(i)
+			else:
+				i = i+1
+	if x is not None and compX == -1:
+		while i < len(possibleEdges):
+			if possibleEdges[i][0].CenterOfMass.x+.00001 >= x:
+				possibleEdges.pop(i)
+			else:
+				i = i+1	
+	if x is not None and compX == 1:
+		while i < len(possibleEdges):
+			if possibleEdges[i][0].CenterOfMass.x-.00001 <= x:
+				possibleEdges.pop(i)
+			else:
+				i = i+1	
+	i = 0
+
+	if y is not None and compY == 0:
+		while i < len(possibleEdges):
+			if abs(possibleEdges[i][0].CenterOfMass.y-y) > 0.00001:
+				possibleEdges.pop(i)
+			else:
+				i = i+1
+	if y is not None and compY == -1:
+		while i < len(possibleEdges):
+			if possibleEdges[i][0].CenterOfMass.y+.00001 >= y:
+				possibleEdges.pop(i)
+			else:
+				i = i+1	
+	if y is not None and compY == 1:
+		while i < len(possibleEdges):
+			if possibleEdges[i][0].CenterOfMass.y-.00001 <= y:
+				possibleEdges.pop(i)
+			else:
+				i = i+1	
+
+	i = 0
+	if z is not None and compZ == 0:
+		while i < len(possibleEdges):
+			if abs(possibleEdges[i][0].CenterOfMass.z-z) > 0.00001:
+				possibleEdges.pop(i)
+			else:
+				i = i+1
+	if z is not None and compZ == -1:
+		while i < len(possibleEdges):
+			if possibleEdges[i][0].CenterOfMass.z+.00001 >= z:
+				possibleEdges.pop(i)
+			else:
+				i = i+1	
+	if z is not None and compZ == 1:
+		while i < len(possibleEdges):
+			if possibleEdges[i][0].CenterOfMass.z-.00001 <= z:
+				possibleEdges.pop(i)
+			else:
+				i = i+1
+	
+	if radius is not None:
+		i = 0
+		while i < len(possibleEdges):
+			if not hasattr(possibleEdges[i][0].Curve, 'Radius') or abs(possibleEdges[i][0].Curve.Radius-radius)>0.0001:
+				possibleEdges.pop(i)
+			else:
+				i = i+1
+		
+	
+	#return possibleEdges		
+	if len(possibleEdges) == 1:
+			string = "Edge"+str(possibleEdges[0][1]+1)
+			return (string) 
+	elif len(possibleEdges) > 1:
+		raise Exception("getEdge() error: Unable to determine a unique edge."+ str(possibleEdges))
+	else:
+		raise Exception("getEdge() error: No such edge.")
+
 
 def positionXAxis():
 	App.ActiveDocument=App.getDocument("PrinterAssembly")
@@ -48,7 +220,7 @@ def saveAssembly():
 	date = datetime.date.today().strftime("%m_%d_%Y")
 
 	#make the printer's directory if it doesn't exist
-	printerDir = gv.parentDir+"Printer "+date+"/"
+	printerDir = gv.printerDir+"Printer "+date+"/"
 	if not os.path.exists(printerDir):
 		os.makedirs(printerDir)
 
@@ -63,7 +235,7 @@ def saveAndClose(name,saveSTL):
 	date = datetime.date.today().strftime("%m_%d_%Y")
 
 	#make the printer's directory if it doesn't exist
-	printerDir = gv.parentDir+"Printer "+date+"/"
+	printerDir = gv.printerDir+"Printer "+date+"/"
 	if not os.path.exists(printerDir):
 		os.makedirs(printerDir)
 		
@@ -149,7 +321,6 @@ def adjustHole(desiredDia):
 			return gv.holeAdjust[i][0]
 			
 		if desiredDia>gv.holeAdjust[i][1] and desiredDia<gv.holeAdjust[i+1][1]:
-			print i
 			x1 = (gv.holeAdjust[i][0])
 			y1 = (gv.holeAdjust[i][1])
 			x2 = (gv.holeAdjust[i+1][0])
@@ -169,7 +340,7 @@ def multiply(matr_a, matr_b):
 			rMatrix[idx][j] += matr_a[idx][k] * matr_b[k][j]
 	return rMatrix
 
-
+#hexagonPoints is depreciated. Use drawHexagon instead.
 def hexagonPoints(x,y,faceToFace,theta):
 	# make an array of points
 	matrix = [[-faceToFace/2, faceToFace*math.tan(math.pi/6)/2],
@@ -193,6 +364,57 @@ def hexagonPoints(x,y,faceToFace,theta):
 					[faceToFace/math.cos(math.pi/6)/2,0]]
 	return translated 
 
+def drawHexagon(x,y,faceToFace,theta):
+		#Theta is in radians
+		# make an array of points
+	matrix = [[-faceToFace/2, faceToFace*math.tan(math.pi/6)/2],
+			  [0,             faceToFace/math.cos(math.pi/6)/2],
+			  [faceToFace/2,  faceToFace*math.tan(math.pi/6)/2],
+			  [faceToFace/2,  -faceToFace*math.tan(math.pi/6)/2],
+			  [0,             -faceToFace/math.cos(math.pi/6)/2],
+			  [-faceToFace/2, -faceToFace*math.tan(math.pi/6)/2],
+			  [0,			  0]]
+
+	rotation = [[math.cos(theta),-math.sin(theta)],
+				[math.sin(theta), math.cos(theta)]]
+	rotated = multiply(matrix,rotation)
+	translated =   [[rotated[0][0]+x,rotated[0][1]+y],
+					[rotated[1][0]+x,rotated[1][1]+y],
+					[rotated[2][0]+x,rotated[2][1]+y],
+					[rotated[3][0]+x,rotated[3][1]+y],
+					[rotated[4][0]+x,rotated[4][1]+y],
+					[rotated[5][0]+x,rotated[5][1]+y],
+					[x,y],
+					[faceToFace/math.cos(math.pi/6)/2,0]]
+	count = App.ActiveDocument.ActiveObject.GeometryCount
+	App.ActiveDocument.ActiveObject
+	App.ActiveDocument.ActiveObject.addGeometry(Part.Line(App.Vector(translated[0][0],translated[0][1],0),App.Vector(translated[1][0],translated[1][1],0)))
+	App.ActiveDocument.recompute()
+	App.ActiveDocument.ActiveObject.addGeometry(Part.Line(App.Vector(translated[1][0],translated[1][1],0),App.Vector(translated[2][0],translated[2][1],0)))
+	App.ActiveDocument.ActiveObject.addConstraint(Sketcher.Constraint('Coincident',count+0,2,count+1,1)) 
+	App.ActiveDocument.recompute()
+	App.ActiveDocument.ActiveObject.addGeometry(Part.Line(App.Vector(translated[2][0],translated[2][1],0),App.Vector(translated[3][0],translated[3][1],0)))
+	App.ActiveDocument.ActiveObject.addConstraint(Sketcher.Constraint('Coincident',count+1,2,count+2,1)) 
+	App.ActiveDocument.recompute()
+	App.ActiveDocument.ActiveObject.addGeometry(Part.Line(App.Vector(translated[3][0],translated[3][1],0),App.Vector(translated[4][0],translated[4][1],0)))
+	App.ActiveDocument.ActiveObject.addConstraint(Sketcher.Constraint('Coincident',count+2,2,count+3,1)) 
+	App.ActiveDocument.recompute()
+	App.ActiveDocument.ActiveObject.addGeometry(Part.Line(App.Vector(translated[4][0],translated[4][1],0),App.Vector(translated[5][0],translated[5][1],0)))
+	App.ActiveDocument.ActiveObject.addConstraint(Sketcher.Constraint('Coincident',count+3,2,count+4,1)) 
+	App.ActiveDocument.recompute()
+	App.ActiveDocument.ActiveObject.addGeometry(Part.Line(App.Vector(translated[5][0],translated[5][1],0),App.Vector(translated[0][0],translated[0][1],0)))
+	App.ActiveDocument.ActiveObject.addConstraint(Sketcher.Constraint('Coincident',count+4,2,count+5,1)) 
+	App.ActiveDocument.ActiveObject.addConstraint(Sketcher.Constraint('Coincident',count+5,2,count+0,1)) 
+	App.ActiveDocument.recompute()
+	App.ActiveDocument.ActiveObject.addGeometry(Part.Circle(App.Vector(x,y,0),App.Vector(0,0,1),faceToFace/math.cos(math.pi/6)/2))
+	App.ActiveDocument.recompute()
+	App.ActiveDocument.ActiveObject.toggleConstruction(count+6)
+	for i in range(5):
+		App.ActiveDocument.ActiveObject.addConstraint(Sketcher.Constraint('Equal',count+i,count+i+1))
+	for i in range(6):
+		App.ActiveDocument.ActiveObject.addConstraint(Sketcher.Constraint('PointOnObject',count+i,1,count+6))
+	App.ActiveDocument.ActiveObject.addConstraint(Sketcher.Constraint('Distance',count+2,2,count+5,faceToFace))
+	
 #function to extrude frame member length
 def extrudeFrameMember(name, length):
 	App.ActiveDocument=App.getDocument(name)

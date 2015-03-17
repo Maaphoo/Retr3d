@@ -12,11 +12,7 @@ import Draft
 
 #Specific to printer
 import globalVars as gv
-import utilityFunctions as Util
-
-#notes
-#Nut facetoface top and bottom should be resolved into a max
-
+import utilityFunctions as uf
 
 class ZRodSupport(object):
 	def __init__(self,
@@ -225,11 +221,16 @@ class ZRodSupport(object):
 		
 		#make Sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch001')
-		App.activeDocument().Sketch001.Support = (App.ActiveDocument.Pad,["Face6"])
-		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch001')
-		App.ActiveDocument.Sketch001.addExternal("Pad","Edge4")
-		App.ActiveDocument.recompute()
+		App.activeDocument().Sketch001.Support = uf.getFace(App.ActiveDocument.Pad,
+														  None,None,
+														  None, None,
+														  gv.tabThickness, 0)
+		App.activeDocument().recompute()
+		App.ActiveDocument.Sketch001.addExternal("Pad",uf.getEdge(App.ActiveDocument.Pad, 
+														  0,0,
+														  0,1,
+														  gv.tabThickness, 0))
 		App.ActiveDocument.Sketch001.addGeometry(Part.ArcOfCircle(Part.Circle(App.Vector(p1x,p1y,0),App.Vector(0,0,1),gv.slotDia/2),math.pi/2,-math.pi/2))
 		App.ActiveDocument.Sketch001.addGeometry(Part.ArcOfCircle(Part.Circle(App.Vector(p2x,p2y,0),App.Vector(0,0,1),gv.slotDia/2),-math.pi/2,math.pi/2))
 		App.ActiveDocument.Sketch001.addGeometry(Part.Line(App.Vector(p6x,p6y,0),App.Vector(p5x,p5y,0)))
@@ -305,7 +306,10 @@ class ZRodSupport(object):
 		
 		#Make sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch002')
-		App.activeDocument().Sketch002.Support = (App.ActiveDocument.Mirrored,["Face4"])
+		App.activeDocument().Sketch002.Support = uf.getFace(App.ActiveDocument.Mirrored,
+														  None,None,
+														  None, None,
+														  0, 0)
 		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch002')
 		App.ActiveDocument.Sketch002.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p4x,p4y,0)))
@@ -362,11 +366,16 @@ class ZRodSupport(object):
 		
 		#make sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch003')
-		App.activeDocument().Sketch003.Support = (App.ActiveDocument.Pad001,["Face3"])
-		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch003')
-		App.ActiveDocument.Sketch003.addExternal("Pad001","Edge18")
-		App.ActiveDocument.recompute()
+		App.activeDocument().Sketch003.Support = uf.getFace(App.ActiveDocument.Pad001,
+														  0,0,
+														  -gv.zRodSupportLength/2,0,
+														  None, None)
+		App.ActiveDocument.Sketch003.addExternal("Pad001",uf.getEdge(App.ActiveDocument.Pad001, 
+ 														  0,0,
+ 														  -gv.zRodSupportLength/2, 0,
+ 														  gv.zRodStandoff-gv.clampGap/2, 0))
+		App.activeDocument().recompute()	
 		App.ActiveDocument.Sketch003.addGeometry(Part.ArcOfCircle(Part.Circle(App.Vector(p1x,p1y,0),App.Vector(0,0,1),self.rodDia/2),math.pi,2*math.pi))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch003.addConstraint(Sketcher.Constraint('PointOnObject',0,3,-2)) 
@@ -412,7 +421,10 @@ class ZRodSupport(object):
 		
 		#Make sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch004')
-		App.activeDocument().Sketch004.Support = (App.ActiveDocument.Pocket001,["Face5"])
+		App.activeDocument().Sketch004.Support = uf.getFace(App.ActiveDocument.Pocket001,
+														  0,1,
+														  0,0,
+														  gv.zRodStandoff-gv.clampGap/2,0)
 		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch004')
 		App.ActiveDocument.Sketch004.addGeometry(Part.Circle(App.Vector(p1x,p1y,0),App.Vector(0,0,1),gv.printedToPrintedDia/2))
@@ -464,7 +476,7 @@ class ZRodSupport(object):
 		
 		#Add Nut trap to right side
 		#Sketch Points
-		mat = Util.hexagonPoints(self.rodDia/2+gv.printedToPrintedDia/2,
+		mat = uf.hexagonPoints(self.rodDia/2+gv.printedToPrintedDia/2,
 								0,
 								gv.clampNutFaceToFace,
 								0)
@@ -487,11 +499,17 @@ class ZRodSupport(object):
 
 		#make sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch005')
-		App.activeDocument().Sketch005.Support = (App.ActiveDocument.Refined,["Face26"])
-		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch005')
-		App.ActiveDocument.Sketch005.addExternal("Refined","Edge53")
-		App.ActiveDocument.recompute()
+		App.activeDocument().Sketch005.Support = uf.getFace(App.ActiveDocument.Refined,
+														  0,0,
+														  0,0,
+														  0,0)
+		App.ActiveDocument.Sketch005.addExternal("Refined",uf.getEdge(App.ActiveDocument.Refined, 
+ 														  0,1,
+ 														  0, 0,
+ 														  0, 0,
+ 														  radius = gv.printedToPrintedDia/2))
+
 		App.ActiveDocument.Sketch005.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch005.addGeometry(Part.Line(App.Vector(p2x,p2y,0),App.Vector(p3x,p3y,0)))
@@ -659,10 +677,16 @@ class ZRodSupport(object):
 		#Make Sketch
 		#make sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch001')
-		App.activeDocument().Sketch001.Support = (App.ActiveDocument.Pad,["Face1"])
-		App.activeDocument().recompute()
-#		Gui.activeDocument().setEdit('Sketch001')
-		App.ActiveDocument.Sketch001.addExternal("Pad","Edge4")
+		App.activeDocument().Sketch001.Support = uf.getFace(App.ActiveDocument.Pad,
+														  0,0,
+														  -gv.zRodSupportLength/2, 0,
+														  None,None)
+		App.ActiveDocument.recompute()
+		App.ActiveDocument.Sketch001.addExternal("Pad",uf.getEdge(App.ActiveDocument.Pad, 
+ 														  0,0,
+ 														  -gv.zRodSupportLength/2, 0,
+ 														  self.rodDia/2+gv.clampThickness-gv.clampGap/2, 0))
+#		Gui.activeDocument().setEdit('Sketch001')		
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch001.addGeometry(Part.ArcOfCircle(Part.Circle(App.Vector(p1x,p1y,0),App.Vector(0,0,1),self.rodDia/2),math.pi,2*math.pi))
 		App.ActiveDocument.recompute()
@@ -710,8 +734,11 @@ class ZRodSupport(object):
 		
 		#Make sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch002')
-		App.activeDocument().Sketch002.Support = (App.ActiveDocument.Pocket,["Face4"])
-		App.activeDocument().recompute()
+		App.activeDocument().Sketch002.Support = uf.getFace(App.ActiveDocument.Pocket,
+														  0,1,
+														  0, 0,
+														  self.rodDia/2+gv.clampThickness-gv.clampGap/2,0)
+		App.ActiveDocument.recompute()
 #		Gui.activeDocument().setEdit('Sketch002')
 		App.ActiveDocument.Sketch002.addGeometry(Part.Circle(App.Vector(p1x,p1y,0),App.Vector(0,0,1),gv.printedToPrintedDia/2))
 		App.ActiveDocument.recompute()

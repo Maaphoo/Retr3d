@@ -12,7 +12,7 @@ import Draft
 
 #Specific to printer
 import globalVars as gv
-import utilityFunctions as Util
+import utilityFunctions as uf
 
 class PrintBedBushingHolder(object):
 	def __init__(self,
@@ -86,11 +86,6 @@ class PrintBedBushingHolder(object):
 			self.bushingNutThickness = gv.yBushingNutL[3]		
 
 		#helper Variables
-# 		gv.printBedBusingSupportWidth = (4*gv.slotPadding+
-# 					2*gv.slotDia+
-# 					2*gv.slotWidth+
-# 					2*gv.bushingNutPadding+
-# 					gv.PBBHMaxFaceToFace)
 		
 		columnWidth = gv.PBBHMaxFaceToFace/math.cos(math.pi/6)+2*gv.bushingNutPadding
 		
@@ -171,27 +166,34 @@ class PrintBedBushingHolder(object):
 		
 		#Cut slot on right side
 		#Sketch points
-		p1x = gv.printBedBusingSupportWidth/2-gv.slotPadding-gv.slotDia/2-gv.slotWidth
+		p1x = gv.printBedBusingSupportWidth/2-gv.slotPadding-gv.printedToPrintedDia/2-gv.slotWidth
 		p1y = 0
-		p2x = gv.printBedBusingSupportWidth/2-gv.slotPadding-gv.slotDia/2
+		p2x = gv.printBedBusingSupportWidth/2-gv.slotPadding-gv.printedToPrintedDia/2
 		p2y = 0
-		p3x = gv.printBedBusingSupportWidth/2-gv.slotPadding-gv.slotDia/2-gv.slotWidth
-		p3y = -gv.slotDia/2
-		p4x = gv.printBedBusingSupportWidth/2-gv.slotPadding-gv.slotDia/2-gv.slotWidth
-		p4y = gv.slotDia/2
-		p5x = gv.printBedBusingSupportWidth/2-gv.slotPadding-gv.slotDia/2
-		p5y = gv.slotDia/2
-		p6x = gv.printBedBusingSupportWidth/2-gv.slotPadding-gv.slotDia/2
-		p6y = -gv.slotDia/2
+		p3x = gv.printBedBusingSupportWidth/2-gv.slotPadding-gv.printedToPrintedDia/2-gv.slotWidth
+		p3y = -gv.printedToPrintedDia/2
+		p4x = gv.printBedBusingSupportWidth/2-gv.slotPadding-gv.printedToPrintedDia/2-gv.slotWidth
+		p4y = gv.printedToPrintedDia/2
+		p5x = gv.printBedBusingSupportWidth/2-gv.slotPadding-gv.printedToPrintedDia/2
+		p5y = gv.printedToPrintedDia/2
+		p6x = gv.printBedBusingSupportWidth/2-gv.slotPadding-gv.printedToPrintedDia/2
+		p6y = -gv.printedToPrintedDia/2
 		p7x = gv.printBedBusingSupportWidth/2-gv.slotPadding
 		p7y = 0
 		
 		#Make sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch001')
-		App.activeDocument().Sketch001.Support = (App.ActiveDocument.Pad,["Face6"])
+		App.activeDocument().Sketch001.Support = uf.getFace(App.ActiveDocument.Pad,
+														  None,None,
+														  None, None,
+														  gv.tabThickness, 0)
 		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch001')
-		App.ActiveDocument.Sketch001.addExternal("Pad","Edge7")
+		App.ActiveDocument.Sketch001.addExternal("Pad",uf.getEdge(App.ActiveDocument.Pad, 
+														  0,1,
+														  0,0,
+														  gv.tabThickness, 0))
+
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch001.addGeometry(Part.ArcOfCircle(Part.Circle(App.Vector(p1x,p1y,0),App.Vector(0,0,1),4.217310),math.pi/2,-math.pi/2))
 		App.ActiveDocument.Sketch001.addGeometry(Part.ArcOfCircle(Part.Circle(App.Vector(p2x,p2y,0),App.Vector(0,0,1),4.217310),-math.pi/2,math.pi/2))
@@ -219,7 +221,7 @@ class PrintBedBushingHolder(object):
 		#add dimensions 
 		App.ActiveDocument.Sketch001.addConstraint(Sketcher.Constraint('DistanceX',2,gv.slotWidth)) 
 		App.ActiveDocument.recompute()
-		App.ActiveDocument.Sketch001.addConstraint(Sketcher.Constraint('Radius',1,gv.slotDia/2)) 
+		App.ActiveDocument.Sketch001.addConstraint(Sketcher.Constraint('Radius',1,gv.printedToPrintedDia/2)) 
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch001.addConstraint(Sketcher.Constraint('Distance',4,1,-3,gv.slotPadding)) 
 		App.ActiveDocument.recompute()
@@ -271,10 +273,16 @@ class PrintBedBushingHolder(object):
 		
 		#Make Sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch002')
-		App.activeDocument().Sketch002.Support = (App.ActiveDocument.Mirrored,["Face1"])
+		App.activeDocument().Sketch002.Support = uf.getFace(App.ActiveDocument.Mirrored,
+														  0,0,
+														  -gv.PBBHDepth/2, 0,
+														  None, None)
 		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch002')
-		App.ActiveDocument.Sketch002.addExternal("Mirrored","Edge4")
+		App.ActiveDocument.Sketch002.addExternal("Mirrored",uf.getEdge(App.ActiveDocument.Mirrored, 
+														  0,0,
+														  -gv.PBBHDepth/2, 0,
+														  gv.tabThickness, 0))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch002.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.recompute()
@@ -354,7 +362,7 @@ class PrintBedBushingHolder(object):
 		
 		#make bushing nut trap
 		#Sketch Points
-		mat = Util.hexagonPoints(0,
+		mat = uf.hexagonPoints(0,
 							gv.PBBHStandoff,
 							self.bushingNutFaceToFace,
 							0)
@@ -376,7 +384,10 @@ class PrintBedBushingHolder(object):
 		hexRadius = mat[7][0]
 
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch003')
-		App.activeDocument().Sketch003.Support = (App.ActiveDocument.Pad002,["Face17"])
+		App.activeDocument().Sketch003.Support = uf.getFace(App.ActiveDocument.Pad002,
+														  0,0,
+														  -gv.PBBHDepth/2, 0,
+														  None, None)
 		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch003')
 		App.ActiveDocument.Sketch003.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))

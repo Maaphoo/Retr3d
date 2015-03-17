@@ -13,6 +13,7 @@ import Drawing
 
 #Specific to printer
 import globalVars as gv
+import utilityFunctions as uf
 
 class ZMotorMount(object):
 	def __init__(self):
@@ -202,7 +203,10 @@ class ZMotorMount(object):
 		
 		#Make Sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch001')
-		App.activeDocument().Sketch001.Support = (App.ActiveDocument.Pad,["Face6"])
+		App.activeDocument().Sketch001.Support = uf.getFace(App.ActiveDocument.Pad,
+														  None,None,
+														  None, None,
+														  gv.zMotorMountPlateThickness, 0)
 		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch001')
 		App.ActiveDocument.Sketch001.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
@@ -266,7 +270,10 @@ class ZMotorMount(object):
 		
 		#Make Sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch002')
-		App.activeDocument().Sketch002.Support = (App.ActiveDocument.Pocket,["Face5"])
+		App.activeDocument().Sketch002.Support = uf.getFace(App.ActiveDocument.Pocket,
+														  None,None,
+														  None, None,
+														  gv.zMotorMountPlateThickness, 0)
 		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch002')
 		App.ActiveDocument.Sketch002.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p4x,p4y,0)))
@@ -346,7 +353,7 @@ class ZMotorMount(object):
 #		Gui.ActiveDocument.Pocket001.LineColor=Gui.ActiveDocument.Pocket.LineColor
 #		Gui.ActiveDocument.Pocket001.PointColor=Gui.ActiveDocument.Pocket.PointColor
 		App.ActiveDocument.Pocket001.Length = 5.000000
-		App.ActiveDocument.Pocket001.Type = 0
+		App.ActiveDocument.Pocket001.Type = 1
 		App.ActiveDocument.Pocket001.UpToFace = None
 		App.ActiveDocument.recompute()
 #		Gui.activeDocument().resetEdit()

@@ -8,14 +8,23 @@ import os
 import sys
 import datetime
 
+#Change the following line to locate the folder containing FreeCAD's FreeCAD.so or FreeCAD.dll file
+#For Mac users it is inside the FreeCAD.app file. Use "show package contents" to locate it. .../FreeCAD.app/Contents/lib
+#For Windows users it is in the .../FreeCAD 0.xx/bin or .../FreeCAD 0.xx/lib folder
+sys.path.append("/Applications/FreeCAD.app/Contents/lib")
+
+#Change the following line to locate the folder containing the printer building scripts
+sys.path.append("/Users/mrogge/eclipse/eWaste3Dprinter/eWaste3Dprinter")
+
 #import FreeCAD modules
 import FreeCAD as App
 import FreeCADGui as Gui
 import Part
 import Sketcher
 
-#Change the following line to locate the folder containing the printer building scripts
-sys.path.append("/Users/mrogge/ewaste3Dprinter/")
+
+
+
 
 #import printer related
 import globalVars as gv
@@ -64,6 +73,7 @@ import zEndstop
 #Normally, this would just be globalVariables because that is what would be changed,
 #But while the rest of the code is in development, the other modules will be reloaded too.
 #This will make testing easier.
+
 if gv.reloadClasses:
 	reload(gv)
 	reload(uf)
@@ -258,11 +268,11 @@ gv.yBeltAnchorHeight = (gv.yBeltAnchorBridgeThickness
 					  + gv.yRodStandoff
 					  + gv.PBBHStandoff
 					  - gv.yMotorMountPlateThickness)
-					  
+
 #Determine xRodClampOverallThickness
 gv.xRodClampOverallThickness = 2*gv.xRodClampThickness+gv.xRodDiaMax
 
-#determine the horizontal or verticle component of the shaftToMountHoleDist for the x motor
+#determine the horizontal or vertical component of the shaftToMountHoleDist for the x motor
 gv.xMotorShaftToMountHoleDistX = math.pow(math.pow(gv.xEndShaftToMountHoleDist,2)/2,0.5)
 
 #determine x motor width/length
@@ -509,157 +519,157 @@ del gv.xAxisParts[:]
 del gv.yAxisParts[:]
 del gv.zAxisParts[:]
 	
-# #Make file for assembly
-# uf.makeAssemblyFile()
-# 
-# #Make components for x-Axis, add to assembly, save and close
-# xRodBottom.draw()
-# xRodBottom.assemble()
-# uf.saveAndClose("xRodBottom",False)
-# xRodTop.draw()
-# xRodTop.assemble()
-# uf.saveAndClose("xRodTop",False)
-# xCarriage.draw()
-# xCarriage.assemble()
-# uf.saveAndClose("xCarriage",True)
-# extruderMountAngle.draw()
-# extruderMountAngle.assemble()
-# uf.saveAndClose("extruderMountAngle", False)
-# extruderMountPlate.draw()
-# extruderMountPlate.assemble()
-# uf.saveAndClose("extruderMountPlate", False)
-# xRodClampL.draw()
-# xRodClampL.assemble()
-# uf.saveAndClose("xRodClampL",True)
-# xRodClampR.draw()
-# xRodClampR.assemble()
-# uf.saveAndClose("xRodClampR",True)
-# xEndMotorPlate.draw()
-# xEndMotorPlate.assemble()
-# uf.saveAndClose("xEndMotorPlate",False)
-# xEndIdlerPlate.draw()
-# xEndIdlerPlate.assemble()
-# uf.saveAndClose("xEndIdlerPlate",False)
-# extruderBarrel.draw()
-# extruderBarrel.assemble()
-# uf.saveAndClose("extruderBarrel",False)
-# nozzle.draw()
-# nozzle.assemble()
-# uf.saveAndClose("nozzle",False)
+#Make file for assembly
+uf.makeAssemblyFile()
+
+#Make components for x-Axis, add to assembly, save and close
+xRodBottom.draw()
+xRodBottom.assemble()
+uf.saveAndClose("xRodBottom",False)
+xRodTop.draw()
+xRodTop.assemble()
+uf.saveAndClose("xRodTop",False)
+xCarriage.draw()
+xCarriage.assemble()
+uf.saveAndClose("xCarriage",True)
+extruderMountAngle.draw()
+extruderMountAngle.assemble()
+uf.saveAndClose("extruderMountAngle", False)
+extruderMountPlate.draw()
+extruderMountPlate.assemble()
+uf.saveAndClose("extruderMountPlate", False)
+xRodClampL.draw()
+xRodClampL.assemble()
+uf.saveAndClose("xRodClampL",True)
+xRodClampR.draw()
+xRodClampR.assemble()
+uf.saveAndClose("xRodClampR",True)
+xEndMotorPlate.draw()
+xEndMotorPlate.assemble()
+uf.saveAndClose("xEndMotorPlate",False)
+xEndIdlerPlate.draw()
+xEndIdlerPlate.assemble()
+uf.saveAndClose("xEndIdlerPlate",False)
+extruderBarrel.draw()
+extruderBarrel.assemble()
+uf.saveAndClose("extruderBarrel",False)
+nozzle.draw()
+nozzle.assemble()
+uf.saveAndClose("nozzle",False)
 xEndZRodHolderL.draw()
-# xEndZRodHolderL.assemble()
-# uf.saveAndClose("xEndZRodHolderL",True)
-# xEndZRodHolderR.draw()
-# xEndZRodHolderR.assemble()
-# uf.saveAndClose("xEndZRodHolderR",True)
-# xEndstop.draw()
-# xEndstop.assemble()
-# uf.saveAndClose("xEndstop",True)
-# uf.saveAndClose("xEndstopCap",True)
-# 
-# 
-# uf.positionXAxis()
-# 
-# #Make components for ZAxis, add to assembly, save and close#
-# 
-# zRodL.draw()
-# zRodL.assemble()
-# uf.saveAndClose("zRodL",False)
-# zRodR.draw()
-# zRodR.assemble()
-# uf.saveAndClose("zRodR",False)
-# zRodSupportR.draw()
-# zRodSupportR.assemble()
-# uf.saveAndClose("zRodSupportR",True)
-# uf.saveAndClose("zRodSupportRClamp",True)
-# zRodSupportL.draw()
-# zRodSupportL.assemble()
-# uf.saveAndClose("zRodSupportL",True)
-# uf.saveAndClose("zRodSupportLClamp",True)
-# zMotorMount.draw()
-# zMotorMount.assemble()
-# uf.saveAndClose("zMotorMount",True)
-# zEndstop.draw()
-# zEndstop.assemble()
-# uf.saveAndClose("zEndstop",False)
-# 
-# uf.positionZAxis()
-# 
-# 
-# #Make components for yAxis, add to assembly, save and close#
-# 
-# yRodL.draw()
-# yRodL.assemble()
-# uf.saveAndClose("yRodL",False)
-# yRodR.draw()
-# yRodR.assemble()
-# uf.saveAndClose("yRodR",False)
-# PBBHR.draw()
-# PBBHR.assemble()
-# uf.saveAndClose("printBedBushingHolderR",True)
-# PBBHL.draw()
-# PBBHL.assemble()
-# uf.saveAndClose("printBedBushingHolderL",True)
-# yBeltAnchor.draw()
-# yBeltAnchor.assemble()
-# uf.saveAndClose("yBeltAnchor",True)
-# printBedSupport.draw()
-# printBedSupport.assemble()
-# uf.saveAndClose("printBedSupport",False)
-# printBed.draw()
-# printBed.assemble()
-# uf.saveAndClose("printBed",False)
-# yMotorMount.draw()
-# yMotorMount.assemble()
-# uf.saveAndClose("yMotorMount", True)
-# yRodSupportR.draw()
-# yRodSupportR.assemble()
-# uf.saveAndClose("yRodSupportR", True)
-# uf.saveAndClose("yRodSupportRClamp", True)
-# yRodSupportL.draw()
-# yRodSupportL.assemble()
-# uf.saveAndClose("yRodSupportL", True)
-# uf.saveAndClose("yRodSupportLClamp", True)
-# 
-# 
-# #Make components for frame, add to assembly, save and close
-# verticalBars.draw()
-# verticalBars.assemble()
-# uf.saveAndClose("verticalBars", False)
-# crossBarTop.draw()
-# crossBarTop.assemble()
-# uf.saveAndClose("crossBarTop", False)
-# crossBarFrontTop.draw()
-# crossBarFrontTop.assemble()
-# uf.saveAndClose("crossBarFrontTop", False)
-# crossBarFrontBottom.draw()
-# crossBarFrontBottom.assemble()
-# uf.saveAndClose("crossBarFrontBottom", False)
-# crossBarBackTop.draw()
-# crossBarBackTop.assemble()
-# uf.saveAndClose("crossBarBackTop", False)
-# crossBarBackBottom.draw()
-# crossBarBackBottom.assemble()
-# uf.saveAndClose("crossBarBackBottom", False)
-# sideBarTopL.draw()
-# sideBarTopL.assemble()
-# uf.saveAndClose("sideBarTopL", False)
-# sideBarBottomL.draw()
-# sideBarBottomL.assemble()
-# uf.saveAndClose("sideBarBottomL", False)
-# sideBarBottomR.draw()
-# sideBarBottomR.assemble()
-# uf.saveAndClose("sideBarBottomR", False)
-# sideBarTopR.draw()
-# sideBarTopR.assemble()
-# uf.saveAndClose("sideBarTopR", False)
-# frameSpacers.draw()
-# frameSpacers.assemble()
-# uf.saveAndClose("frameSpacers", False)
-# 
-# App.ActiveDocument=App.getDocument("PrinterAssembly")
-# Gui.ActiveDocument=Gui.getDocument("PrinterAssembly")
-# 
-# uf.saveAssembly()
+xEndZRodHolderL.assemble()
+uf.saveAndClose("xEndZRodHolderL",True)
+xEndZRodHolderR.draw()
+xEndZRodHolderR.assemble()
+uf.saveAndClose("xEndZRodHolderR",True)
+xEndstop.draw()
+xEndstop.assemble()
+uf.saveAndClose("xEndstop",True)
+uf.saveAndClose("xEndstopCap",True)
+ 
+ 
+uf.positionXAxis()
+ 
+#Make components for ZAxis, add to assembly, save and close#
+ 
+zRodL.draw()
+zRodL.assemble()
+uf.saveAndClose("zRodL",False)
+zRodR.draw()
+zRodR.assemble()
+uf.saveAndClose("zRodR",False)
+zRodSupportR.draw()
+zRodSupportR.assemble()
+uf.saveAndClose("zRodSupportR",True)
+uf.saveAndClose("zRodSupportRClamp",True)
+zRodSupportL.draw()
+zRodSupportL.assemble()
+uf.saveAndClose("zRodSupportL",True)
+uf.saveAndClose("zRodSupportLClamp",True)
+zMotorMount.draw()
+zMotorMount.assemble()
+uf.saveAndClose("zMotorMount",True)
+zEndstop.draw()
+zEndstop.assemble()
+uf.saveAndClose("zEndstop",False)
+
+uf.positionZAxis()
+
+
+#Make components for yAxis, add to assembly, save and close#
+
+yRodL.draw()
+yRodL.assemble()
+uf.saveAndClose("yRodL",False)
+yRodR.draw()
+yRodR.assemble()
+uf.saveAndClose("yRodR",False)
+PBBHR.draw()
+PBBHR.assemble()
+uf.saveAndClose("printBedBushingHolderR",True)
+PBBHL.draw()
+PBBHL.assemble()
+uf.saveAndClose("printBedBushingHolderL",True)
+yBeltAnchor.draw()
+yBeltAnchor.assemble()
+uf.saveAndClose("yBeltAnchor",True)
+printBedSupport.draw()
+printBedSupport.assemble()
+uf.saveAndClose("printBedSupport",False)
+printBed.draw()
+printBed.assemble()
+uf.saveAndClose("printBed",False)
+yMotorMount.draw()
+yMotorMount.assemble()
+uf.saveAndClose("yMotorMount", True)
+yRodSupportR.draw()
+yRodSupportR.assemble()
+uf.saveAndClose("yRodSupportR", True)
+uf.saveAndClose("yRodSupportRClamp", True)
+yRodSupportL.draw()
+yRodSupportL.assemble()
+uf.saveAndClose("yRodSupportL", True)
+uf.saveAndClose("yRodSupportLClamp", True)
+
+
+#Make components for frame, add to assembly, save and close
+verticalBars.draw()
+verticalBars.assemble()
+uf.saveAndClose("verticalBars", False)
+crossBarTop.draw()
+crossBarTop.assemble()
+uf.saveAndClose("crossBarTop", False)
+crossBarFrontTop.draw()
+crossBarFrontTop.assemble()
+uf.saveAndClose("crossBarFrontTop", False)
+crossBarFrontBottom.draw()
+crossBarFrontBottom.assemble()
+uf.saveAndClose("crossBarFrontBottom", False)
+crossBarBackTop.draw()
+crossBarBackTop.assemble()
+uf.saveAndClose("crossBarBackTop", False)
+crossBarBackBottom.draw()
+crossBarBackBottom.assemble()
+uf.saveAndClose("crossBarBackBottom", False)
+sideBarTopL.draw()
+sideBarTopL.assemble()
+uf.saveAndClose("sideBarTopL", False)
+sideBarBottomL.draw()
+sideBarBottomL.assemble()
+uf.saveAndClose("sideBarBottomL", False)
+sideBarBottomR.draw()
+sideBarBottomR.assemble()
+uf.saveAndClose("sideBarBottomR", False)
+sideBarTopR.draw()
+sideBarTopR.assemble()
+uf.saveAndClose("sideBarTopR", False)
+frameSpacers.draw()
+frameSpacers.assemble()
+uf.saveAndClose("frameSpacers", False)
+
+App.ActiveDocument=App.getDocument("PrinterAssembly")
+Gui.ActiveDocument=Gui.getDocument("PrinterAssembly")
+
+uf.saveAssembly()
 
 

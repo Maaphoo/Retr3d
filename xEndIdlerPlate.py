@@ -12,6 +12,7 @@ import Draft
 
 #Specific to printer
 import globalVars as gv
+import utilityFunctions as uf
 
 #notes
 #Nut facetoface top and bottom should be resolved into a max
@@ -44,7 +45,7 @@ class XEndIdlerPlate(object):
 				- gv.xEndZRodHolderFaceThickness
 				- gv.xEndZRodHolderMaxNutFaceToFace/2
 				- gv.xMotorMountPlateThickness)
-		zShift = gv.xRodSpacing
+		zShift = gv.xMotorMountPlateWidth+ (gv.xRodSpacing-gv.xMotorMountPlateWidth)/2
 		
 		App.ActiveDocument=App.getDocument("PrinterAssembly")
 		Draft.move([App.ActiveDocument.xEndIdlerPlate],App.Vector(xShift, yShift, zShift),copy=False)
@@ -53,10 +54,12 @@ class XEndIdlerPlate(object):
 		shape = App.ActiveDocument.xEndIdlerPlate
 		if shape not in gv.xAxisParts:
 			gv.xAxisParts.append(shape)
+			
+			
 	def draw(self):
 		#helper Variables
 		
-		xRodClampMountHoleSpacingVert = gv.xRodSpacing-2*gv.xRodAxisToMountHoleDist
+		xRodClampMountHoleSpacingVert = gv.xRodSpacing-2*gv.xRodAxisToMountHoleDist									  
 		xRodClampMountHoleSpacingHoriz =  gv.xRodClampWidth-2*gv.xRodClampEdgeToMountHoleDist
 		
 		
@@ -85,9 +88,9 @@ class XEndIdlerPlate(object):
 		p1x = 0
 		p1y = 0
 		p2x = 0
-		p2y = gv.xRodSpacing
+		p2y = gv.xMotorMountPlateWidth
 		p3x = gv.xRodClampWidth
-		p3y = gv.xRodSpacing
+		p3y = gv.xMotorMountPlateWidth
 		p4x = gv.xRodClampWidth
 		p4y = 0
 
@@ -119,7 +122,7 @@ class XEndIdlerPlate(object):
 		#Add dimensions
 		App.ActiveDocument.Sketch.addConstraint(Sketcher.Constraint('DistanceX',3,-gv.xRodClampWidth)) 
 		App.ActiveDocument.recompute()
-		App.ActiveDocument.Sketch.addConstraint(Sketcher.Constraint('DistanceY',2,-gv.xRodSpacing)) 
+		App.ActiveDocument.Sketch.addConstraint(Sketcher.Constraint('DistanceY',2,-gv.xMotorMountPlateWidth)) 
 		App.ActiveDocument.recompute()
 
 #		Gui.getDocument('xEndIdlerPlate').resetEdit()
@@ -143,32 +146,40 @@ class XEndIdlerPlate(object):
 		#cut holes for xRodClamp
 		#Sketch Points
 		p1x = 0
-		p1y = gv.xRodSpacing/2
+		p1y = gv.xMotorMountPlateWidth/2
 		p2x = gv.xRodClampWidth
-		p2y = gv.xRodSpacing/2
+		p2y = gv.xMotorMountPlateWidth/2
 		p3x = gv.xRodClampEdgeToMountHoleDist
 		p3y = gv.xRodAxisToMountHoleDist
 		p4x = gv.xRodClampEdgeToMountHoleDist
-		p4y = gv.xRodSpacing-gv.xRodAxisToMountHoleDist
+		p4y = gv.xMotorMountPlateWidth-gv.xRodAxisToMountHoleDist
 		p5x = gv.xRodClampWidth-gv.xRodClampEdgeToMountHoleDist
-		p5y = gv.xRodSpacing-gv.xRodAxisToMountHoleDist
+		p5y = gv.xMotorMountPlateWidth-gv.xRodAxisToMountHoleDist
 		p6x = gv.xRodClampWidth-gv.xRodClampEdgeToMountHoleDist
 		p6y = gv.xRodAxisToMountHoleDist
 		p7x = gv.xRodClampEdgeToMountHoleDist
-		p7y = gv.xRodSpacing/2
+		p7y = gv.xMotorMountPlateWidth/2
 		p8x = gv.xRodClampWidth/2
-		p8y = gv.xRodSpacing/2
+		p8y = gv.xMotorMountPlateWidth/2
 
 		#Make sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch001')
-		App.activeDocument().Sketch001.Support = (App.ActiveDocument.Pad,["Face6"])
+		App.activeDocument().Sketch001.Support = uf.getFace(App.ActiveDocument.Pad,
+															None, None, 
+															None, None, 
+															gv.xMotorMountPlateThickness, 0)#(App.ActiveDocument.Pad,["Face6"])
 		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch001')
 
-		App.ActiveDocument.Sketch001.addExternal("Pad","Edge4")
-		App.ActiveDocument.recompute()
-		App.ActiveDocument.Sketch001.addExternal("Pad","Edge10")
-		App.ActiveDocument.recompute()
+		App.ActiveDocument.Sketch001.addExternal("Pad",uf.getEdge(App.ActiveDocument.Pad, 
+															  0,0,
+															  gv.xMotorMountPlateWidth/2,0,
+															  gv.xMotorMountPlateThickness,0))
+		App.ActiveDocument.Sketch001.addExternal("Pad",uf.getEdge(App.ActiveDocument.Pad, 
+															  gv.xRodClampWidth,0,
+															  gv.xMotorMountPlateWidth/2,0,
+															  gv.xMotorMountPlateThickness,0))
+		
 		App.ActiveDocument.Sketch001.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch001.addConstraint(Sketcher.Constraint('PointOnObject',0,1,-3)) 

@@ -12,7 +12,7 @@ import Draft
 
 #Specific to printer
 import globalVars as gv
-import utilityFunctions as Util
+import utilityFunctions as uf
 
 class ZEndstop(object):
 	def __init__(self):
@@ -142,10 +142,16 @@ class ZEndstop(object):
 		#Make Sketch
 		#make sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch001')
-		App.activeDocument().Sketch001.Support = (App.ActiveDocument.Pad,["Face1"])
+		App.activeDocument().Sketch001.Support = uf.getFace(App.ActiveDocument.Pad,
+														  None, None,
+														  0,0,
+														  None, None)
 		App.activeDocument().recompute()
-		Gui.activeDocument().setEdit('Sketch001')
-		App.ActiveDocument.Sketch001.addExternal("Pad","Edge4")
+#		Gui.activeDocument().setEdit('Sketch001')
+		App.ActiveDocument.Sketch001.addExternal("Pad",uf.getEdge(App.ActiveDocument.Pad, 
+														  0,0,
+														  0,0,
+														  gv.zRodDiaL/2+gv.zEndstopBodyThickness-gv.clampGap/2, 0))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch001.addGeometry(Part.Circle(App.Vector(p1x,p1y,0),App.Vector(0,0,1),gv.zRodDiaL/2))
 		App.ActiveDocument.recompute()
@@ -184,10 +190,17 @@ class ZEndstop(object):
 		
 		#Make Sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch002')
-		App.activeDocument().Sketch002.Support = (App.ActiveDocument.Pocket,["Face4"])
+		App.activeDocument().Sketch002.Support = uf.getFace(App.ActiveDocument.Pocket,
+														  0,1,
+														  None, None,
+														  gv.zRodDiaL/2+gv.zEndstopBodyThickness-gv.clampGap/2, 0)
 		App.activeDocument().recompute()
-		Gui.activeDocument().setEdit('Sketch002')
-		App.ActiveDocument.Sketch002.addExternal("Pocket","Edge11")
+		App.activeDocument().recompute()
+#		Gui.activeDocument().setEdit('Sketch002')
+		App.ActiveDocument.Sketch002.addExternal("Pocket",uf.getEdge(App.ActiveDocument.Pocket, 
+														  gv.zEndstopSupportWidth/2,0,
+														  gv.zEndStopClampLength/2,0,
+														  gv.zRodDiaL/2+gv.zEndstopBodyThickness-gv.clampGap/2, 0))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch002.addGeometry(Part.Circle(App.Vector(p1x,p1y,0),App.Vector(0,0,1),gv.printedToPrintedDia/2))
 		App.ActiveDocument.recompute()
@@ -265,12 +278,21 @@ class ZEndstop(object):
 
 		#Make Sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch003')
-		App.activeDocument().Sketch003.Support = (App.ActiveDocument.Mirrored,["Face2"])
+		App.activeDocument().Sketch003.Support = uf.getFace(App.ActiveDocument.Mirrored,
+														  0,0,
+														  None, None,
+														  0, 0)
 		App.activeDocument().recompute()
-		Gui.activeDocument().setEdit('Sketch003')
-		App.ActiveDocument.Sketch003.addExternal("Mirrored","Edge7")
-		App.ActiveDocument.recompute()
-		App.ActiveDocument.Sketch003.addExternal("Mirrored","Edge8")
+		App.activeDocument().recompute()
+#		Gui.activeDocument().setEdit('Sketch003')
+		App.ActiveDocument.Sketch003.addExternal("Mirrored",uf.getEdge(App.ActiveDocument.Mirrored, 
+														  -gv.zEndstopSupportWidth/2,0,
+														  gv.zEndStopClampLength/2,0,
+														  0, 0))
+		App.ActiveDocument.Sketch003.addExternal("Mirrored",uf.getEdge(App.ActiveDocument.Mirrored, 
+														  gv.zEndstopSupportWidth/2,0,
+														  gv.zEndStopClampLength/2,0,
+														  0, 0))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch003.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.recompute()

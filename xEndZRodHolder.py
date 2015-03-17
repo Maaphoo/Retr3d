@@ -12,7 +12,7 @@ import Draft
 
 #Specific to printer
 import globalVars as gv
-import utilityFunctions as Util
+import utilityFunctions as uf
 
 #notes
 #Should the width be determined by the nut face to face, paddings etc? At least a minimum.
@@ -144,20 +144,19 @@ class XEndZRodHolder(object):
 		App.ActiveDocument.recompute()
 
 		#add dimensions
-		App.ActiveDocument.Sketch.addConstraint(Sketcher.Constraint('DistanceY',3,-gv.xRodSpacing)) 
+		App.ActiveDocument.Sketch.addConstraint(Sketcher.Constraint('DistanceY',2,-gv.xRodSpacing)) 
 		App.ActiveDocument.recompute()
-		App.ActiveDocument.Sketch.addConstraint(Sketcher.Constraint('DistanceX',0,gv.xRodClampWidth)) 
+		App.ActiveDocument.Sketch.addConstraint(Sketcher.Constraint('DistanceX',3,-gv.xRodClampWidth)) 
 		App.ActiveDocument.recompute()
 #		Gui.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
-
 		#extrude base
 		App.activeDocument().addObject("PartDesign::Pad","Pad")
 		App.activeDocument().Pad.Sketch = App.activeDocument().Sketch
 		App.activeDocument().Pad.Length = 10.0
 		App.ActiveDocument.recompute()
 		Gui.activeDocument().hide("Sketch")
-		App.ActiveDocument.Pad.Length = 3.000000
+		App.ActiveDocument.Pad.Length = gv.xEndZRodHolderFaceThickness
 		App.ActiveDocument.Pad.Reversed = 0
 		App.ActiveDocument.Pad.Midplane = 0
 		App.ActiveDocument.Pad.Length2 = 100.000000
@@ -189,13 +188,19 @@ class XEndZRodHolder(object):
 		
 		#Make sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch001')
-		App.activeDocument().Sketch001.Support = (App.ActiveDocument.Pad,["Face6"])
-		App.activeDocument().recompute()
+		App.activeDocument().Sketch001.Support = uf.getFace(App.ActiveDocument.Pad,
+															None, None, 
+															None, None, 
+															gv.xEndZRodHolderFaceThickness, 0)
 #		Gui.activeDocument().setEdit('Sketch001')
-		App.ActiveDocument.Sketch001.addExternal("Pad","Edge7")
-		App.ActiveDocument.recompute()
-		App.ActiveDocument.Sketch001.addExternal("Pad","Edge10")
-		App.ActiveDocument.recompute()
+		App.ActiveDocument.Sketch001.addExternal("Pad",uf.getEdge(App.ActiveDocument.Pad, 
+														  gv.xRodClampWidth/2,0,
+														  gv.xRodSpacing,0,
+														  gv.xEndZRodHolderFaceThickness,0))
+		App.ActiveDocument.Sketch001.addExternal("Pad",uf.getEdge(App.ActiveDocument.Pad, 
+														  gv.xRodClampWidth,0,
+														  gv.xRodSpacing/2,0,
+														  gv.xEndZRodHolderFaceThickness,0))
 		Gui.getDocument(self.name).getObject("Pad").Visibility=False
 		App.ActiveDocument.Sketch001.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p6x,p6y,0)))
 		App.ActiveDocument.recompute()
@@ -331,54 +336,76 @@ class XEndZRodHolder(object):
 
 		#Make Sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch002')
-		App.activeDocument().Sketch002.Support = (App.ActiveDocument.Pocket,["Face2"])
-		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch002')
-		App.ActiveDocument.Sketch002.addExternal("Pocket","Edge7")
-		App.ActiveDocument.recompute()
+		App.activeDocument().Sketch002.Support = uf.getFace(App.ActiveDocument.Pocket,
+														  gv.xRodClampWidth/2,0,
+														  0,0,
+														  gv.xEndZRodHolderFaceThickness/2,0)
+		App.ActiveDocument.Sketch002.addExternal("Pocket",uf.getEdge(App.ActiveDocument.Pocket, 
+														  gv.xRodClampWidth/2,0,
+														  0,0,
+														  gv.xEndZRodHolderFaceThickness,0))
 		App.ActiveDocument.Sketch002.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.recompute()
-#		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Coincident',0,1,-3,0)) 
+		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Coincident',0,1,-3,0)) 
 		App.ActiveDocument.recompute()
-#		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('PointOnObject',0,2,-2)) 
+		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('PointOnObject',0,2,-2)) 
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch002.addGeometry(Part.ArcOfCircle(Part.Circle(App.Vector(p7x,p7y,0),App.Vector(0,0,1),nutTrapOuterRadius),math.pi/2,math.pi))
 		App.ActiveDocument.recompute()
-#		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Coincident',1,2,0,2)) 
+		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Coincident',1,2,0,2)) 
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch002.addGeometry(Part.Line(App.Vector(p3x,p3y,0),App.Vector(p4x,p4y,0)))
 		App.ActiveDocument.recompute()
-#		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Coincident',2,1,1,1)) 
+		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Coincident',2,1,1,1)) 
 		App.ActiveDocument.recompute()
-#		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Horizontal',2)) 
+		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Horizontal',2)) 
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch002.addGeometry(Part.ArcOfCircle(Part.Circle(App.Vector(p8x,p8y,0),App.Vector(0,0,1),nutTrapOuterRadius),0,math.pi/2))
 		App.ActiveDocument.recompute()
-#		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Coincident',3,2,2,2)) 
+		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Coincident',3,2,2,2)) 
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch002.addGeometry(Part.Line(App.Vector(p5x,p5y,0),App.Vector(p6x,p6y,0)))
-#		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Tangent',3,1,4,1)) 
+		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Tangent',3,1,4,1)) 
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch002.addGeometry(Part.Line(App.Vector(p6x,p6y,0),App.Vector(p1x,p1y,0)))
-#		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Coincident',4,2,5,1)) 
+		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Coincident',4,2,5,1)) 
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.recompute()
-#		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Coincident',5,2,0,1)) 
+		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Coincident',0,1,5,2)) 
+		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Coincident',0,1,-3,2)) 
+		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Coincident',4,2,-3,1)) 
+		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Vertical',4))
+		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Equal',1,3)) 
+		App.ActiveDocument.Sketch002.addGeometry(Part.Line(App.Vector(p2x,p2y,0),App.Vector(p7x,p7y,0)))
+		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Coincident',0,2,6,1)) 
 		App.ActiveDocument.recompute()
-#		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Horizontal',5)) 
 		App.ActiveDocument.recompute()
-#		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Coincident',4,2,-3,2)) 
+		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Coincident',6,2,1,3)) 
 		App.ActiveDocument.recompute()
-#		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Vertical',4))
+		App.ActiveDocument.Sketch002.addGeometry(Part.Line(App.Vector(p7x,p7y,0),App.Vector(p3x,p3y,0)))
+		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Coincident',6,2,7,1)) 
 		App.ActiveDocument.recompute()
-#		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Equal',1,3)) 
 		App.ActiveDocument.recompute()
-#		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Equal',0,4)) 
+		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Coincident',7,2,1,1)) 
 		App.ActiveDocument.recompute()
-#		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Tangent',1,2)) 
+		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Vertical',7)) 
 		App.ActiveDocument.recompute()
-#		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Tangent',2,3)) 
+		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Horizontal',6)) 
+		App.ActiveDocument.recompute()
+		App.ActiveDocument.Sketch002.toggleConstruction(6) 
+		App.ActiveDocument.Sketch002.toggleConstruction(7) 
+		App.ActiveDocument.recompute()
+		App.ActiveDocument.Sketch002.addGeometry(Part.Line(App.Vector(p4x,p4y,0),App.Vector(p8x,p8y,0)))
+		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Coincident',2,2,8,1)) 
+		App.ActiveDocument.recompute()
+		App.ActiveDocument.recompute()
+		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Coincident',8,2,3,3)) 
+		App.ActiveDocument.recompute()
+		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Vertical',8)) 
+		App.ActiveDocument.recompute()
+		App.ActiveDocument.Sketch002.toggleConstruction(8) 
 		App.ActiveDocument.recompute()
 
 		#add dimmensions
@@ -432,11 +459,17 @@ class XEndZRodHolder(object):
 
 		#make Sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch003')
-		App.activeDocument().Sketch003.Support = (App.ActiveDocument.Pad002,["Face14"])
 		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch003')
-		App.ActiveDocument.Sketch003.addExternal("Pad002","Edge35")
 		App.ActiveDocument.recompute()
+		App.activeDocument().Sketch003.Support = uf.getFace(App.ActiveDocument.Pad002,
+														  gv.xRodClampWidth/2,0,
+														  0,0,
+														  None, None)
+		App.ActiveDocument.Sketch003.addExternal("Pad002",uf.getEdge(App.ActiveDocument.Pad002, 
+														  gv.xRodClampWidth/2,0,
+														  0,0,
+														  gv.xEndZRodHolderFaceThickness+faceToZRodDist+nutTrapOuterRadius,0))
 		App.ActiveDocument.Sketch003.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.Sketch003.addConstraint(Sketcher.Constraint('Coincident',-3,1,0,1)) 
 		App.ActiveDocument.recompute()
@@ -514,10 +547,15 @@ class XEndZRodHolder(object):
 		#Draw the sketch
 		
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch004')
-		App.activeDocument().Sketch004.Support = (App.ActiveDocument.Pad004,["Face3"])
-		App.activeDocument().recompute()
+		App.activeDocument().Sketch004.Support = uf.getFace(App.ActiveDocument.Pad004,
+														  gv.xRodClampWidth/2,0,
+														  gv.xRodSpacing,0,
+														  None, None)
+		App.ActiveDocument.Sketch004.addExternal("Pad004",uf.getEdge(App.ActiveDocument.Pad004, 
+														  gv.xRodClampWidth/2,0,
+														  gv.xRodSpacing,0,
+														  gv.xEndZRodHolderFaceThickness,0))
 #		Gui.activeDocument().setEdit('Sketch004')
-		App.ActiveDocument.Sketch004.addExternal("Pad004","Edge16")
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch004.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.recompute()
@@ -594,13 +632,24 @@ class XEndZRodHolder(object):
 
 		#make Sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch005')
-		App.activeDocument().Sketch005.Support = (App.ActiveDocument.Pad006,["Face2"])
-		App.activeDocument().recompute()
+		App.activeDocument().Sketch005.Support = uf.getFace(App.ActiveDocument.Pad006,
+														  gv.xRodClampWidth/2,0,
+														  0,0,
+														  None, None)
+		App.ActiveDocument.recompute()
+		App.ActiveDocument.Sketch005.addExternal("Pad006",uf.getEdge(App.ActiveDocument.Pad006, 
+																	  nutTrapOuterRadius,-1,
+																	  0,0,
+																	  faceToZRodDist+gv.xEndZRodHolderFaceThickness,1))
+		App.ActiveDocument.recompute()
+ 		App.ActiveDocument.Sketch005.addExternal("Pad006",uf.getEdge(App.ActiveDocument.Pad006, 
+														  gv.xRodClampWidth/2,1,
+														  0,0,
+														  None,None,
+														  radius = nutTrapOuterRadius))
+
 #		Gui.activeDocument().setEdit('Sketch005')
-		App.ActiveDocument.Sketch005.addExternal("Pad006","Edge15")
-		App.ActiveDocument.recompute()
-		App.ActiveDocument.Sketch005.addExternal("Pad006","Edge11")
-		App.ActiveDocument.recompute()
+
 		App.ActiveDocument.Sketch005.addGeometry(Part.Circle(App.Vector(p1x,p1y,0),App.Vector(0,0,1),self.rodDia/2+gv.bushingNutRodGap))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch005.addConstraint(Sketcher.Constraint('Coincident',0,3,-3,3)) 
@@ -636,7 +685,7 @@ class XEndZRodHolder(object):
 #		Gui.activeDocument().resetEdit()
 
 
-		mat = Util.hexagonPoints(nutTrapOuterRadius,
+		mat = uf.hexagonPoints(nutTrapOuterRadius,
 							gv.xEndZRodHolderFaceThickness+faceToZRodDist,
 							self.bushingNutFaceToFace,
 							math.pi/6)
@@ -658,8 +707,11 @@ class XEndZRodHolder(object):
 		hexRadius = mat[7][0]
 
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch006')
-		App.activeDocument().Sketch006.Support = (App.ActiveDocument.Pocket001,["Face3"])
-		App.activeDocument().recompute()
+		App.activeDocument().Sketch006.Support = uf.getFace(App.ActiveDocument.Pocket001,
+														  None,None,
+														  0,0,
+														  None, None)
+		App.ActiveDocument.recompute()
 #		Gui.activeDocument().setEdit('Sketch006')
 		App.ActiveDocument.Sketch006.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.recompute()
@@ -700,7 +752,11 @@ class XEndZRodHolder(object):
 		App.ActiveDocument.Sketch006.addConstraint(Sketcher.Constraint('Equal',2,3)) 
 		App.ActiveDocument.Sketch006.addConstraint(Sketcher.Constraint('Equal',3,4)) 
 		App.ActiveDocument.Sketch006.toggleConstruction(6) 
-		App.ActiveDocument.Sketch006.addExternal("Pocket001","Edge19")
+		App.ActiveDocument.Sketch006.addExternal("Pocket001",uf.getEdge(App.ActiveDocument.Pocket001, 
+														  gv.xRodClampWidth/2,-1,
+														  0,0,
+														  None,None,
+														  radius = nutTrapOuterRadius))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch006.addConstraint(Sketcher.Constraint('Coincident',-3,3,6,3)) 
 		App.ActiveDocument.recompute()
@@ -730,7 +786,7 @@ class XEndZRodHolder(object):
 
 		#cut nut trap for lead screw
 		#sketch points
-		mat = Util.hexagonPoints(gv.xRodClampWidth-nutTrapOuterRadius,
+		mat = uf.hexagonPoints(gv.xRodClampWidth-nutTrapOuterRadius,
 							gv.xEndZRodHolderFaceThickness+faceToZRodDist,
 							gv.leadScrewNut[2],
 							math.pi/6)
@@ -753,10 +809,21 @@ class XEndZRodHolder(object):
 
 		#make sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch007')
+		App.activeDocument().Sketch007.Support = uf.getFace(App.ActiveDocument.Pocket002,
+														  None,None,
+														  0,0,
+														  None, None)
+		App.ActiveDocument.recompute()
 		App.activeDocument().Sketch007.Support = (App.ActiveDocument.Pocket002,["Face3"])
 		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch007')
-		App.ActiveDocument.Sketch007.addExternal("Pocket002","Edge17")
+		App.ActiveDocument.Sketch007.addExternal("Pocket002",uf.getEdge(App.ActiveDocument.Pocket002, 
+														  gv.xRodClampWidth/2,1,
+														  0,0,
+														  None,None,
+														  radius = nutTrapOuterRadius))
+		App.ActiveDocument.recompute()
+		#App.ActiveDocument.Sketch007.addExternal("Pocket002","Edge17")
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch007.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.recompute()
@@ -837,15 +904,26 @@ class XEndZRodHolder(object):
 		
 		#make Sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch008')
-		App.activeDocument().Sketch008.Support = (App.ActiveDocument.Pocket003,["Face3"])
+		App.activeDocument().Sketch008.Support = uf.getFace(App.ActiveDocument.Pocket003,
+														  None,None,
+														  0,0,
+														  None, None)
 		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch008')
-		App.ActiveDocument.Sketch008.addExternal("Pocket003","Edge20")
-		App.ActiveDocument.recompute()
-		App.ActiveDocument.Sketch008.addExternal("Pocket003","Edge18")
-		App.ActiveDocument.recompute()
-		App.ActiveDocument.Sketch008.addExternal("Pocket003","Edge21")
-		App.ActiveDocument.recompute()
+		App.ActiveDocument.Sketch008.addExternal("Pocket003",uf.getEdge(App.ActiveDocument.Pocket003, 
+														  gv.xRodClampWidth/2,-1,
+														  0,0,
+														  None,None,
+														  radius = nutTrapOuterRadius))
+		App.ActiveDocument.Sketch008.addExternal("Pocket003",uf.getEdge(App.ActiveDocument.Pocket003, 
+														  gv.xRodClampWidth/2,1,
+														  0,0,
+														  None,None,
+														  radius = nutTrapOuterRadius))
+		App.ActiveDocument.Sketch008.addExternal("Pocket003",uf.getEdge(App.ActiveDocument.Pocket003, 
+														  gv.xRodClampWidth/2,0,
+														  0,0,
+														  0,1))
 		App.ActiveDocument.Sketch008.addGeometry(Part.Line(App.Vector(p4x,p4y,0),App.Vector(p5x,p5y,0)))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch008.addConstraint(Sketcher.Constraint('Coincident',0,1,-3,1)) 
@@ -872,6 +950,8 @@ class XEndZRodHolder(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch008.addConstraint(Sketcher.Constraint('Symmetric',1,1,1,2,2,3)) 
 		App.ActiveDocument.recompute()
+		
+		#Add dimensions
 		App.ActiveDocument.Sketch008.addConstraint(Sketcher.Constraint('Radius',2,gv.zOffsetHoleDia/2)) 
 		App.ActiveDocument.recompute()
 #		Gui.getDocument(self.name).resetEdit()
@@ -895,7 +975,7 @@ class XEndZRodHolder(object):
 
 		#Cut Nut trap for z offset
 		#sketch points
-		mat = Util.hexagonPoints(gv.xRodClampWidth/2,
+		mat = uf.hexagonPoints(gv.xRodClampWidth/2,
 							gv.xEndZRodHolderFaceThickness+faceToZRodDist+nutTrapOuterRadius+gv.zOffsetNutFaceToFace/2+gv.bushingNutPadding,
 							gv.zOffsetNutFaceToFace,
 							math.pi/6)
@@ -918,10 +998,17 @@ class XEndZRodHolder(object):
 
 		#make sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch009')
-		App.activeDocument().Sketch009.Support = (App.ActiveDocument.Pocket004,["Face3"])
+		App.activeDocument().Sketch009.Support = uf.getFace(App.ActiveDocument.Pocket004,
+														  None,None,
+														  0,0,
+														  None, None)
 		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch009')
-		App.ActiveDocument.Sketch009.addExternal("Pocket004","Edge34")
+		App.ActiveDocument.Sketch009.addExternal("Pocket004",uf.getEdge(App.ActiveDocument.Pocket004, 
+														  gv.xRodClampWidth/2,0,
+														  0,0,
+														  None,None,
+														  radius = gv.zOffsetHoleDia/2))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch009.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.recompute()
@@ -966,6 +1053,8 @@ class XEndZRodHolder(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch009.addConstraint(Sketcher.Constraint('Horizontal',0)) 
 		App.ActiveDocument.recompute()
+		
+		#Add dimensions
 		App.ActiveDocument.Sketch009.addConstraint(Sketcher.Constraint('Distance',0,2,4,gv.zOffsetNutFaceToFace)) 
 		App.ActiveDocument.recompute()
 #		Gui.getDocument(self.name).resetEdit()
@@ -989,7 +1078,7 @@ class XEndZRodHolder(object):
 #
 		#Make nut trap for top Z rod bushing
 		#sketch points
-		mat = Util.hexagonPoints(-nutTrapOuterRadius,
+		mat = uf.hexagonPoints(-nutTrapOuterRadius,
 							gv.xEndZRodHolderFaceThickness+faceToZRodDist,
 							self.bushingNutFaceToFace,
 							math.pi/6)
@@ -1011,10 +1100,17 @@ class XEndZRodHolder(object):
 		hexRadius = mat[7][0]
 		#make Sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch010')
-		App.activeDocument().Sketch010.Support = (App.ActiveDocument.Pocket005,["Face4"])
+		App.activeDocument().Sketch010.Support = uf.getFace(App.ActiveDocument.Pocket005,
+														  None,None,
+														  gv.xRodSpacing,0,
+														  None, None)
 		App.activeDocument().recompute()
+		App.ActiveDocument.Sketch010.addExternal("Pocket005",uf.getEdge(App.ActiveDocument.Pocket005, 
+														  gv.xRodClampWidth/2,-1,
+														  gv.xRodSpacing,0,
+														  None,None,
+														  radius = nutTrapOuterRadius))
 #		Gui.activeDocument().setEdit('Sketch010')
-		App.ActiveDocument.Sketch010.addExternal("Pocket005","Edge41")
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch010.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.recompute()

@@ -12,7 +12,7 @@ import Draft
 
 #Specific to printer
 import globalVars as gv
-import utilityFunctions as Util
+import utilityFunctions as uf
 
 class YBeltAnchor(object):
 	def __init__(self):
@@ -150,7 +150,10 @@ class YBeltAnchor(object):
 		
 		#Make sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch001')
-		App.activeDocument().Sketch001.Support = (App.ActiveDocument.Pad,["Face6"])
+		App.activeDocument().Sketch001.Support = uf.getFace(App.ActiveDocument.Pad,
+														  0,0,
+														  0, 0,
+														  gv.tabThickness, 0)
 		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch001')
 		App.ActiveDocument.Sketch001.addGeometry(Part.Circle(App.Vector(p1x,p1y,0),App.Vector(0,0,1),gv.printedToPrintedDia/2))
@@ -201,7 +204,12 @@ class YBeltAnchor(object):
 		p4y = -gv.yBeltAnchorLength/2
 		
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch002')
-		App.activeDocument().Sketch002.Support = (App.ActiveDocument.Mirrored,["Face5"])
+		App.activeDocument().recompute()
+		App.activeDocument().Sketch002.Support = uf.getFace(App.ActiveDocument.Mirrored,
+														  0,0,
+														  0, 0,
+														  gv.tabThickness, 0)
+		
 		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch002')
 		App.ActiveDocument.Sketch002.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p4x,p4y,0)))
@@ -260,10 +268,17 @@ class YBeltAnchor(object):
 		
 		#Make Sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch003')
-		App.activeDocument().Sketch003.Support = (App.ActiveDocument.Pad001,["Face2"])
+		App.activeDocument().recompute()
+		App.activeDocument().Sketch003.Support = uf.getFace(App.ActiveDocument.Pad001,
+												  None, None,
+												  -gv.yBeltAnchorWidth/2, 0,
+												  None, None)
 		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch003')
-		App.ActiveDocument.Sketch003.addExternal("Pad001","Edge13")
+		App.ActiveDocument.Sketch003.addExternal("Pad001",uf.getEdge(App.ActiveDocument.Pad001, 
+														  0,0,
+														  -gv.yBeltAnchorWidth/2, 0,
+														  gv.tabThickness,0))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch003.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p4x,p4y,0)))
 		App.ActiveDocument.Sketch003.addGeometry(Part.Line(App.Vector(p4x,p4y,0),App.Vector(p3x,p3y,0)))

@@ -2,119 +2,127 @@ from __future__ import division # allows floating point division from integersim
 
 reloadClasses = False
 
-#file handeling
-parentDir = "Z:/Design Files/SalvagePrinter/"
+test = None
+
+#The path to the directory that will hold printer designs
+printerDir = "/Users/mrogge/Design Files/SalvagePrinter/"
 
 #make test hole pattern. True if you would like the test hole pattern to be included in your stl files
 printTestHolePattern = True
 
 #xRod vars
-xRodDiaTop = 8.01 #Diameter of the top xRod
-xRodDiaBottom = 6.99 #Diameter of the bottom xRod
-xRodLength = 334 # Length of the shorter xRod
+xRodDiaTop = 7.9 #Diameter of the top xRod
+xRodDiaBottom = 7.9 #Diameter of the bottom xRod
+xRodLength = 400 # Length of the shorter xRod
 xRodDiaMax = None 					#CALCULATED The largest xRod diameter
 xMotorShaftToMountHoleDistX = None 	#CALCULATED The horizontal component of the distance between the shaft and the mounting holes
 xMotorBodyWidth = None 				#CALCULATED Width of the xMotor's body
-									#xRodSpacing note: Should be changed to purely CALCULATED
-xRodSpacing = 2*25.4 					#SEMI-CALCULATED The distance between the axes of the xRods. It is automatically increased if needed
+xRodSpacing = None 					#CALCULATED The distance between the axes of the xRods. 
 
 
 #yRod vars
-yRodDiaL = 8.22 #Diameter of the top yRod
-yRodDiaR = 7.94 #Diameter of the bottom yRod
-yRodLength = 420 # Length of the shorter yRod
+yRodDiaL = 12.7 #Diameter of the top yRod
+yRodDiaR = 12.7 #Diameter of the bottom yRod
+yRodLength = 460 # Length of the shorter yRod
 yRodSpacing = None	#CALCULATED Distance between yRods
 yRodDiaMax = None 	#CALCULATED largest yRod diameter
+yBushingNutMaxThickness = None #Calculated The maximum thickness of the y bushing nuts
 
 
 #zRod vars
-zRodDiaR = 8.0 #Diameter of the right zRod
-zRodDiaL = 7.96 #Diameter of the left zRod
-zRodLength = 355 #Length of the shorter zRod
+zRodDiaR = 10 #Diameter of the right zRod
+zRodDiaL = 11.95 #Diameter of the left zRod
+zRodLength = 310 #Length of the shorter zRod
 zRodSpacing = None	#CALCULATED Distance between zRod axes
 zRodStandoff = None	#CALCULATED Distance between frame surface and zRod Axis
 
 
 #Lead Screw Related
-leadScrewDia = 6 #Diameter of the leadScrew
-zRodZScrewDist = None #SEMI-CALCULATED Distance between the axis of the zRod and the axis of the LeadScrew. Increased if needed
+leadScrewDia = 6.35 #Diameter of the leadScrew
+zRodZScrewDist = None #CALCULATED Distance between the axis of the zRod and the axis of the LeadScrew. Increased if needed
 
 
 #Frame vars
-frameWidth = 19.77 #Width of frame members on the face to which the y and z axes are attached.
-frameHeight = 20.06 #Height of frame members. This is the 2nd cross sectional dimension
+frameWidth = 20 #Width of frame members on the face to which the y and z axes are attached.
+frameHeight = 19.05 #Height of frame members. This is the 2nd cross sectional dimension
 frameThickness = 1.33 #Thickness of frame wall if frame is hollow.
-frameJointPadding = 10 # Required distance at frame joints for welds which might get in the way of mounted parts
+frameJointPadding = 10 #ADVANCED Required distance at frame joints for welds which might get in the way of mounted parts
 
 
 #Mounting nut and bolt info
 mountToPrintedDia = 3 #Actual diameter of holes that are used to mount items to printed parts. IE other printed parts or sheet metal.
-mountToFrameDia = 3 #Actual diameter of holes that are used to mount items to the frame. Printed parts to frame or sheet metal to frame.
-mountToPrintedPadding = 3# the minimum distance between the edge of a hole and the edge of the part
-printedToFrameDia = None #CALCULATED The adjusted diameter for printed parts that will be mounted to the frame.
-printedToPrintedDia = None #CALCULATED The adjusted diameter for printed parts mounted to other printed parts or to non frame parts
+mountToFrameDia = 4.12 #Actual diameter of holes that are used to mount items to the frame. Printed parts to frame or sheet metal to frame.
+mountToPrintedPadding = 3	#ADVANCED the minimum distance between the edge of a hole and the edge of the part
+printedToFrameDia = None 	#CALCULATED The adjusted diameter for printed parts that will be mounted to the frame.
+printedToPrintedDia = None 	#CALCULATED The adjusted diameter for printed parts mounted to other printed parts or to non frame parts
 
 
 #rodClamps - much of this should be combined with mounting bolt info above
-clampHoleDia = 3.5 #Diameter of clamping holes on rod clamps and endStop mounts
-clampNutPadding = 3 # The minimum wall thickness for the clamp nut cut out
-clampNutFaceToFace = 5.6 #Face to face distance of clamp nuts
-clampNutThickness = 2.5 #The thickness of the clamp nuts
-clampGap = 2 # The gap between the support and the clamp
-clampThickness = 3 # The clamp thickness on rod clamps
-clampBoltHeadThickness = 3 #The thickness of the head of the clamp bolts
-rodSupportNutTrapDepthMin = 5 #The minimum value the rod support nut trap depth can take
-rodSupportNutTrapDepthMax = 10 #the maximum value the rod support nut trap depth can take
-#rodSupportNutTrapDepth = 5 #CALCULATED The depth of the nut traps on the rod supports
-rodSupportClampThickness = 2 # The thickness of plastic below the rod that is clamped. Basically the clamping thickness but in the support.
+clampHoleDia = 3.5 				#ADVANCED Diameter of clamping holes on rod clamps and endStop mounts
+clampNutPadding = 3 			#ADVANCED The minimum wall thickness for the clamp nut cut out
+clampNutFaceToFace = 5.6 		#ADVANCED Face to face distance of clamp nuts
+clampNutThickness = 2.5 		#ADVANCED The thickness of the clamp nuts
+clampGap = 2 					#ADVANCED The gap between the support and the clamp
+clampThickness = 3 				#ADVANCED The clamp thickness on rod clamps
+clampBoltHeadThickness = 3 		#ADVANCED The thickness of the head of the clamp bolts
+rodSupportNutTrapDepthMin = 5 	#ADVANCED The minimum value the rod support nut trap depth can take
+rodSupportNutTrapDepthMax = 10 	#ADVANCEDthe maximum value the rod support nut trap depth can take
+#rodSupportNutTrapDepth = 5 	#CALCULATED The depth of the nut traps on the rod supports
+rodSupportClampThickness = 2 	#ADVANCED The thickness of plastic below the rod that is clamped. Basically the clamping thickness but in the support.
 
 
 #mounting tabs - much of this should be combined with mounting bolt info above
 #SlotDia should be printedToFrameDia
-slotDia = 3.5 # The diameter of the mounting slots
-tabThickness = 3 # The thickness of the mounting tabs
-slotWidth = 3 # The width of the mounting slots
-slotPadding = 3 # Amount of material to sides of slot
+slotDia = 4.55 		#ADVANCED The diameter of the mounting slots
+tabThickness = 4 	#ADVANCED The thickness of the mounting tabs
+slotWidth = 3.5		#ADVANCED The width of the mounting slots
+slotPadding = 3 	#ADVANCED Amount of material to sides of slot
 
 
 #PrintBedRelated
-printBedPadding = 5 #extra space around the perimiter of the printBed that is not printable. 
 printBedMountHoleDia = 3 #Diameter of mounting bolts
-printBedMountHolePadding = 1.55 #Distance from edge of print bed to edge of mounting hole
 printBedThickness = 1.5 #Thickness of heated print bed plate
-printBedStandoff = 10 #The distance between the top of the print bed support and the print bed
-printableWidth = None	#CALCULATED printable dimension in the x direction
-printableLength = None	#CALCULATED printable dimension in the y direction
-printableHeight = None	#CALCULATED printable dimension in the z direction
+printBedPadding = 5 			#ADVANCED extra space around the perimiter of the printBed that is not printable. 
+printBedMountHolePadding = 1.5 	#ADVANCED Distance from edge of print bed to edge of mounting hole
+printBedStandoff = 10 			#ADVANCED The distance between the top of the print bed support and the print bed
+printableWidth = None			#CALCULATED printable dimension in the x direction
+printableLength = None			#CALCULATED printable dimension in the y direction
+printableHeight = None			#CALCULATED printable dimension in the z direction
 
+#printBedBushingHolder related
+PBBHStandoff = None #Calculated The distance from the bottom of the printBedSupport to the axis of the yRod
+printBedBusingSupportWidth = None #The width of the printBedBushingSupport
+PBBHMaxFaceToFace = None
+PBBHDepth = None #CALCULATED the depth of the printBedBushingHolder
 
 #PrintBedSupport related
 printBedSupportThickness = 1.55 #The thickness of the printBedSupport plate
-
+yBushingNutSeparation = None #Calculated the distance between bushing nuts on the same rod
 
 #xRodClamp
-xRodClampThickness = 3 #Thickness of plastic around the largest diameter rod
-xRodClampPocketDepth = 25 #Distance the xRods are inserted into the xRodClamp
-xRodClampMountHoleToEdgePadding = 3 #Distance from side of xRodClamp to mountHole edge(ie not center)
-xRodClampMountHoleToRodPadding = 1.5  # The vertical distance from the edge of the largest xRod to the edges of the mounting holes
-xRodClampEdgeToMountHoleDist = 4.75 #Distance from xRodClamp side to mounting holes
 xRodClampIdlerHoleDia = 3.5 #The diameter of the xRodClamp idler hole
-xRodClampMountHoleToRodPadding = 1.5
-xRodClampExtraPocketDepth = 3 #Extra distance in the pocket as an allowance.
-xRodClampWidth = None				#CACLULATED Width of the xRodClamp
-xRodClampOverallThickness = None	#CALCULATED The thickness of the xRodClamp
-xRodAxisToMountHoleDist = None		#CALCULATED Distance from x Rod axis to mount hole centers in vertical direction
+xRodClampThickness = 3 					#ADVANCED Thickness of plastic around the largest diameter rod
+xRodClampPocketDepth = 25 				#ADVANCED Distance the xRods are inserted into the xRodClamp
+xRodClampMountHoleToEdgePadding = 3 	#ADVANCED Distance from side of xRodClamp to mountHole edge(ie not center)
+xRodClampMountHoleToRodPadding = 1.5	#ADVANCED The vertical distance from the edge of the largest xRod to the edges of the mounting holes
+xRodClampEdgeToMountHoleDist = 4.75 	#ADVANCED Distance from xRodClamp side to mounting holes.THIS SHOULD BE CHANGED TO PADDING
+xRodClampMountHoleToRodPadding = 1.5 	#ADVANCED
+xRodClampExtraPocketDepth = 3 			#ADVANCED Extra distance in the pocket as an allowance.
+xRodClampWidth = None					#CACLULATED Width of the xRodClamp
+xRodClampOverallThickness = None		#CALCULATED The thickness of the xRodClamp
+xRodAxisToMountHoleDist = None			#CALCULATED Distance from x Rod axis to mount hole centers in vertical direction
 
 
 #xEndMotorPlate
 xEndIdlerHoleDia = 3 #Diameter of idler hole (as apposed to printed which is larger)
 xMotorMountPlateThickness = 3.175 #The thickness of the xMotorMountPlate (idler plate too)
+xMotorMountPlateWidth = 50.8 #The width of the xMotorMountPlate
 xEndNumMountHoles = 4 # The number of motor mount holes on the xEnd motor
 xEndShaftToMountHoleDist = 21.92 #The distance from the shaft to the mount holes
 xEndMotorMountHoleDia = 3 # the x motor mount hole diameter
-xEndMotorMountHolePadding = 4.39 #The distance between the motor mount holes and the edge of the plate
-motorToXRodClampSpacing = 2 # The gap between the xEnd motor and the xRodClamp
-xMotorPulleyDia = 12.07 # The diameter of the xMotor Pully
+xEndMotorMountHolePadding = 4.4 #The distance between the motor mount holes and the edge of the plate
+xMotorPulleyDia = 12.1  # The diameter of the xMotor Pully
+motorToXRodClampSpacing = 12 #ADVANCED The gap between the xEnd motor and the xRodClamp
 
 
 #xEndZRodHolder
@@ -125,26 +133,26 @@ xEndZRodHolderMountHoleToRodPadding = 1.5 #The vertical distance from the edge o
 zOffsetNutThickness = 3 #The thickness of the zOffsetNut
 zOffsetNutFaceToFace = 5.6 #The face to face distance of the zOffsetNut
 zOffsetHoleDia = 3.5 #The hole diameter of the xOffSet bolt
+zMotorBodyToFrameSpacing = 5 			#ADVANCED The space between the zMotor and the frame. 
 zBushingNutMaxFaceToFace = None			#CACLULATED The max Face to face distance between the two z bushing nut sizes
 zBushingNutMaxThickness = None			#CACLULATED The max thickness for the z Bushing nuts
 xEndZRodHolderMaxNutThickness = None	#CACLULATED The max nut thickness for the xEndZRodHolder
 xEndZRodHolderMaxNutFaceToFace = None	#CACLULATED The max Nut face to face for the xEndZRodHolder
 xEndZRodHolderHeight = None				#CACLULATED The height of the xEndZRodHolder
 
-
 #xCarriage
-xCarriageWidth = 50 #The width of the xCarriage not including wings
-xCarriageThickness = 6 #The thickness of the xCarriage face
-xBeltAnchorThickness = 6 #The thickness of the belt anchor
-xBeltAnchorSlotWidth = 6 #The width of the slot in the belt anchor
-xBeltAnchorSlotInset = 6 # The distance from the edge of the anchor to the slot
-xBeltAnchorBridgeThickness = 3 #The thickness of the belt anchor bridge 
-xCarriageWingWidth = 10 #The width of the xCarriage wings
-xCarriageWingHeight = 10 #The height of the xCarriage wings
-xBeltAnchorWidthTop = 18 				#Should be CALCULATED - The width of the top of the belt anchor
-xBeltAnchorWidthBottom = 20				#Should be CALCULATED - The width of the bottom of the belt anchor
-xCarriageMountHoleVertOffset = 15 		#Should be CALCULATED - The distance from the bottom edge of the face to the extruder mounting holes
-xCarriageMountHoleHorizOffset = 4.75	#Should be CALCULATED - The distance from the side of the xCarriage and the extruder mounting holes
+xCarriageWidth = 65 					#ADVANCED The width of the xCarriage not including wings
+xCarriageThickness = 6 					#ADVANCED The thickness of the xCarriage face
+xBeltAnchorThickness = 6 				#ADVANCED The thickness of the belt anchor
+xBeltAnchorSlotWidth = 6 				#ADVANCED The width of the slot in the belt anchor
+xBeltAnchorSlotInset = 6 				#ADVANCED The distance from the edge of the anchor to the slot
+xBeltAnchorBridgeThickness = 3 			#ADVANCED The thickness of the belt anchor bridge 
+xCarriageWingWidth = 10 				#ADVANCED The width of the xCarriage wings
+xCarriageWingHeight = 10 				#ADVANCED The height of the xCarriage wings
+xBeltAnchorWidthTop = 18 				#ADVANCED Should be CALCULATED - The width of the top of the belt anchor
+xBeltAnchorWidthBottom = 25				#ADVANCED Should be CALCULATED - The width of the bottom of the belt anchor
+xCarriageMountHoleVertOffset = 20 		#ADVANCED Should be CALCULATED - The distance from the bottom edge of the face to the extruder mounting holes
+xCarriageMountHoleHorizOffset = 4.75	#ADVANCED Should be CALCULATED - The distance from the side of the xCarriage and the extruder mounting holes
 xBushingNutMaxFacetoFace = None	#CALCULATED The maximum xBushing nut face to face distance
 xBushingNutMaxThickness = None	#CALCULATED The maximum bushing nut thickness for the x axis
 xCarriageBushingHolderOR = None	#CALCULATED the bushing holder outside radius on the x carriage
@@ -152,14 +160,15 @@ xBeltAnchorHeight = None		#CALCULATED The height of the belt anchor from the bac
 
 
 #zMotorMount vars
+#needs a plate thickness
 zMotorMountHoles = 4 #The number of motor mounting holes
 zShaftToMountHoleDist = 21.92 #the distance between the shaft and the mounting holes
-zMotorMountHoleDia = 3	#the diameter of the motor mounting holes
+zMotorMountHoleDia = 3.5	#the diameter of the motor mounting holes
 zMotorMountHolePadding = 4.39 # the minimum space between the edge of the motor mounting holes and the edge of the plate
-zMotorMountPlateThickness= 3.41 #The thickness of the z motor mount plate
-zMotorMountPlateWidth= 38.17 #Width of motor mount plate
-zMotorMountShaftHoleDia = 8 #Diameter of the shaft hole in the zMotorMount.
-zMotorMountLocation = "Bottom" #The location of the zMotorMounts. Either Top or Bottom
+zMotorMountPlateThickness= 6 #The thickness of the z motor mount plate
+zMotorMountPlateWidth= 42.5 #Width of motor mount plate
+zMotorMountShaftHoleDia = 24 #Diameter of the shaft hole in the zMotorMount.
+zMotorMountLocation = "Bottom" 		#ADVANCED The location of the zMotorMounts. Either Top or Bottom
 zMotorMountLength = None 			#CALCULATED The length of the z motor mount plate
 zMotorMountMountingFaceWidth = None	#Calculated The width of the frame member to which the z motor mount is attached
 zMotorMountEdgeToShaftHole = None 	#CALCULATED The distance from the frame side edge of the motor mount to the shaft hole center
@@ -167,36 +176,37 @@ zShaftToMountHoleDistX = None 		#Calculated
 zMotorBodyWidth = None 				#CALCULATED Width of the zMotorBody
 
 #yMotorMount vars
-yShaftToMountHoleDist = 21.92 #the distance between the shaft and the mounting holes
+#needs a plate thickness
+yShaftToMountHoleDist = 33.195 #the distance between the shaft and the mounting holes
 yMotorMountHolePadding = 4.39 #The distance between the edge of the motor and the edge of the motor mount holes
-yMotorMountHoleDia = 3 # Dia of the y motor mount holes
-yMotorMountPlateWidth = 2*25.4 # The width of the y motor mount plate
-yMotorMountPlateThickness = 3.175
-yMotorMountShaftHoleDia = 10 #The diameter of the shaft hole for the y motor mount
+yMotorMountHoleDia = 4.4 # Dia of the y motor mount holes
+yMotorMountPlateWidth = 57 # The width of the y motor mount plate
+yMotorMountPlateThickness = 6 #Thickness of the yMotorMountPlate
+yMotorMountShaftHoleDia = 24 #The diameter of the shaft hole for the y motor mount
 yMotorMountHoles = 4 # The number of motor mounting holes for the y motor
-yMotorPulleyDia = 12.075 #The diameter of the y motor pulley
+yMotorPulleyDia = 19.5 #The diameter of the y motor pulley
 yMotorShaftToMountHoleDistX = None	#CALCULATED The x component of the distance from the shaft to the mount hole
 yMotorBodyWidth = None				#CALCULATED The width of the y motor body
 
 
 #zRodSupport vars
-zRodSupportLength = 15 # The length of the zrod that is supported
+zRodSupportLength = 15 #ADVANCED The length of the zrod that is supported
 
 
 #YRodSupport vars
-yRodSupportClearance = 3 #The clearance between the top of the clamping bolts and the bottom of the printBedSupport.
+yRodSupportClearance = 3 			#ADVANCED The clearance between the top of the clamping bolts and the bottom of the printBedSupport.
 yRodSupportWidth = None				#CALCULATED The total width of the Rod Support including tabs.
 yRodStandoff = None					#CALCULATED The distance from the top of the frame to the yRod axis
 yRodSupportMountHoleSpacing = None	#CALCULATED The center to center distance for the yRodSupport mounting holes. Middle of slot to middle of slot
 yRodSupportClampBoltLength = None	#CALCULATED The length of the clamping bolts used for the yRodClamps
-yRodSupportNutTrapDepth = None #CALCULATED The depth of the nut traps on the rod supports
+yRodSupportNutTrapDepth = None 		#CALCULATED The depth of the nut traps on the rod supports
 
 
 #yBeltAnchor
-yBeltAnchorWidth = 6 #The width of the belt anchor column
-yBeltAnchorLength = 24 #The length of the belt anchor Column
-yBeltAnchorBridgeThickness = 3 #The thickness of the y belt anchor bridge
-yBeltAnchorSlotWidth = 6 # The width of the y belt anchor slot
+yBeltAnchorWidth = 6 			#ADVANCED The width of the belt anchor column
+yBeltAnchorLength = 24 			#ADVANCED The length of the belt anchor Column
+yBeltAnchorBridgeThickness = 3 	#ADVANCED The thickness of the y belt anchor bridge
+yBeltAnchorSlotWidth = 6 		#ADVANCED The width of the y belt anchor slot
 yBeltAnchorHoleSpacing = None	#CALCULATED Center to center distance between yBeltAnchorHoles
 yBeltAnchorHeight = None		#CALCULATED The total height (including tab thickness) of the y belt anchor
 
@@ -208,13 +218,13 @@ extruderMountPlateWidth = None	#CALCULATED The width of the extrtuder mount plat
 
 
 #extruderMountAngle vars
-extruderMountAngleWidth = 19 # The width of the angle used
-extruderMountAngleThickness = 3.1 # The thickness of the angle used
+extruderMountAngleWidth = 19.05 # The width of the angle used. (The nominal size of the angle.)
+extruderMountAngleThickness = 3.175 # The thickness of the angle used.
 
 
 #extruder vars
 extruderWidth = 78 #The width of the extruder body
-extruderDepth = 60 # The required depth for mounting the extruder front edge of body to back most part of extruder
+extruderDepth = 55 # The required depth for mounting the extruder front edge of body to back most part of extruder
 extruderMountHoleSpacing = 48 #The distance between the extruder's mounting holes
 extruderMountHoleDia = 3 #The diameter of the extruder's mounting holes
 extruderFilamentHoleDia = 4 #The diameter of extruder's filament hole
@@ -261,7 +271,7 @@ hotEndLength = None #CALCULATED The total length of the hot end from the nozzle 
 
 
 #Cross bar vars
-yBeltIdlerHoleDia = 3 #The diameter of the hole for the yBeltIdler
+yBeltIdlerHoleDia = 6 #The diameter of the hole for the yBeltIdler
 crossBarLength = None #CALCULATED The length of the cross bars
 
 
@@ -271,7 +281,7 @@ sideBarLength = None #CALCULATED The length of the side bars
 
 #frameSpacer vars
 #frameSpacerLength should be calculated depending on the power supply thickness, electronics or motors
-frameSpacerLength = 47 # The length of the frameSpacers
+frameSpacerLength = 90 # The length of the frameSpacers
 frameSpacerOffset = 10 # The distancebetween the end of the sideBar to the edge of the frameSpacer
 
 
@@ -353,7 +363,7 @@ metricdBoltLengths = [10,12,16,20,25,30,35,40]
 clampBoltLengths = [10,12,16,20,25,30,35,40]
 
 #BushingNut and leadScrew related
-bushingNutPadding = 3 # minimum thickness of holder around nut and thickness of depth stop
+bushingNutPadding = 5 # minimum thickness of holder around nut and thickness of depth stop
 bushingNutRodGap = 1 #extra radius in the hole for the smooth rod
 xBushingNutBottom = None	#CALCULATED Bushing nut dimensions selected from the nut tables depends on rod dia
 xBushingNutTop = None 		#CALCULATED Bushing nut dimensions selected from the nut tables depends on rod dia
@@ -386,3 +396,5 @@ vertBarLength = None #CALCULATED The length of the vertical bar
 xAxisParts = []
 yAxisParts = []
 zAxisParts = []
+
+

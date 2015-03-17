@@ -12,7 +12,7 @@ import Draft
 
 #Specific to printer
 import globalVars as gv
-import utilityFunctions as Util
+import utilityFunctions as uf
 
 class XRodClamp(object):
 	def __init__(self, name, side):
@@ -161,11 +161,20 @@ class XRodClamp(object):
 
 		#Make Sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch001')
-		App.activeDocument().Sketch001.Support = (App.ActiveDocument.Pad,["Face6"])
+		App.activeDocument().Sketch001.Support = uf.getFace(App.ActiveDocument.Pad,
+															gv.xRodClampWidth, 0, 
+															None, None, 
+															None, None)#(App.ActiveDocument.Pad,["Face6"])
 		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch001')
-		App.ActiveDocument.Sketch001.addExternal("Pad","Edge4")
-		App.ActiveDocument.Sketch001.addExternal("Pad","Edge10")
+		App.ActiveDocument.Sketch001.addExternal("Pad",uf.getEdge(App.ActiveDocument.Pad, 
+														  gv.xRodClampWidth,0,
+														  0,-1,
+														  gv.xRodClampOverallThickness/2,0))
+		App.ActiveDocument.Sketch001.addExternal("Pad",uf.getEdge(App.ActiveDocument.Pad, 
+														  gv.xRodClampWidth,0,
+														  gv.xRodSpacing,1,
+														  gv.xRodClampOverallThickness/2,0))
 		App.ActiveDocument.Sketch001.addGeometry(Part.Circle(App.Vector(p1x,p1y,0),App.Vector(0,0,1),gv.xRodDiaBottom/2))
 		App.ActiveDocument.Sketch001.addConstraint(Sketcher.Constraint('Coincident',0,3,-3,3)) 
 		App.ActiveDocument.Sketch001.addGeometry(Part.Circle(App.Vector(p2x,p2y,0),App.Vector(0,0,1),gv.xRodDiaTop/2))
@@ -216,11 +225,20 @@ class XRodClamp(object):
 
 		#Make sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch002')
-		App.activeDocument().Sketch002.Support = (App.ActiveDocument.Pocket,["Face2"])
+		App.activeDocument().Sketch002.Support = uf.getFace(App.ActiveDocument.Pocket,
+															None, None, 
+															None, None, 
+															gv.xRodClampOverallThickness, 0)#(App.ActiveDocument.Pocket,["Face2"])
 		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch002')
-		App.ActiveDocument.Sketch002.addExternal("Pocket","Edge7")
-		App.ActiveDocument.Sketch002.addExternal("Pocket","Edge5")
+		App.ActiveDocument.Sketch002.addExternal("Pocket",uf.getEdge(App.ActiveDocument.Pocket, 
+														  gv.xRodClampWidth,0,
+														  gv.xRodSpacing/2,0,
+														  gv.xRodClampOverallThickness,0))
+		App.ActiveDocument.Sketch002.addExternal("Pocket",uf.getEdge(App.ActiveDocument.Pocket, 
+														  gv.xRodClampWidth/2,0,
+														  gv.xRodSpacing,0,
+														  gv.xRodClampOverallThickness,0))
 		App.ActiveDocument.Sketch002.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p6x,p6y,0)))
 		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('PointOnObject',0,1,-4)) 
 		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Horizontal',0)) 
@@ -314,13 +332,21 @@ class XRodClamp(object):
 
 		#make sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch003')
-		App.activeDocument().Sketch003.Support = (App.ActiveDocument.Pocket001,["Face2"])
+		App.activeDocument().Sketch003.Support = uf.getFace(App.ActiveDocument.Pocket001,
+															None, None, 
+															None, None, 
+															gv.xRodClampOverallThickness, 0)#(App.ActiveDocument.Pocket001,["Face2"])
 		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch003')
-		App.ActiveDocument.Sketch003.addExternal("Pocket001","Edge6")
-		App.ActiveDocument.recompute()
-		App.ActiveDocument.Sketch003.addExternal("Pocket001","Edge7")
-		App.ActiveDocument.recompute()
+
+		App.ActiveDocument.Sketch003.addExternal("Pocket001",uf.getEdge(App.ActiveDocument.Pocket001, 
+														  gv.xRodClampWidth,0,
+														  gv.xRodSpacing/2,0,
+														  gv.xRodClampOverallThickness,0))
+		App.ActiveDocument.Sketch003.addExternal("Pocket001",uf.getEdge(App.ActiveDocument.Pocket001, 
+														  gv.xRodClampWidth/2,0,
+														  gv.xRodSpacing,0,
+														  gv.xRodClampOverallThickness,0))
 		App.ActiveDocument.Sketch003.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p4x,p4y,0)))
 		App.ActiveDocument.Sketch003.addGeometry(Part.Line(App.Vector(p4x,p4y,0),App.Vector(p3x,p3y,0)))
 		App.ActiveDocument.Sketch003.addGeometry(Part.Line(App.Vector(p3x,p3y,0),App.Vector(p2x,p2y,0)))

@@ -12,6 +12,7 @@ import Draft
 
 #Specific to printer
 import globalVars as gv
+import utilityFunctions as uf
 
 class ExtruderMountPlate(object):
 	def __init__(self, hotEndMountHoles = True):
@@ -143,12 +144,22 @@ class ExtruderMountPlate(object):
 		p4y = p1y
 
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch001')
-		App.activeDocument().Sketch001.Support = (App.ActiveDocument.Pad,["Face6"])
+		App.activeDocument().Sketch001.Support = uf.getFace(App.ActiveDocument.Pad,
+															None, None, 
+															None, None, 
+															gv.extruderMountPlateThickness, 0)#(App.ActiveDocument.Pad,["Face6"])
 		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch001')
-		App.ActiveDocument.Sketch001.addExternal("Pad","Edge12")
-		App.ActiveDocument.recompute()
-		App.ActiveDocument.Sketch001.addExternal("Pad","Edge7")
+#		App.ActiveDocument.Sketch001.addExternal("Pad","Edge12")
+		App.ActiveDocument.Sketch001.addExternal("Pad",uf.getEdge(App.ActiveDocument.Pad ,
+ 																  -gv.extruderMountPlateWidth/2,0,
+ 																  None,None,
+ 																  gv.extruderMountPlateThickness,0))
+
+		App.ActiveDocument.Sketch001.addExternal("Pad",uf.getEdge(App.ActiveDocument.Pad, 
+ 																  gv.extruderMountPlateWidth/2,0,
+ 																  None,None,
+ 																  gv.extruderMountPlateThickness,0))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch001.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.recompute()
@@ -229,13 +240,22 @@ class ExtruderMountPlate(object):
 		
 		#Make Sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch002')
-		App.activeDocument().Sketch002.Support = (App.ActiveDocument.Pocket,["Face5"])
+		App.activeDocument().Sketch002.Support = uf.getFace(App.ActiveDocument.Pocket,
+															None, None, 
+															None, None, 
+															gv.extruderMountPlateThickness, 0)#(App.ActiveDocument.Pocket,["Face5"])
 		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch002')
-		App.ActiveDocument.Sketch002.addExternal("Pocket","Edge7")
-		App.ActiveDocument.recompute()
-		App.ActiveDocument.Sketch002.addExternal("Pocket","Edge10")
-		App.ActiveDocument.recompute()
+
+		App.ActiveDocument.Sketch002.addExternal("Pocket",uf.getEdge(App.ActiveDocument.Pocket ,
+ 																  -gv.extruderMountPlateWidth/2,0,
+ 																  None,None,
+ 																  gv.extruderMountPlateThickness,0))
+
+		App.ActiveDocument.Sketch002.addExternal("Pocket",uf.getEdge(App.ActiveDocument.Pocket, 
+ 																  gv.extruderMountPlateWidth/2,0,
+ 																  None,None,
+ 																  gv.extruderMountPlateThickness,0))
 		App.ActiveDocument.Sketch002.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('PointOnObject',0,1,-3)) 
@@ -326,7 +346,10 @@ class ExtruderMountPlate(object):
 			
 			#Make Sketch
 			App.activeDocument().addObject('Sketcher::SketchObject','Sketch003')
-			App.activeDocument().Sketch003.Support = (App.ActiveDocument.Pocket001,["Face5"])
+			App.activeDocument().Sketch003.Support = uf.getFace(App.ActiveDocument.Pocket001,
+															None, None, 
+															None, None, 
+															gv.extruderMountPlateThickness, 0)#(App.ActiveDocument.Pocket001,["Face5"])
 			App.activeDocument().recompute()
 	#		Gui.activeDocument().setEdit('Sketch003')
 			App.ActiveDocument.Sketch003.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))

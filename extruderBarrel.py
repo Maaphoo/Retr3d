@@ -183,7 +183,12 @@ class ExtruderBarrel(object):
 		p1y = 0
 
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch001')
-		App.activeDocument().Sketch001.Support = (App.ActiveDocument.Revolution,["Face3"])
+#		App.activeDocument().Sketch001.Support = (App.ActiveDocument.Revolution,["Face3"])
+		App.activeDocument().Sketch001.Support = uf.getFace(App.ActiveDocument.Revolution,
+															0,0,
+															0,0, 
+															gv.extruderBarrelLength,0)
+
 		App.activeDocument().recompute()
 ##		Gui.activeDocument().setEdit('Sketch001')
 		App.ActiveDocument.Sketch001.addGeometry(Part.Circle(App.Vector(p1x,p1y,0),App.Vector(0,0,1),gv.extruderBarrelMountHoleDia/2))
@@ -237,8 +242,11 @@ class ExtruderBarrel(object):
 		p1y = 0
 
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch002')
-		App.activeDocument().Sketch002.Support = (App.ActiveDocument.PolarPattern,["Face1"])
-		App.activeDocument().recompute()
+
+		App.activeDocument().Sketch002.Support = uf.getFace(App.ActiveDocument.PolarPattern,
+															0,0,
+															0,0, 
+															0,0)
 #		Gui.activeDocument().setEdit('Sketch002')
 		App.ActiveDocument.Sketch002.addGeometry(Part.Circle(App.Vector(p1x,p1y,0),App.Vector(0,0,1),gv.extruderBarrelMountHoleDia/2))
 		App.ActiveDocument.recompute()

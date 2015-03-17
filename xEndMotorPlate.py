@@ -12,6 +12,7 @@ import Draft
 
 #Specific to printer
 import globalVars as gv
+import utilityFunctions as uf
 
 #notes
 #Nut facetoface top and bottom should be resolved into a max
@@ -44,7 +45,7 @@ class XEndMotorPlate(object):
 				- gv.xEndZRodHolderFaceThickness
 				- gv.xEndZRodHolderMaxNutFaceToFace/2
 				- gv.xMotorMountPlateThickness)
-		zShift = gv.xRodSpacing
+		zShift = gv.xMotorMountPlateWidth+ (gv.xRodSpacing-gv.xMotorMountPlateWidth)/2
 		
 		App.ActiveDocument=App.getDocument("PrinterAssembly")
 		Draft.move([App.ActiveDocument.xEndMotorPlate],App.Vector(xShift, yShift, zShift),copy=False)
@@ -90,9 +91,9 @@ class XEndMotorPlate(object):
 		p1x = 0
 		p1y = 0
 		p2x = 0
-		p2y = gv.xRodSpacing #ERROR THIS SHOULD BE IT'S OWN DIMENSION XMOTORMOUNTPLATEWIDTH
+		p2y = gv.xMotorMountPlateWidth 
 		p3x = xMotorMountWidth
-		p3y = gv.xRodSpacing
+		p3y = gv.xMotorMountPlateWidth
 		p4x = xMotorMountWidth
 		p4y = 0
 
@@ -124,7 +125,7 @@ class XEndMotorPlate(object):
 		#Add dimensions
 		App.ActiveDocument.Sketch.addConstraint(Sketcher.Constraint('DistanceX',3,-xMotorMountWidth)) 
 		App.ActiveDocument.recompute()
-		App.ActiveDocument.Sketch.addConstraint(Sketcher.Constraint('DistanceY',2,-gv.xRodSpacing)) 
+		App.ActiveDocument.Sketch.addConstraint(Sketcher.Constraint('DistanceY',2,-gv.xMotorMountPlateWidth)) 
 		App.ActiveDocument.recompute()
 
 #		Gui.getDocument('xEndMotorPlate').resetEdit()
@@ -148,32 +149,39 @@ class XEndMotorPlate(object):
 		#cut holes for xRodClamp
 		#Sketch Points
 		p1x = 0
-		p1y = gv.xRodSpacing/2
+		p1y = gv.xMotorMountPlateWidth/2
 		p2x = xMotorMountWidth
-		p2y = gv.xRodSpacing/2
+		p2y = gv.xMotorMountPlateWidth/2
 		p3x = gv.xMotorBodyWidth+gv.motorToXRodClampSpacing +gv.xRodClampEdgeToMountHoleDist
 		p3y = gv.xRodAxisToMountHoleDist
 		p4x = gv.xMotorBodyWidth+gv.motorToXRodClampSpacing+gv.xRodClampEdgeToMountHoleDist
-		p4y = gv.xRodSpacing-gv.xRodAxisToMountHoleDist
+		p4y = gv.xMotorMountPlateWidth-gv.xRodAxisToMountHoleDist
 		p5x = xMotorMountWidth-gv.xRodClampEdgeToMountHoleDist
-		p5y = gv.xRodSpacing-gv.xRodAxisToMountHoleDist
+		p5y = gv.xMotorMountPlateWidth-gv.xRodAxisToMountHoleDist
 		p6x = xMotorMountWidth-gv.xRodClampEdgeToMountHoleDist
 		p6y = gv.xRodAxisToMountHoleDist
 		p7x = gv.xMotorBodyWidth+gv.motorToXRodClampSpacing+gv.xRodClampEdgeToMountHoleDist
-		p7y = gv.xRodSpacing/2
+		p7y = gv.xMotorMountPlateWidth/2
 		p8x = gv.xMotorBodyWidth+gv.motorToXRodClampSpacing+gv.xRodClampWidth/2
-		p8y = gv.xRodSpacing/2
+		p8y = gv.xMotorMountPlateWidth/2
 
 		#Make sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch001')
-		App.activeDocument().Sketch001.Support = (App.ActiveDocument.Pad,["Face6"])
+		App.activeDocument().Sketch001.Support = uf.getFace(App.ActiveDocument.Pad,
+															None, None, 
+															None, None, 
+															gv.xMotorMountPlateThickness, 0)#(App.ActiveDocument.Pad,["Face6"])
 		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch001')
 
-		App.ActiveDocument.Sketch001.addExternal("Pad","Edge4")
-		App.ActiveDocument.recompute()
-		App.ActiveDocument.Sketch001.addExternal("Pad","Edge10")
-		App.ActiveDocument.recompute()
+		App.ActiveDocument.Sketch001.addExternal("Pad",uf.getEdge(App.ActiveDocument.Pad, 
+															  0,0,
+															  gv.xMotorMountPlateWidth/2,0,
+															  gv.xMotorMountPlateThickness,0))
+		App.ActiveDocument.Sketch001.addExternal("Pad",uf.getEdge(App.ActiveDocument.Pad, 
+															  xMotorMountWidth,0,
+															  gv.xMotorMountPlateWidth/2,0,
+															  gv.xMotorMountPlateThickness,0))
 		App.ActiveDocument.Sketch001.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch001.addConstraint(Sketcher.Constraint('PointOnObject',0,1,-3)) 
@@ -273,32 +281,40 @@ class XEndMotorPlate(object):
 		#Cut holes for motor
 		#Sketch Points
 		p1x = 0
-		p1y = gv.xRodSpacing/2
+		p1y = gv.xMotorMountPlateWidth/2
 		p2x = xMotorMountWidth
-		p2y = gv.xRodSpacing/2
+		p2y = gv.xMotorMountPlateWidth/2
 		p3x = gv.xEndMotorMountHoleDia/2+gv.xEndMotorMountHolePadding
-		p3y = gv.xRodSpacing/2-gv.xMotorShaftToMountHoleDistX
+		p3y = gv.xMotorMountPlateWidth/2-gv.xMotorShaftToMountHoleDistX
 		p4x = gv.xEndMotorMountHoleDia/2+gv.xEndMotorMountHolePadding
-		p4y = gv.xRodSpacing/2+gv.xMotorShaftToMountHoleDistX
+		p4y = gv.xMotorMountPlateWidth/2+gv.xMotorShaftToMountHoleDistX
 		p5x = gv.xEndMotorMountHoleDia/2+gv.xEndMotorMountHolePadding+2*gv.xMotorShaftToMountHoleDistX
-		p5y = gv.xRodSpacing/2+gv.xMotorShaftToMountHoleDistX
+		p5y = gv.xMotorMountPlateWidth/2+gv.xMotorShaftToMountHoleDistX
 		p6x = gv.xEndMotorMountHoleDia/2+gv.xEndMotorMountHolePadding+2*gv.xMotorShaftToMountHoleDistX
-		p6y = gv.xRodSpacing/2-gv.xMotorShaftToMountHoleDistX
+		p6y = gv.xMotorMountPlateWidth/2-gv.xMotorShaftToMountHoleDistX
 		p7x = gv.xEndMotorMountHoleDia/2+gv.xEndMotorMountHolePadding
-		p7y = gv.xRodSpacing/2
+		p7y = gv.xMotorMountPlateWidth/2
 		p8x = gv.xMotorBodyWidth/2
-		p8y = gv.xRodSpacing/2
+		p8y = gv.xMotorMountPlateWidth/2
 
 		#Make Sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch002')
-		App.activeDocument().Sketch002.Support = (App.ActiveDocument.Pocket,["Face5"])
+		App.activeDocument().Sketch002.Support = uf.getFace(App.ActiveDocument.Pocket,
+															None, None, 
+															None, None, 
+															gv.xMotorMountPlateThickness, 0)#(App.ActiveDocument.Pocket,["Face5"])
 		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch002')
-		App.ActiveDocument.Sketch002.addExternal("Pocket","Edge4")
-		App.ActiveDocument.recompute()
-		App.ActiveDocument.Sketch002.addExternal("Pocket","Edge17")
-		App.ActiveDocument.recompute()
 
+		App.ActiveDocument.Sketch002.addExternal("Pocket",uf.getEdge(App.ActiveDocument.Pocket, 
+															  0,0,
+															  gv.xMotorMountPlateWidth/2,0,
+															  gv.xMotorMountPlateThickness,0))
+		App.ActiveDocument.Sketch002.addExternal("Pocket",uf.getEdge(App.ActiveDocument.Pocket, 
+															  xMotorMountWidth,0,
+															  gv.xMotorMountPlateWidth/2,0,
+															  gv.xMotorMountPlateThickness,0))
+		
 		App.ActiveDocument.Sketch002.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('PointOnObject',0,2,-4)) 

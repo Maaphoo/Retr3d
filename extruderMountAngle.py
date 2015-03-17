@@ -12,6 +12,7 @@ import Draft
 
 #Specific to printer
 import globalVars as gv
+import utilityFunctions as uf
 
 class ExtruderMountAngle(object):
 	def __init__(self):
@@ -170,13 +171,21 @@ class ExtruderMountAngle(object):
 		
 		#Make Sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch001')
-		App.activeDocument().Sketch001.Support = (App.ActiveDocument.Pad,["Face5"])
+		App.activeDocument().Sketch001.Support = uf.getFace(App.ActiveDocument.Pad,
+															None, None, 
+															gv.extruderMountAngleThickness,0, 
+															None, None)#(App.ActiveDocument.Pad,["Face5"])
 		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch001')
-		App.ActiveDocument.Sketch001.addExternal("Pad","Edge16")
-		App.ActiveDocument.recompute()
-		App.ActiveDocument.Sketch001.addExternal("Pad","Edge15")
-		App.ActiveDocument.recompute()
+#		App.ActiveDocument.Sketch001.addExternal("Pad","Edge16")
+		App.ActiveDocument.Sketch001.addExternal("Pad",uf.getEdge(App.ActiveDocument.Pad, 
+ 																  gv.xCarriageWidth,0,
+ 																  gv.extruderMountAngleThickness, 0,
+ 																  (gv.extruderMountAngleWidth-gv.extruderMountAngleThickness)/2,0))
+		App.ActiveDocument.Sketch001.addExternal("Pad",uf.getEdge(App.ActiveDocument.Pad, 
+ 																  0,0,
+ 																  gv.extruderMountAngleThickness, 0,
+ 																  (gv.extruderMountAngleWidth-gv.extruderMountAngleThickness)/2,0))
 		App.ActiveDocument.Sketch001.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch001.addConstraint(Sketcher.Constraint('PointOnObject',0,1,-3)) 
@@ -251,14 +260,21 @@ class ExtruderMountAngle(object):
 		
 		#Make Sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch002')
-		App.activeDocument().Sketch002.Support = (App.ActiveDocument.Pocket,["Face10"])
+		App.activeDocument().Sketch002.Support = uf.getFace(App.ActiveDocument.Pocket,
+															None, None, 
+															None, None, 
+															gv.extruderMountAngleWidth-gv.extruderMountAngleThickness, 0)#(App.ActiveDocument.Pocket,["Face10"])
 		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch002')
-		App.ActiveDocument.Sketch002.addExternal("Pocket","Edge16")
-		App.ActiveDocument.recompute()
-		App.ActiveDocument.Sketch002.addExternal("Pocket","Edge12")
-		App.ActiveDocument.recompute()
-		App.ActiveDocument.recompute()
+		App.ActiveDocument.Sketch002.addExternal("Pocket",uf.getEdge(App.ActiveDocument.Pocket, 
+ 																  gv.xCarriageWidth,0,
+ 																  (gv.extruderMountAngleWidth+gv.extruderMountAngleThickness)/2, 0,
+ 																  (gv.extruderMountAngleWidth-gv.extruderMountAngleThickness),0))
+		App.ActiveDocument.Sketch002.addExternal("Pocket",uf.getEdge(App.ActiveDocument.Pocket, 
+ 																  0,0,
+ 																  (gv.extruderMountAngleWidth+gv.extruderMountAngleThickness)/2, 0,
+ 																  (gv.extruderMountAngleWidth-gv.extruderMountAngleThickness),0))
+
 		App.ActiveDocument.Sketch002.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('PointOnObject',0,1,-3)) 

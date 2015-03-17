@@ -213,10 +213,20 @@ class Nozzle(object):
 
 		#Make Sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch001')
-		App.activeDocument().Sketch001.Support = (App.ActiveDocument.Revolution,["Face4"])
+		#App.activeDocument().Sketch001.Support = (App.ActiveDocument.Revolution,["Face4"])
+		App.activeDocument().Sketch001.Support = uf.getFace(App.ActiveDocument.Revolution,
+															None,None,
+															None,None, 
+															gv.nozzleLength,0)
 		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch001')
-		App.ActiveDocument.Sketch001.addExternal("Revolution","Edge7")		
+#		App.ActiveDocument.Sketch001.addExternal("Revolution","Edge7")
+
+		App.ActiveDocument.Sketch001.addExternal("Revolution",uf.getEdge(App.ActiveDocument.Revolution,
+															None,None,
+															None,None, 
+															gv.nozzleLength,0,
+															radius = gv.extruderBarrelLinerDia/2))
 		App.ActiveDocument.Sketch001.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p4x,p4y,0)))
 		App.ActiveDocument.Sketch001.addGeometry(Part.Line(App.Vector(p4x,p4y,0),App.Vector(p3x,p3y,0)))
 		App.ActiveDocument.Sketch001.addGeometry(Part.Line(App.Vector(p3x,p3y,0),App.Vector(p2x,p2y,0)))
@@ -302,11 +312,17 @@ class Nozzle(object):
 
 		#Make Sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch002')
-		App.activeDocument().Sketch002.Support = (App.ActiveDocument.Pad001,["Face12"])
+		App.activeDocument().Sketch002.Support = uf.getFace(App.ActiveDocument.Pad001,
+															None, None,
+															-gv.nozzleBodyDepth/2,0, 
+															None, None)
 		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch002')
-		App.ActiveDocument.Sketch002.addExternal("Pad001","Edge24")
 		App.ActiveDocument.recompute()
+		App.ActiveDocument.Sketch002.addExternal("Pad001",uf.getEdge(App.ActiveDocument.Pad001,
+															-gv.nozzleBodyWidth+gv.nozzleBodyDepth/2, 0,
+															-gv.nozzleBodyDepth/2,0, 
+															None, None))
 		App.ActiveDocument.Sketch002.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('PointOnObject',0,1,-3)) 
@@ -353,11 +369,17 @@ class Nozzle(object):
 		
 		#Make Sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch003')
-		App.activeDocument().Sketch003.Support = (App.ActiveDocument.Pocket,["Face10"])
+		#App.activeDocument().Sketch003.Support = (App.ActiveDocument.Pocket,["Face10"])
+		App.activeDocument().Sketch003.Support = uf.getFace(App.ActiveDocument.Pocket,
+															gv.nozzleBodyDepth/2, 0,
+															None, None, 
+															None, None)
 		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch003')
-		App.ActiveDocument.Sketch003.addExternal("Pocket","Edge14")
-		App.ActiveDocument.recompute()
+		App.ActiveDocument.Sketch003.addExternal("Pocket",uf.getEdge(App.ActiveDocument.Pocket,
+															gv.nozzleBodyDepth/2,0,
+															0, 0,	 
+															gv.nozzleLength-gv.nozzleBodyHeight,0))
 		App.ActiveDocument.Sketch003.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch003.addConstraint(Sketcher.Constraint('PointOnObject',0,1,-3)) 
@@ -405,10 +427,16 @@ class Nozzle(object):
 		
 		#Make Sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch004')
-		App.activeDocument().Sketch004.Support = (App.ActiveDocument.Pocket001,["Face10"])
+		App.activeDocument().Sketch004.Support = uf.getFace(App.ActiveDocument.Pocket001,
+															gv.nozzleBodyDepth/2, 0,
+															None, None, 
+															None, None)
 		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch004')
-		App.ActiveDocument.Sketch004.addExternal("Pocket001","Edge23")
+		App.ActiveDocument.Sketch004.addExternal("Pocket001",uf.getEdge(App.ActiveDocument.Pocket001,
+															gv.nozzleBodyDepth/2,0,
+															-gv.nozzleBodyDepth/2,0,	 
+															None, None))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch004.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.recompute()
