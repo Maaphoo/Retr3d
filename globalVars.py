@@ -4,8 +4,8 @@ reloadClasses = False
 
 test = None
 
-#The path to the directory that will hold printer designs
-printerDir = "/Users/mrogge/Design Files/SalvagePrinter/"
+#Change the following to the path to the directory that will hold your printer designs
+printerDir = "/Path/to/printer/designs/folder"
 
 #make test hole pattern. True if you would like the test hole pattern to be included in your stl files
 printTestHolePattern = True

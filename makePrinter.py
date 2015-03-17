@@ -11,10 +11,11 @@ import datetime
 #Change the following line to locate the folder containing FreeCAD's FreeCAD.so or FreeCAD.dll file
 #For Mac users it is inside the FreeCAD.app file. Use "show package contents" to locate it. .../FreeCAD.app/Contents/lib
 #For Windows users it is in the .../FreeCAD 0.xx/bin or .../FreeCAD 0.xx/lib folder
+#This actually shouldn't even be necessary
 sys.path.append("/Applications/FreeCAD.app/Contents/lib")
 
 #Change the following line to locate the folder containing the printer building scripts
-sys.path.append("/Users/mrogge/eclipse/eWaste3Dprinter/eWaste3Dprinter")
+sys.path.append("/Path/to/printer/building/scripts")
 
 #import FreeCAD modules
 import FreeCAD as App
