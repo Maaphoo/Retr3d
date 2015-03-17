@@ -1,2 +1,0 @@
-import FreeCAD as App
-App.newDocument("Unnamed")
