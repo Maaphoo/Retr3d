@@ -593,10 +593,12 @@ class XCarriage(object):
 															None,None)#(App.ActiveDocument.Pocket004,["Face2"])
 		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch005')
+
 		App.ActiveDocument.Sketch005.addExternal("Pocket004",uf.getEdge(App.ActiveDocument.Pocket004, 
  																  0,0,
  																  None, None,
- 																  gv.xCarriageThickness+gv.xCarriageBushingHolderOR,1))
+ 																  gv.xCarriageThickness+gv.xCarriageBushingHolderOR,1,
+ 																  radius = gv.xCarriageBushingHolderOR))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch005.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.recompute()

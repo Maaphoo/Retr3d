@@ -466,6 +466,15 @@ class YRodSupport(object):
 		App.ActiveDocument.Mirrored001.MirrorPlane = (App.ActiveDocument.Sketch004,["V_Axis"])
 		App.ActiveDocument.recompute()
 #		Gui.activeDocument().resetEdit()
+
+		App.ActiveDocument.addObject('Part::Feature','Refined001').Shape=App.ActiveDocument.Mirrored001.Shape.removeSplitter()
+		App.ActiveDocument.ActiveObject.Label='Refined001'
+		Gui.ActiveDocument.Mirrored001.hide()
+ 		
+		Gui.ActiveDocument.ActiveObject.ShapeColor=Gui.ActiveDocument.Mirrored001.ShapeColor
+		Gui.ActiveDocument.ActiveObject.LineColor=Gui.ActiveDocument.Mirrored001.LineColor
+		Gui.ActiveDocument.ActiveObject.PointColor=Gui.ActiveDocument.Mirrored001.PointColor
+		App.ActiveDocument.recompute()
 		
 		#Cut nut trap in bottom of support
 				#Add Nut trap to right side
@@ -493,17 +502,21 @@ class YRodSupport(object):
 
 		#make sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch005')
-		App.activeDocument().Sketch005.Support = uf.getFace(App.ActiveDocument.Mirrored001,
+		App.activeDocument().Sketch005.Support = uf.getFace(App.ActiveDocument.Refined001,
 														  None, None,
 														  None, None,
 														  0, 0)
 		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch005')
-		App.ActiveDocument.Sketch005.addExternal("Mirrored001",uf.getEdge(App.ActiveDocument.Mirrored001, 
-														  gv.yRodDiaMax/2+gv.printedToPrintedDia/2, 0,
-														  None, None,
+
+#error here
+		App.ActiveDocument.Sketch005.addExternal("Refined001",uf.getEdge(App.ActiveDocument.Refined001, 
+#  														  gv.yRodDiaMax/2+gv.printedToPrintedDia/2, 0,
+														  None, None,None, None,
 														  0,0,
-														  radius = gv.printedToPrintedDia/2))
+ 														  center = (gv.yRodDiaMax/2+gv.printedToPrintedDia/2,0,0),
+ 														  makeUnique = 1))
+#  														  radius = gv.printedToPrintedDia/2))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch005.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.recompute()
@@ -546,6 +559,7 @@ class YRodSupport(object):
 		App.ActiveDocument.Sketch005.toggleConstruction(6) 
 		App.ActiveDocument.Sketch005.addConstraint(Sketcher.Constraint('Coincident',-3,3,6,3)) 
 		App.ActiveDocument.recompute()
+		App.ActiveDocument.Sketch005.addConstraint(Sketcher.Constraint('Vertical',2))
 
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch005.addConstraint(Sketcher.Constraint('Distance',0,2,4,gv.clampNutFaceToFace)) 
@@ -559,7 +573,7 @@ class YRodSupport(object):
 		App.activeDocument().Pocket003.Length = 5.0
 		App.ActiveDocument.recompute()
 		Gui.activeDocument().hide("Sketch005")
-		Gui.activeDocument().hide("Refined")
+		Gui.activeDocument().hide("Refined001")
 #		Gui.ActiveDocument.Pocket003.ShapeColor=Gui.ActiveDocument.Pocket002.ShapeColor
 #		Gui.ActiveDocument.Pocket003.LineColor=Gui.ActiveDocument.Pocket002.LineColor
 #		Gui.ActiveDocument.Pocket003.PointColor=Gui.ActiveDocument.Pocket002.PointColor

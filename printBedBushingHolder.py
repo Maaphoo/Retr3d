@@ -429,7 +429,11 @@ class PrintBedBushingHolder(object):
 		App.ActiveDocument.Sketch003.addConstraint(Sketcher.Constraint('Equal',2,3)) 
 		App.ActiveDocument.Sketch003.addConstraint(Sketcher.Constraint('Equal',3,4)) 
 		App.ActiveDocument.Sketch003.toggleConstruction(6) 
-		App.ActiveDocument.Sketch003.addExternal("Pad002","Edge49")
+		App.ActiveDocument.Sketch003.addExternal("Pad002",uf.getEdge(App.ActiveDocument.Pad002, 
+														  0,0,
+														  -gv.PBBHDepth/2, 0,
+														  None, None,
+														  radius = self.rodDia/2+gv.bushingNutRodGap))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch003.addConstraint(Sketcher.Constraint('Coincident',-3,3,6,3)) 
 		App.ActiveDocument.recompute()

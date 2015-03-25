@@ -814,16 +814,12 @@ class XEndZRodHolder(object):
 														  0,0,
 														  None, None)
 		App.ActiveDocument.recompute()
-		App.activeDocument().Sketch007.Support = (App.ActiveDocument.Pocket002,["Face3"])
-		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch007')
 		App.ActiveDocument.Sketch007.addExternal("Pocket002",uf.getEdge(App.ActiveDocument.Pocket002, 
 														  gv.xRodClampWidth/2,1,
 														  0,0,
 														  None,None,
 														  radius = nutTrapOuterRadius))
-		App.ActiveDocument.recompute()
-		#App.ActiveDocument.Sketch007.addExternal("Pocket002","Edge17")
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch007.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.recompute()

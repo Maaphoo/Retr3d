@@ -92,7 +92,14 @@ def getFace(feature, x, compX, y, compY, z, compZ):
 		raise Exception("getFace() error: No such face exists.")
 
 
-def getEdge(feature, x, compX, y, compY, z, compZ, radius = None,  face = None):
+def getEdge(feature, 
+			x, compX, 
+			y, compY, 
+			z, compZ, 
+			radius = None,  
+			face = None,
+			center = None,
+			makeUnique = None):
 	possibleEdges = []
 	for i in range(len(feature.Shape.Edges)):
 		possibleEdges.append([feature.Shape.Edges[i], i])
@@ -178,7 +185,28 @@ def getEdge(feature, x, compX, y, compY, z, compZ, radius = None,  face = None):
 				possibleEdges.pop(i)
 			else:
 				i = i+1
-		
+
+	if center is not None:
+		if center[0] is not None:
+			while i < len(possibleEdges):
+				if not hasattr(possibleEdges[i][0].Curve, 'Center') or abs(possibleEdges[i][0].Curve.Center[0]-center[0])>0.0001:
+					possibleEdges.pop(i)
+				else:
+					i = i+1
+		if center[1] is not None:
+			while i < len(possibleEdges):
+				if not hasattr(possibleEdges[i][0].Curve, 'Center') or abs(possibleEdges[i][0].Curve.Center[1]-center[1])>0.0001:
+					possibleEdges.pop(i)
+				else:
+					i = i+1
+		if center[0] is not None:
+			while i < len(possibleEdges):
+				if not hasattr(possibleEdges[i][0].Curve, 'Center') or abs(possibleEdges[i][0].Curve.Center[2]-center[2])>0.0001:
+					possibleEdges.pop(i)
+				else:
+					i = i+1
+	if makeUnique is not None:
+		possibleEdges = possibleEdges[:1]
 	
 	#return possibleEdges		
 	if len(possibleEdges) == 1:
