@@ -15,6 +15,7 @@ import datetime
 #sys.path.append("/Applications/FreeCAD.app/Contents/lib")
 
 #Change the following line to locate the folder containing the printer building scripts
+#Make sure to use forward slashes like this '/' and not back slashes like this '\'
 sys.path.append("/Path/To/Ewaste3DPrinter/Scripts")
 
 #import FreeCAD modules
