@@ -25,7 +25,7 @@ printerDir = "/Path/To/Storage/"
 
 ## Tests
 To begin creating a printer from the default options, open FreeCAD. Next, select “Macros ...” from the “Macro” menu. 
-![Select "Macros ..."](https://lh3.googleusercontent.com/O9e0HsROmCFzLtuzcpOc87OhGPswPKwzjDplyqK93QpiUlyKbKdnubarQUsOqm8fUj5qDLUsMiRqPTs=w1589-h803)
+![Select "Macros ..."](https://github.com/masterperson40/ewaste3Dprinter/raw/master/docs/picture1.png)
 Next, select the folder where “makePrinter.py” is stored. 
 ![Select "makePrinter.py"](https://lh6.googleusercontent.com/I63bN7BDa9EMybgh__SmlURmuiYsXLhYEAOhAGnsAAXsX4DqzO4QX1GoKwZWB8vp2LVgGKmpsLx9lsE=w1589-h803)
 Finally, select “makePrinter.py” for the available options. After that, hit “Execute” to create a printer.
