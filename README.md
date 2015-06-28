@@ -27,9 +27,9 @@ printerDir = "/Path/To/Storage/"
 To begin creating a printer from the default options, open FreeCAD. Next, select “Macros ...” from the “Macro” menu. 
 ![Select "Macros ..."](https://github.com/masterperson40/ewaste3Dprinter/raw/master/docs/picture1.png)
 Next, select the folder where “makePrinter.py” is stored. 
-![Select "makePrinter.py"](https://lh6.googleusercontent.com/I63bN7BDa9EMybgh__SmlURmuiYsXLhYEAOhAGnsAAXsX4DqzO4QX1GoKwZWB8vp2LVgGKmpsLx9lsE=w1589-h803)
+![Select "makePrinter.py"](https://github.com/masterperson40/ewaste3Dprinter/raw/master/docs/picture2.png)
 Finally, select “makePrinter.py” for the available options. After that, hit “Execute” to create a printer.
-![Hit "Execute"](https://lh6.googleusercontent.com/6NdGxz5WCIsxR50sfgF1qnAI7zkOqfb-EYpmZPtXgHeDylJOcZD-yCDUagLcyB8WA2GJImgDp4zii3U=w1589-h803)
+![Hit "Execute"](https://github.com/masterperson40/ewaste3Dprinter/raw/master/docs/picture3.png)
 If everything was installed correctly, you should now have something that looks like this:
-![printer](https://lh5.googleusercontent.com/gXp69VK3aqnqGIn4yDWoo0-yhGSBShtYpqfECXkantRT7EmWuenbdsjvVGkm2J8bYA8F0gvLBQPLL9A=w1589-h803)
+![printer](https://github.com/masterperson40/ewaste3Dprinter/raw/master/docs/picture4.png)
 Remember, it might take a while for your printer to be modeled. Please be patient. 
