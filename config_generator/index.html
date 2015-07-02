@@ -10,6 +10,7 @@
         </script>
         <script>
         function download() {
+        generate();
 var textFile = null,
   makeTextFile = function (text) {
     var data = new Blob([text], {type: 'text/plain'});
@@ -451,230 +452,230 @@ var textFile = null,
             <div class="listControl">
                 <a id="expandList">Expand All</a>
                 <a id="collapseList">Collapse All</a>
-                <a id="create" onclick="download()">Create file</button><a download="globalVars.py" id="downloadlink" style="display: none">Download</a>
+                <a id="create" onclick="download()">Create file</button><a download="globalVars.py" id="downloadlink" onclick="hideDownload()" style="display: none">Download</a>
             </div>
             <a download="globalVars.py" id="downloadlink" style="display: none">Download</a>
             <ul id="expList">
             <li>X Rod<ul><li><li>Picture<ul><li><img src="./img/xRod.png" height="500" /></li></ul></li><li> <span><table class="table table-bordered">
                 
-		  <tr><td>Top X Rod Diameter</td><td><input onchange="generate()" onfocus="hideDownload()" id="xRodDiaTop" value="7.9" /></td></tr>
-                  <tr><td>Bottom X Rod Diameter</td><td><input onchange="generate()" onfocus="hideDownload()" onchange="generate()" id="xRodDiaBottom" value="7.9" /></td></tr>
-                  <tr><td>Length of the Shorter Rod</td><td><input onchange="generate()" onfocus="hideDownload()" id="xRodLength" value="400" /></td></tr></table></span><br />
+		  <tr><td>Top X Rod Diameter</td><td><input onfocus="hideDownload()" id="xRodDiaTop" value="7.9" /></td></tr>
+                  <tr><td>Bottom X Rod Diameter</td><td><input onfocus="hideDownload()" onchange="generate()" id="xRodDiaBottom" value="7.9" /></td></tr>
+                  <tr><td>Length of the Shorter Rod</td><td><input onfocus="hideDownload()" id="xRodLength" value="400" /></td></tr></table></span><br />
                   
             </li></li></ul></li>
             <li>Y Rod<ul><li><li>Picture<ul><li><img src="./img/yRod.png" height="500" /></li></ul></li><li> <span><table class="table table-bordered">
                 
-		  <tr><td>Left Y Rod Diameter</td><td><input onchange="generate()" onfocus="hideDownload()" id="yRodDiaL" value="12.7" /></td></tr>
-                  <tr><td>Right Y Rod Diameter</td><td><input onchange="generate()" onfocus="hideDownload()" id="yRodDiaR" value="12.7" /></td></tr>
-                  <tr><td>Length of the Shorter Rod</td><td><input onchange="generate()" onfocus="hideDownload()" id="yRodLength" value="460" /></td></tr></table></span><br />
+		  <tr><td>Left Y Rod Diameter</td><td><input onfocus="hideDownload()" id="yRodDiaL" value="12.7" /></td></tr>
+                  <tr><td>Right Y Rod Diameter</td><td><input onfocus="hideDownload()" id="yRodDiaR" value="12.7" /></td></tr>
+                  <tr><td>Length of the Shorter Rod</td><td><input onfocus="hideDownload()" id="yRodLength" value="460" /></td></tr></table></span><br />
                   
             </li></li></ul></li>
             <li>Z Rod<ul><li><li>Picture<ul><li><img src="./img/zRod.png" height="500" /></li></ul></li><li> <span><table class="table table-bordered">
                 
-		  <tr><td>Right Z Rod Diameter</td><td><input onchange="generate()" onfocus="hideDownload()" id="zRodDiaR" value="12.7" /></td></tr>
-                  <tr><td>Left Z Rod Diameter</td><td><input onchange="generate()" onfocus="hideDownload()" id="zRodDiaL" value="12.7" /></td></tr>
-                  <tr><td>Length of the Shorter Rod</td><td><input onchange="generate()" onfocus="hideDownload()" id="zRodLength" value="460" /></td></tr></table></span><br />
+		  <tr><td>Right Z Rod Diameter</td><td><input onfocus="hideDownload()" id="zRodDiaR" value="12.7" /></td></tr>
+                  <tr><td>Left Z Rod Diameter</td><td><input onfocus="hideDownload()" id="zRodDiaL" value="12.7" /></td></tr>
+                  <tr><td>Length of the Shorter Rod</td><td><input onfocus="hideDownload()" id="zRodLength" value="460" /></td></tr></table></span><br />
                   
             </li></li></ul></li>
             
             <li>Lead Screw<ul><li><li>Picture<ul><li><img src="./img/leadScrew.png" height="200" /></li></ul></li><li> <span><table class="table table-bordered">
                 
-		  <tr><td>Lead Screw Diameter</td><td><input onchange="generate()" onfocus="hideDownload()" id="leadScrewDia" value="6.35" /></td></tr></table></span><br />
+		  <tr><td>Lead Screw Diameter</td><td><input onfocus="hideDownload()" id="leadScrewDia" value="6.35" /></td></tr></table></span><br />
                   
             </li></li></ul></li>
             
             <li>Frame<ul><li><li>Picture<ul><li><img src="./img/frame.png" height="500" /></li></ul></li><li> <span><table class="table table-bordered">
                 
-		  <tr><td>Frame Width</td><td><input onchange="generate()" onfocus="hideDownload()" id="frameWidth" value="20" /></td></tr>
-                  <tr><td>Frame Height</td><td><input onchange="generate()" onfocus="hideDownload()" id="frameHeight" value="19.05" /></td></tr>
-                  <tr><td>Frame Wall Thickness</td><td><input onchange="generate()" onfocus="hideDownload()" id="frameThickness" value="1.33" /></td></tr></table></span><br />
+		  <tr><td>Frame Width</td><td><input onfocus="hideDownload()" id="frameWidth" value="20" /></td></tr>
+                  <tr><td>Frame Height</td><td><input onfocus="hideDownload()" id="frameHeight" value="19.05" /></td></tr>
+                  <tr><td>Frame Wall Thickness</td><td><input onfocus="hideDownload()" id="frameThickness" value="1.33" /></td></tr></table></span><br />
                   
             </li></li></ul></li>
             
             <li>Mounting Hardware<ul><li><li>Picture<ul><li><img src="./img/hardware.png" height="500" /></li></ul></li><li> <span><table class="table table-bordered">
                 
-		  <tr><td>Printed Parts Mounting Hole Diameter</td><td><input onchange="generate()" onfocus="hideDownload()" id="mountToPrintedDia" value="3" /></td></tr>
-                  <tr><td>Frame Mounting Hole Diameter</td><td><input onchange="generate()" onfocus="hideDownload()" id="mountToFrameDia" value="4.12" /></td></tr></table></span><br />
+		  <tr><td>Printed Parts Mounting Hole Diameter</td><td><input onfocus="hideDownload()" id="mountToPrintedDia" value="3" /></td></tr>
+                  <tr><td>Frame Mounting Hole Diameter</td><td><input onfocus="hideDownload()" id="mountToFrameDia" value="4.12" /></td></tr></table></span><br />
                   
             </li></li></ul></li>
             
             <li>Print Bed<ul><li><li>Picture<ul><li><img src="./img/printbed.png" height="500" /></li></ul></li><li> <span><table class="table table-bordered">
                 
-		  <tr><td>Diameter of Mounting Bolts</td><td><input onchange="generate()" onfocus="hideDownload()" id="printBedMountHoleDia" value="3" /></td></tr>
-                  <tr><td>Thickness of the Heated Build Plate</td><td><input onchange="generate()" onfocus="hideDownload()" id="printBedThickness" value="1.5" /></td></tr></table></span><br />
+		  <tr><td>Diameter of Mounting Bolts</td><td><input onfocus="hideDownload()" id="printBedMountHoleDia" value="3" /></td></tr>
+                  <tr><td>Thickness of the Heated Build Plate</td><td><input onfocus="hideDownload()" id="printBedThickness" value="1.5" /></td></tr></table></span><br />
                   
             </li></li></ul></li>
             
             <li>Print Bed Busing Holder<ul><li><li>Picture<ul><li><img src="./img/printbedbusing.png" height="500" /></li></ul></li><li> <span><table class="table table-bordered">
                 
-		  <tr><td>The Width of the Print Bed Bushing Support</td><td><input onchange="generate()" onfocus="hideDownload()" id="printBedBusingSupportWidth" value="None" /></td></tr>
-		  <tr><td>Print Bed Busing Holder Max Face to Face</td><td><input onchange="generate()" onfocus="hideDownload()" id="PBBHMaxFaceToFace" value="None" /></td></tr></table></span><br /><!--PBBHMaxFaceToFace = None   -->
+		  <tr><td>The Width of the Print Bed Bushing Support</td><td><input onfocus="hideDownload()" id="printBedBusingSupportWidth" value="None" /></td></tr>
+		  <tr><td>Print Bed Busing Holder Max Face to Face</td><td><input onfocus="hideDownload()" id="PBBHMaxFaceToFace" value="None" /></td></tr></table></span><br /><!--PBBHMaxFaceToFace = None   -->
                   
             </li></li></ul></li>
             
             <li>Print Bed Support<ul><li><li>Picture<ul><li><img src="./img/printbedsupport.png" height="500" /></li></ul></li><li> <span><table class="table table-bordered">
                 
-		  <tr><td>Thickness of the Print Bed Support</td><td><input onchange="generate()" onfocus="hideDownload()" id="printBedSupportThickness" value="1.55" /></td></tr></table></span><br />
+		  <tr><td>Thickness of the Print Bed Support</td><td><input onfocus="hideDownload()" id="printBedSupportThickness" value="1.55" /></td></tr></table></span><br />
                   
             </li></li></ul></li>
             
             <li>X Rod Clamp<ul><li><li>Picture<ul><li><img src="./img/xrodclamp.png" height="500" /></li></ul></li><li> <span><table class="table table-bordered">
                 
-		  <tr><td>Diameter of the X Rod Clamp Idler Hole</td><td><input onchange="generate()" onfocus="hideDownload()" id="xRodClampIdlerHoleDia" value="3.5" /></td></tr></table></span><br />
+		  <tr><td>Diameter of the X Rod Clamp Idler Hole</td><td><input onfocus="hideDownload()" id="xRodClampIdlerHoleDia" value="3.5" /></td></tr></table></span><br />
                   
             </li></li></ul></li>
             
             <li>X End Motor Plate<ul><li><li>Picture<ul><li><img src="./img/xendmotorplate.png" height="500" /></li></ul></li><li> <span><table class="table table-bordered">
                 
-		  <tr><td>Diameter of the Idler Hole (As Apposed to the Printed Idler Hole which is Larger)</td><td><input onchange="generate()" onfocus="hideDownload()" id="xEndIdlerHoleDia" value="3" /></td></tr>
-                  <tr><td>X Motor Mount Thickness</td><td><input onchange="generate()" onfocus="hideDownload()" id="xMotorMountPlateThickness" value="3.175" /></td></tr>
-                  <tr><td>X Motor Mount Width</td><td><input onchange="generate()" onfocus="hideDownload()" id="xMotorMountPlateWidth" value="50.8" /></td></tr>
-                  <tr><td>Number of Mount Holes on the X End Motor Plate</td><td><input onchange="generate()" onfocus="hideDownload()" id="xEndNumMountHoles" value="4" /></td></tr>
-                  <tr><td>Distance from shaft to Mount Holes</td><td><input onchange="generate()" onfocus="hideDownload()" id="xEndShaftToMountHoleDist" value="21.92" /></td></tr>
-                  <tr><td>Diameter for Motor Mount Hole</td><td><input onchange="generate()" onfocus="hideDownload()" id="xEndMotorMountHoleDia" value="3" /></td></tr>
-                  <tr><td>Distance between Motor Mount Holes and the Edge of the plate</td><td><input onchange="generate()" onfocus="hideDownload()" id="xEndMotorMountHolePadding" value="4.4" /></td></tr>
-                  <tr><td>The Diameter of the X Motor Pully</td><td><input onchange="generate()" onfocus="hideDownload()" id="xMotorPulleyDia" value="12.1" /></td></tr></table></span><br />
+		  <tr><td>Diameter of the Idler Hole (As Apposed to the Printed Idler Hole which is Larger)</td><td><input onfocus="hideDownload()" id="xEndIdlerHoleDia" value="3" /></td></tr>
+                  <tr><td>X Motor Mount Thickness</td><td><input onfocus="hideDownload()" id="xMotorMountPlateThickness" value="3.175" /></td></tr>
+                  <tr><td>X Motor Mount Width</td><td><input onfocus="hideDownload()" id="xMotorMountPlateWidth" value="50.8" /></td></tr>
+                  <tr><td>Number of Mount Holes on the X End Motor Plate</td><td><input onfocus="hideDownload()" id="xEndNumMountHoles" value="4" /></td></tr>
+                  <tr><td>Distance from shaft to Mount Holes</td><td><input onfocus="hideDownload()" id="xEndShaftToMountHoleDist" value="21.92" /></td></tr>
+                  <tr><td>Diameter for Motor Mount Hole</td><td><input onfocus="hideDownload()" id="xEndMotorMountHoleDia" value="3" /></td></tr>
+                  <tr><td>Distance between Motor Mount Holes and the Edge of the plate</td><td><input onfocus="hideDownload()" id="xEndMotorMountHolePadding" value="4.4" /></td></tr>
+                  <tr><td>The Diameter of the X Motor Pully</td><td><input onfocus="hideDownload()" id="xMotorPulleyDia" value="12.1" /></td></tr></table></span><br />
                   
             </li></li></ul></li>
             
             <li>X End Z Rod Holder<ul><li><li>Picture<ul><li><img src="./img/xendzrodholder.png" height="500" /></li></ul></li><li> <span><table class="table table-bordered">
                 
-		  <tr><td>X End Z Rod Holder Thickness</td><td><input onchange="generate()" onfocus="hideDownload()" id="xEndZRodHolderFaceThickness" value="3" /></td></tr>
-                  <tr><td>Horizontal Distance From Edge of X End Z Rod Holder to the Edges of Mounting Holes</td><td><input onchange="generate()" onfocus="hideDownload()" id="xEndZRodHolderMountHoletoEdgePadding" value="3" /></td></tr>
-                  <tr><td>The Vertical Distance from the Edge of the Largest X Rod to the Edges of the Mounting Holes</td><td><input onchange="generate()" onfocus="hideDownload()" id="xEndZRodHolderMountHoleToRodPadding" value="1.5" /></td></tr>
-                  <tr><td>Thickness of the Z Offset Nut</td><td><input onchange="generate()" onfocus="hideDownload()" id="zOffsetNutThickness" value="3" /></td></tr>
-                  <tr><td>Distance from shaft to Mount Holes</td><td><input onchange="generate()" onfocus="hideDownload()" id="xEndShaftToMountHoleDist" value="21.92" /></td></tr>
-                  <tr><td>The Face to Face Distance of the Z Offset Nut</td><td><input onchange="generate()" onfocus="hideDownload()" id="zOffsetNutFaceToFace" value="5.6" /></td></tr>
-                  <tr><td>The Hole diemter of the Z Offset Bolt</td><td><input onchange="generate()" onfocus="hideDownload()" id="zOffsetHoleDia" value="3.5" /></td></tr></table></span><br />
+		  <tr><td>X End Z Rod Holder Thickness</td><td><input onfocus="hideDownload()" id="xEndZRodHolderFaceThickness" value="3" /></td></tr>
+                  <tr><td>Horizontal Distance From Edge of X End Z Rod Holder to the Edges of Mounting Holes</td><td><input onfocus="hideDownload()" id="xEndZRodHolderMountHoletoEdgePadding" value="3" /></td></tr>
+                  <tr><td>The Vertical Distance from the Edge of the Largest X Rod to the Edges of the Mounting Holes</td><td><input onfocus="hideDownload()" id="xEndZRodHolderMountHoleToRodPadding" value="1.5" /></td></tr>
+                  <tr><td>Thickness of the Z Offset Nut</td><td><input onfocus="hideDownload()" id="zOffsetNutThickness" value="3" /></td></tr>
+                  <tr><td>Distance from shaft to Mount Holes</td><td><input onfocus="hideDownload()" id="xEndShaftToMountHoleDist" value="21.92" /></td></tr>
+                  <tr><td>The Face to Face Distance of the Z Offset Nut</td><td><input onfocus="hideDownload()" id="zOffsetNutFaceToFace" value="5.6" /></td></tr>
+                  <tr><td>The Hole diemter of the Z Offset Bolt</td><td><input onfocus="hideDownload()" id="zOffsetHoleDia" value="3.5" /></td></tr></table></span><br />
                   
             </li></li></ul></li>
             
             <li>Z Motor Mount<ul><li><li>Picture<ul><li><img src="./img/zmotormount.png" height="500" /></li></ul></li><li> <span><table class="table table-bordered">
                 
-		  <tr><td>Number of Motor Mounting Holes</td><td><input onchange="generate()" onfocus="hideDownload()" id="zMotorMountHoles" value="4" /></td></tr>
-                  <tr><td>Distance Between the Motor Shaft and the Mounting Holes</td><td><input onchange="generate()" onfocus="hideDownload()" id="zShaftToMountHoleDist" value="21.92" /></td></tr>
-                  <tr><td>Diameter of the Mounting Holes</td><td><input onchange="generate()" onfocus="hideDownload()" id="zMotorMountHoleDia" value="3.5" /></td></tr>
-                  <tr><td>Minimum Space Between the Edge of the Motor Mounting Holes and the Edge of the Plate</td><td><input onchange="generate()" onfocus="hideDownload()" id="zMotorMountHolePadding" value="4.39" /></td></tr>
-                  <tr><td>Thickness of the Z Motor Mount Plate</td><td><input onchange="generate()" onfocus="hideDownload()" id="zMotorMountPlateThickness" value="6" /></td></tr>
-                  <tr><td>Width of the Z Motor Mount Plate</td><td><input onchange="generate()" onfocus="hideDownload()" id="zMotorMountPlateWidth" value="42.5" /></td></tr>
-                  <tr><td>Motor Mount Hole diameter</td><td><input onchange="generate()" onfocus="hideDownload()" id="zMotorMountShaftHoleDia" value="24" /></td></tr></table></span><br />
+		  <tr><td>Number of Motor Mounting Holes</td><td><input onfocus="hideDownload()" id="zMotorMountHoles" value="4" /></td></tr>
+                  <tr><td>Distance Between the Motor Shaft and the Mounting Holes</td><td><input onfocus="hideDownload()" id="zShaftToMountHoleDist" value="21.92" /></td></tr>
+                  <tr><td>Diameter of the Mounting Holes</td><td><input onfocus="hideDownload()" id="zMotorMountHoleDia" value="3.5" /></td></tr>
+                  <tr><td>Minimum Space Between the Edge of the Motor Mounting Holes and the Edge of the Plate</td><td><input onfocus="hideDownload()" id="zMotorMountHolePadding" value="4.39" /></td></tr>
+                  <tr><td>Thickness of the Z Motor Mount Plate</td><td><input onfocus="hideDownload()" id="zMotorMountPlateThickness" value="6" /></td></tr>
+                  <tr><td>Width of the Z Motor Mount Plate</td><td><input onfocus="hideDownload()" id="zMotorMountPlateWidth" value="42.5" /></td></tr>
+                  <tr><td>Motor Mount Hole diameter</td><td><input onfocus="hideDownload()" id="zMotorMountShaftHoleDia" value="24" /></td></tr></table></span><br />
                   
             </li></li></ul></li>
             
              <li>Y End Motor Plate<ul><li><li>Picture<ul><li><img src="./img/ymotormount.png" height="500" /></li></ul></li><li> <span><table class="table table-bordered">
                 
-		  <tr><td>Thickness of the Y Motor Mount Plate</td><td><input onchange="generate()" onfocus="hideDownload()" id="yMotorMountPlateThickness" value="6" /></td></tr>
-                  <tr><td>Y Motor Mount Width</td><td><input onchange="generate()" onfocus="hideDownload()" id="yMotorMountPlateWidth" value="57" /></td></tr>
-                  <tr><td>Number of Mount Holes on the Y Motor Mount</td><td><input onchange="generate()" onfocus="hideDownload()" id="yMotorMountHoles" value="4" /></td></tr>
-                  <tr><td>Distance from shaft to Mount Holes</td><td><input onchange="generate()" onfocus="hideDownload()" id="yShaftToMountHoleDist" value="33.195" /></td></tr>
-                  <tr><td>Diameter for Motor Mount Mounting Holes</td><td><input onchange="generate()" onfocus="hideDownload()" id="yMotorMountHoleDia" value="4.4" /></td></tr>
-                  <tr><td>Diameter for Motor Mount Shaft Hole</td><td><input onchange="generate()" onfocus="hideDownload()" id="yMotorMountShaftHoleDia" value="24" /></td></tr>
-                  <tr><td>Distance between Motor Mount Holes and the Edge of the plate</td><td><input onchange="generate()" onfocus="hideDownload()" id="yMotorMountHolePadding" value="4.39" /></td></tr>
-                  <tr><td>The Diameter of the Y Motor Pully</td><td><input onchange="generate()" onfocus="hideDownload()" id="yMotorPulleyDia" value="19.5" /></td></tr></table></span><br />
+		  <tr><td>Thickness of the Y Motor Mount Plate</td><td><input onfocus="hideDownload()" id="yMotorMountPlateThickness" value="6" /></td></tr>
+                  <tr><td>Y Motor Mount Width</td><td><input onfocus="hideDownload()" id="yMotorMountPlateWidth" value="57" /></td></tr>
+                  <tr><td>Number of Mount Holes on the Y Motor Mount</td><td><input onfocus="hideDownload()" id="yMotorMountHoles" value="4" /></td></tr>
+                  <tr><td>Distance from shaft to Mount Holes</td><td><input onfocus="hideDownload()" id="yShaftToMountHoleDist" value="33.195" /></td></tr>
+                  <tr><td>Diameter for Motor Mount Mounting Holes</td><td><input onfocus="hideDownload()" id="yMotorMountHoleDia" value="4.4" /></td></tr>
+                  <tr><td>Diameter for Motor Mount Shaft Hole</td><td><input onfocus="hideDownload()" id="yMotorMountShaftHoleDia" value="24" /></td></tr>
+                  <tr><td>Distance between Motor Mount Holes and the Edge of the plate</td><td><input onfocus="hideDownload()" id="yMotorMountHolePadding" value="4.39" /></td></tr>
+                  <tr><td>The Diameter of the Y Motor Pully</td><td><input onfocus="hideDownload()" id="yMotorPulleyDia" value="19.5" /></td></tr></table></span><br />
                   
             </li></li></ul></li>
             
             <li>Extruder Mount Plate<ul><li><li>Picture<ul><li><img src="./img/extrudermountplate.png" height="500" /></li></ul></li><li> <span><table class="table table-bordered">
                 
-		  <tr><td>Thickness of Extruder Mount Plate</td><td><input onchange="generate()" onfocus="hideDownload()" id="extruderMountPlateThickness" value="1.55" /></td></tr>
-                  <tr><td>Diameter of Hot End Mounting Holes</td><td><input onchange="generate()" onfocus="hideDownload()" id="hotEndMountHole" value="3" /></td></tr></table></span><br />
+		  <tr><td>Thickness of Extruder Mount Plate</td><td><input onfocus="hideDownload()" id="extruderMountPlateThickness" value="1.55" /></td></tr>
+                  <tr><td>Diameter of Hot End Mounting Holes</td><td><input onfocus="hideDownload()" id="hotEndMountHole" value="3" /></td></tr></table></span><br />
                   
             </li></li></ul></li>
             
             <li>Extruder Mount Angle Bracket<ul><li><li>Picture<ul><li><img src="./img/extrudermountangle.png" height="500" /></li></ul></li><li> <span><table class="table table-bordered">
                 
-		  <tr><td>Width of Angle Iron Used (Also known as L-Stock, Angle and Right Angle Stock)</td><td><input onchange="generate()" onfocus="hideDownload()" id="extruderMountAngleWidth" value="19.05" /></td></tr>
-                  <tr><td>Thickness of Angle Used</td><td><input onchange="generate()" onfocus="hideDownload()" id="extruderMountAngleThickness" value="3.175" /></td></tr></table></span><br />
+		  <tr><td>Width of Angle Iron Used (Also known as L-Stock, Angle and Right Angle Stock)</td><td><input onfocus="hideDownload()" id="extruderMountAngleWidth" value="19.05" /></td></tr>
+                  <tr><td>Thickness of Angle Used</td><td><input onfocus="hideDownload()" id="extruderMountAngleThickness" value="3.175" /></td></tr></table></span><br />
                   
             </li></li></ul></li>
             
              <li>Extruder<ul><li><li>Picture<ul><li><img src="./img/extruder.png" height="500" /></li></ul></li><li> <span><table class="table table-bordered">
                 
-		  <tr><td>Width of Extruder Body</td><td><input onchange="generate()" onfocus="hideDownload()" id="extruderWidth" value="78" /></td></tr>
-                  <tr><td>Required Depth for Mounting the Front Edge of the Extruder Body to Back Most Part of the Extruder</td><td><input onchange="generate()" onfocus="hideDownload()" id="extruderDepth" value="55" /></td></tr>
-                  <tr><td>Distance Between the Extruder's Mounting Holes</td><td><input onchange="generate()" onfocus="hideDownload()" id="extruderMountHoleSpacing" value="48" /></td></tr>
-                  <tr><td>Diameter of the Extruder Mounting Holes</td><td><input onchange="generate()" onfocus="hideDownload()" id="extruderMountHoleDia" value="3" /></td></tr>
-                  <tr><td>Diameter of the Extruder Filament Hole</td><td><input onchange="generate()" onfocus="hideDownload()" id="extruderFilamentHoleDia" value="4" /></td></tr>
-                  <tr><td>Distance from the Outer Edge of the Extruder to it's Center Line</td><td><input onchange="generate()" onfocus="hideDownload()" id="extruderEdgeToCenterLine" value="14" /></td></tr></table></span><br />
+		  <tr><td>Width of Extruder Body</td><td><input onfocus="hideDownload()" id="extruderWidth" value="78" /></td></tr>
+                  <tr><td>Required Depth for Mounting the Front Edge of the Extruder Body to Back Most Part of the Extruder</td><td><input onfocus="hideDownload()" id="extruderDepth" value="55" /></td></tr>
+                  <tr><td>Distance Between the Extruder's Mounting Holes</td><td><input onfocus="hideDownload()" id="extruderMountHoleSpacing" value="48" /></td></tr>
+                  <tr><td>Diameter of the Extruder Mounting Holes</td><td><input onfocus="hideDownload()" id="extruderMountHoleDia" value="3" /></td></tr>
+                  <tr><td>Diameter of the Extruder Filament Hole</td><td><input onfocus="hideDownload()" id="extruderFilamentHoleDia" value="4" /></td></tr>
+                  <tr><td>Distance from the Outer Edge of the Extruder to it's Center Line</td><td><input onfocus="hideDownload()" id="extruderEdgeToCenterLine" value="14" /></td></tr></table></span><br />
                   
             </li></li></ul></li>
             
             <li>Extruder Barrel<ul><li><li>Picture<ul><li><img src="./img/extruderbarrel.png" height="500" /></li></ul></li><li> <span><table class="table table-bordered">
                 
-		  <tr><td>Width of Extruder Body</td><td><input onchange="generate()" onfocus="hideDownload()" id="extruderBarrelDia" value="1*25.4" /></td></tr>
-                  <tr><td>Diameter of the Extruder Body</td><td><input onchange="generate()" onfocus="hideDownload()" id="extruderBarrelLength" value="42" /></td></tr>
-                  <tr><td>Diameter of the Teflon Barrel Liner</td><td><input onchange="generate()" onfocus="hideDownload()" id="extruderBarrelLinerDia" value="1/4*25.4" /></td></tr>
-                  <tr><td>Number of Cooling Fins (Not Including the Top and Bottom Faces)</td><td><input onchange="generate()" onfocus="hideDownload()" id="extruderBarrelNumFins" value="7" /></td></tr>
-                  <tr><td>Thickness of the Top and Bottom Faces</td><td><input onchange="generate()" onfocus="hideDownload()" id="extruderBarrelFaceThickness" value="3" /></td></tr>
-                  <tr><td>Thickness of Metal Around the Barrel Liner</td><td><input onchange="generate()" onfocus="hideDownload()" id="extruderBarrelCoreThickness" value="1.5" /></td></tr>
-                  <tr><td>Space Between Fins</td><td><input onchange="generate()" onfocus="hideDownload()" id="extruderBarrelFinGap" value="1/8*25.4" /></td></tr>
-                  <tr><td>Diameter of Mounting Holes for Extruder Barrel (A 2.5mm Hole Would Be Tapped To 3mm)</td><td><input onchange="generate()" onfocus="hideDownload()" id="extruderBarrelMountHoleDia" value="2.5" /></td></tr>
-                  <tr><td>Depth of Mounting Holes</td><td><input onchange="generate()" onfocus="hideDownload()" id="extruderBarrelMountHoleDepth" value="10" /></td></tr>
-                  <tr><td>Center to Center Distance Between the Hot End Mounting Holes</td><td><input onchange="generate()" onfocus="hideDownload()" id="hotEndMountHoleSpacing" value="20" /></td></tr></table></span><br />
+		  <tr><td>Width of Extruder Body</td><td><input onfocus="hideDownload()" id="extruderBarrelDia" value="1*25.4" /></td></tr>
+                  <tr><td>Diameter of the Extruder Body</td><td><input onfocus="hideDownload()" id="extruderBarrelLength" value="42" /></td></tr>
+                  <tr><td>Diameter of the Teflon Barrel Liner</td><td><input onfocus="hideDownload()" id="extruderBarrelLinerDia" value="1/4*25.4" /></td></tr>
+                  <tr><td>Number of Cooling Fins (Not Including the Top and Bottom Faces)</td><td><input onfocus="hideDownload()" id="extruderBarrelNumFins" value="7" /></td></tr>
+                  <tr><td>Thickness of the Top and Bottom Faces</td><td><input onfocus="hideDownload()" id="extruderBarrelFaceThickness" value="3" /></td></tr>
+                  <tr><td>Thickness of Metal Around the Barrel Liner</td><td><input onfocus="hideDownload()" id="extruderBarrelCoreThickness" value="1.5" /></td></tr>
+                  <tr><td>Space Between Fins</td><td><input onfocus="hideDownload()" id="extruderBarrelFinGap" value="1/8*25.4" /></td></tr>
+                  <tr><td>Diameter of Mounting Holes for Extruder Barrel (A 2.5mm Hole Would Be Tapped To 3mm)</td><td><input onfocus="hideDownload()" id="extruderBarrelMountHoleDia" value="2.5" /></td></tr>
+                  <tr><td>Depth of Mounting Holes</td><td><input onfocus="hideDownload()" id="extruderBarrelMountHoleDepth" value="10" /></td></tr>
+                  <tr><td>Center to Center Distance Between the Hot End Mounting Holes</td><td><input onfocus="hideDownload()" id="hotEndMountHoleSpacing" value="20" /></td></tr></table></span><br />
                   
             </li></li></ul></li>
             
             <li>Nozzle<ul><li><li>Picture<ul><li><img src="./img/nozzle.png" height="500" /></li></ul></li><li> <span><table class="table table-bordered">
                 
-		  <tr><td>Height of Nozzle Body</td><td><input onchange="generate()" onfocus="hideDownload()" id="nozzleBodyHeight" value="10" /></td></tr>
-		  <tr><td>Width of Nozzle Body</td><td><input onchange="generate()" onfocus="hideDownload()" id="nozzleBodyWidth" value="19.05" /></td></tr>
-		  <tr><td>Depth of Nozzle Body</td><td><input onchange="generate()" onfocus="hideDownload()" id="nozzleBodyDepth" value="12.7" /></td></tr>
-		  <tr><td>Diameter of Heater Resistor</td><td><input onchange="generate()" onfocus="hideDownload()" id="nozzleResistorDia" value="6.5" /></td></tr>
-		  <tr><td>Distance Between the Axis of the Resistor and the Outer Edge of the Heater Block</td><td><input onchange="generate()" onfocus="hideDownload()" id="nozzleResistorInset" value="5" /></td></tr>
-		  <tr><td>Diameter of Thermistor Bead</td><td><input onchange="generate()" onfocus="hideDownload()" id="nozzleThermistorDia" value="1.5" /></td></tr>
-		  <tr><td>Depth of Thermistor Mount Hole</td><td><input onchange="generate()" onfocus="hideDownload()" id="nozzleThermistorDepth" value="3" /></td></tr>
-		  <tr><td>Diameter of Thermistor Retainer Screw</td><td><input onchange="generate()" onfocus="hideDownload()" id="nozzleThermistorRetainerDia" value="2.5" /></td></tr>
-		  <tr><td>Depth of Thermistor Retainer Hole</td><td><input onchange="generate()" onfocus="hideDownload()" id="nozzleThermistorRetainerDepth" value="5" /></td></tr>
-		  <tr><td>Diameter of Nozzle</td><td><input onchange="generate()" onfocus="hideDownload()" id="nozzleDia" value=".4" /></td></tr>
-		  <tr><td>Diameter of Nozzle Base</td><td><input onchange="generate()" onfocus="hideDownload()" id="nozzleBaseDia" value="8.35" /></td></tr>
-		  <tr><td>Diameter of the Step Down from the Barrel Liner (A Bit Larger than the Filament Diameter)</td><td><input onchange="generate()" onfocus="hideDownload()" id="nozzleStepDia" value="3" /></td></tr>
-		  <tr><td>Distance from Tip of the Setp Hole to the Tip of Nozzle</td><td><input onchange="generate()" onfocus="hideDownload()" id="nozzleStepOffset" value="1" /></td></tr>
-		  <tr><td>Drill Point Angle of Drill Bits Used</td><td><input onchange="generate()" onfocus="hideDownload()" id="nozzleDrillAngle" value="118" /></td></tr>
-		  <tr><td>Diameter of the Flat Surrounding the Nozzle Hole</td><td><input onchange="generate()" onfocus="hideDownload()" id="nozzleTipDia" value="1" /></td></tr>
-		  <tr><td>Distance from the Lower Edge of Heater Block to the Center of Thermistor Hole</td><td><input onchange="generate()" onfocus="hideDownload()" id="nozzleThermistorHoleVertOffset" value="2" /></td></tr>
-                  <tr><td>Distance from the Outer Edge of the Heater Block to the Center of the Retainer Hole.</td><td><input onchange="generate()" onfocus="hideDownload()" id="nozzleThermistorRetainerHorizOffset" value="3" /></td></tr></table></span><br />
+		  <tr><td>Height of Nozzle Body</td><td><input onfocus="hideDownload()" id="nozzleBodyHeight" value="10" /></td></tr>
+		  <tr><td>Width of Nozzle Body</td><td><input onfocus="hideDownload()" id="nozzleBodyWidth" value="19.05" /></td></tr>
+		  <tr><td>Depth of Nozzle Body</td><td><input onfocus="hideDownload()" id="nozzleBodyDepth" value="12.7" /></td></tr>
+		  <tr><td>Diameter of Heater Resistor</td><td><input onfocus="hideDownload()" id="nozzleResistorDia" value="6.5" /></td></tr>
+		  <tr><td>Distance Between the Axis of the Resistor and the Outer Edge of the Heater Block</td><td><input onfocus="hideDownload()" id="nozzleResistorInset" value="5" /></td></tr>
+		  <tr><td>Diameter of Thermistor Bead</td><td><input onfocus="hideDownload()" id="nozzleThermistorDia" value="1.5" /></td></tr>
+		  <tr><td>Depth of Thermistor Mount Hole</td><td><input onfocus="hideDownload()" id="nozzleThermistorDepth" value="3" /></td></tr>
+		  <tr><td>Diameter of Thermistor Retainer Screw</td><td><input onfocus="hideDownload()" id="nozzleThermistorRetainerDia" value="2.5" /></td></tr>
+		  <tr><td>Depth of Thermistor Retainer Hole</td><td><input onfocus="hideDownload()" id="nozzleThermistorRetainerDepth" value="5" /></td></tr>
+		  <tr><td>Diameter of Nozzle</td><td><input onfocus="hideDownload()" id="nozzleDia" value=".4" /></td></tr>
+		  <tr><td>Diameter of Nozzle Base</td><td><input onfocus="hideDownload()" id="nozzleBaseDia" value="8.35" /></td></tr>
+		  <tr><td>Diameter of the Step Down from the Barrel Liner (A Bit Larger than the Filament Diameter)</td><td><input onfocus="hideDownload()" id="nozzleStepDia" value="3" /></td></tr>
+		  <tr><td>Distance from Tip of the Setp Hole to the Tip of Nozzle</td><td><input onfocus="hideDownload()" id="nozzleStepOffset" value="1" /></td></tr>
+		  <tr><td>Drill Point Angle of Drill Bits Used</td><td><input onfocus="hideDownload()" id="nozzleDrillAngle" value="118" /></td></tr>
+		  <tr><td>Diameter of the Flat Surrounding the Nozzle Hole</td><td><input onfocus="hideDownload()" id="nozzleTipDia" value="1" /></td></tr>
+		  <tr><td>Distance from the Lower Edge of Heater Block to the Center of Thermistor Hole</td><td><input onfocus="hideDownload()" id="nozzleThermistorHoleVertOffset" value="2" /></td></tr>
+                  <tr><td>Distance from the Outer Edge of the Heater Block to the Center of the Retainer Hole.</td><td><input onfocus="hideDownload()" id="nozzleThermistorRetainerHorizOffset" value="3" /></td></tr></table></span><br />
                   
             </li></li></ul></li>
             
             <li>Cross Bar<ul><li><li>Picture<ul><li><img src="./img/crossbar.png" height="500" /></li></ul></li><li> <span><table class="table table-bordered">
                 
-		  <tr><td>Diameter of Hole for Y Belt Idler</td><td><input onchange="generate()" onfocus="hideDownload()" id="yBeltIdlerHoleDia" value="6" /></td></tr></table></span><br />
+		  <tr><td>Diameter of Hole for Y Belt Idler</td><td><input onfocus="hideDownload()" id="yBeltIdlerHoleDia" value="6" /></td></tr></table></span><br />
                   
             </li></li></ul></li>
             
             <li>Frame Space<ul><li><li>Picture<ul><li><img src="./img/framespace.png" height="500" /></li></ul></li><li> <span><table class="table table-bordered">
 
-		  <tr><td>Length of Frame Spacers</td><td><input onchange="generate()" onfocus="hideDownload()" id="frameSpacerLength" value="90" /></td></tr>
-		  <tr><td>Distance Between the Edge of the Side Bar to the Edge of the Frame Spacer</td><td><input onchange="generate()" onfocus="hideDownload()" id="frameSpacerOffset" value="10" /></td></tr></table></span><br />
+		  <tr><td>Length of Frame Spacers</td><td><input onfocus="hideDownload()" id="frameSpacerLength" value="90" /></td></tr>
+		  <tr><td>Distance Between the Edge of the Side Bar to the Edge of the Frame Spacer</td><td><input onfocus="hideDownload()" id="frameSpacerOffset" value="10" /></td></tr></table></span><br />
                   
             </li></li></ul></li>
             
             <li>X End Stop<ul><li><li>Picture<ul><li><img src="./img/xendstop.png" height="500" /></li></ul></li><li> <span><table class="table table-bordered">
                 
-		  <tr><td>Height of End Stop Body</td><td><input onchange="generate()" onfocus="hideDownload()" id="xEndstopHeight" value="4.5" /></td></tr>
-		  <tr><td>Distance Between the Contact Strips (Surface to Surface not Center to Center)</td><td><input onchange="generate()" onfocus="hideDownload()" id="xEndstopContactSpacing" value="3" /></td></tr>
-		  <tr><td>Width of the Channels for the Metal Contact Strips</td><td><input onchange="generate()" onfocus="hideDownload()" id="xEndstopChannelWidth" value="0.5" /></td></tr>
-		  <tr><td>Depth of the Channels for the Metal Contact Strips</td><td><input onchange="generate()" onfocus="hideDownload()" id="xEndstopChannelDepth" value="3" /></td></tr>
-		  <tr><td>Minimum Distance Between the Edge of a Feature (Hole or Channel) and the Edge of the Endstop</td><td><input onchange="generate()" onfocus="hideDownload()" id="xEndstopPadding" value="1.5" /></td></tr>
-		  <tr><td>Thickness of Endstop Cap</td><td><input onchange="generate()" onfocus="hideDownload()" id="xEndstopCapThickness" value="2" /></td></tr></table></span><br />
+		  <tr><td>Height of End Stop Body</td><td><input onfocus="hideDownload()" id="xEndstopHeight" value="4.5" /></td></tr>
+		  <tr><td>Distance Between the Contact Strips (Surface to Surface not Center to Center)</td><td><input onfocus="hideDownload()" id="xEndstopContactSpacing" value="3" /></td></tr>
+		  <tr><td>Width of the Channels for the Metal Contact Strips</td><td><input onfocus="hideDownload()" id="xEndstopChannelWidth" value="0.5" /></td></tr>
+		  <tr><td>Depth of the Channels for the Metal Contact Strips</td><td><input onfocus="hideDownload()" id="xEndstopChannelDepth" value="3" /></td></tr>
+		  <tr><td>Minimum Distance Between the Edge of a Feature (Hole or Channel) and the Edge of the Endstop</td><td><input onfocus="hideDownload()" id="xEndstopPadding" value="1.5" /></td></tr>
+		  <tr><td>Thickness of Endstop Cap</td><td><input onfocus="hideDownload()" id="xEndstopCapThickness" value="2" /></td></tr></table></span><br />
                   
             </li></li></ul></li>
             
             <li>Z End Stop<ul><li><li>Picture<ul><li><img src="./img/zendstop.png" height="500" /></li></ul></li><li> <span><table class="table table-bordered">
               
-		  <tr><td>Width of the Jog Used to Trap Contacts</td><td><input onchange="generate()" onfocus="hideDownload()" id="zEndstopJogWidth" value="2" /></td></tr></table></span><br />
+		  <tr><td>Width of the Jog Used to Trap Contacts</td><td><input onfocus="hideDownload()" id="zEndstopJogWidth" value="2" /></td></tr></table></span><br />
                   
             </li></li></ul></li>
             
             <li>Lead Screw Coupler<ul><li><li>Picture<ul><li><img src="./img/leadscrewcoupler.png" height="500" /></li></ul></li><li> <span><table class="table table-bordered">
                 
-		  <tr><td>Length of the Lead Screw Couplers (Vertical Axis)</td><td><input onchange="generate()" onfocus="hideDownload()" id="leadScrewCouplerLength" value="25" /></td></tr>
-		  <tr><td>Space Above and Below the Leadscrewcoupler (To Stop Collisions with Z Motor Mount Plate or X Carriage)</td><td><input onchange="generate()" onfocus="hideDownload()" onchange="generate()" id="leadScrewCouplerGap" value="5" /></td></tr></table></span><br />
+		  <tr><td>Length of the Lead Screw Couplers (Vertical Axis)</td><td><input onfocus="hideDownload()" id="leadScrewCouplerLength" value="25" /></td></tr>
+		  <tr><td>Space Above and Below the Leadscrewcoupler (To Stop Collisions with Z Motor Mount Plate or X Carriage)</td><td><input onfocus="hideDownload()" onchange="generate()" id="leadScrewCouplerGap" value="5" /></td></tr></table></span><br />
                   
             </li></li></ul></li>
         </ul>
         </div>
-    <!--<input onchange="generate()" onfocus="hideDownload()" type="button" value="Click me" onclick="generate()" /><br />-->
+    <!--<input onfocus="hideDownload()" type="button" value="Click me" onclick="generate()" /><br />-->
     <textarea style="display:none;" id="python" cols="200" rows="500">yoyo</textarea><!--<button id="create" onclick="download()">Create file</button> <a download="globalVars.py" id="downloadlink" style="display: none">Download</a>-->
     </body>
 </html>
