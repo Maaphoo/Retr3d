@@ -589,26 +589,26 @@ var textFile = null,
                   
             </li></li></ul></li>
             
-             <li>Extruder<ul><li><li>Picture<ul><li><img src="./img/extruder.png" height="500" /></li></ul></li><li> <span><table class="table table-bordered">
+             <li>Extruder<ul><li><li>Picture<ul><li><img src="./img/extruder.png" height="500" /><img src="./img/extruder-specific.png" height="500" /></li></ul></li><li> <span><table class="table table-bordered">
                 
 		  <tr><td>Width of Extruder Body</td><td><input onfocus="hideDownload()" id="extruderWidth" value="78" /></td></tr>
                   <tr><td>Required Depth for Mounting the Front Edge of the Extruder Body to Back Most Part of the Extruder</td><td><input onfocus="hideDownload()" id="extruderDepth" value="55" /></td></tr>
                   <tr><td>Distance Between the Extruder's Mounting Holes</td><td><input onfocus="hideDownload()" id="extruderMountHoleSpacing" value="48" /></td></tr>
                   <tr><td>Diameter of the Extruder Mounting Holes</td><td><input onfocus="hideDownload()" id="extruderMountHoleDia" value="3" /></td></tr>
                   <tr><td>Diameter of the Extruder Filament Hole</td><td><input onfocus="hideDownload()" id="extruderFilamentHoleDia" value="4" /></td></tr>
-                  <tr><td>Distance from the Outer Edge of the Extruder to it's Center Line</td><td><input onfocus="hideDownload()" id="extruderEdgeToCenterLine" value="14" /></td></tr></table></span><br />
+                  <tr><td>Distance from the Outer Edge of the Extruder to it's Center Line (See Second Picture)</td><td><input onfocus="hideDownload()" id="extruderEdgeToCenterLine" value="14" /></td></tr></table></span><br />
                   
             </li></li></ul></li>
             
             <li>Extruder Barrel<ul><li><li>Picture<ul><li><img src="./img/extruderbarrel.png" height="500" /></li></ul></li><li> <span><table class="table table-bordered">
                 
-		  <tr><td>Width of Extruder Body</td><td><input onfocus="hideDownload()" id="extruderBarrelDia" value="1*25.4" /></td></tr>
+		  <tr><td>Width of Extruder Body</td><td><input onfocus="hideDownload()" id="extruderBarrelDia" value="25.4" /></td></tr>
                   <tr><td>Diameter of the Extruder Body</td><td><input onfocus="hideDownload()" id="extruderBarrelLength" value="42" /></td></tr>
-                  <tr><td>Diameter of the Teflon Barrel Liner</td><td><input onfocus="hideDownload()" id="extruderBarrelLinerDia" value="1/4*25.4" /></td></tr>
+                  <tr><td>Diameter of the Teflon Barrel Liner</td><td><input onfocus="hideDownload()" id="extruderBarrelLinerDia" value="6.35" /></td></tr>
                   <tr><td>Number of Cooling Fins (Not Including the Top and Bottom Faces)</td><td><input onfocus="hideDownload()" id="extruderBarrelNumFins" value="7" /></td></tr>
                   <tr><td>Thickness of the Top and Bottom Faces</td><td><input onfocus="hideDownload()" id="extruderBarrelFaceThickness" value="3" /></td></tr>
                   <tr><td>Thickness of Metal Around the Barrel Liner</td><td><input onfocus="hideDownload()" id="extruderBarrelCoreThickness" value="1.5" /></td></tr>
-                  <tr><td>Space Between Fins</td><td><input onfocus="hideDownload()" id="extruderBarrelFinGap" value="1/8*25.4" /></td></tr>
+                  <tr><td>Space Between Fins</td><td><input onfocus="hideDownload()" id="extruderBarrelFinGap" value="3.175" /></td></tr>
                   <tr><td>Diameter of Mounting Holes for Extruder Barrel (A 2.5mm Hole Would Be Tapped To 3mm)</td><td><input onfocus="hideDownload()" id="extruderBarrelMountHoleDia" value="2.5" /></td></tr>
                   <tr><td>Depth of Mounting Holes</td><td><input onfocus="hideDownload()" id="extruderBarrelMountHoleDepth" value="10" /></td></tr>
                   <tr><td>Center to Center Distance Between the Hot End Mounting Holes</td><td><input onfocus="hideDownload()" id="hotEndMountHoleSpacing" value="20" /></td></tr></table></span><br />
@@ -667,7 +667,7 @@ var textFile = null,
                   
             </li></li></ul></li>
             
-            <li>Lead Screw Coupler<ul><li><li>Picture<ul><li><img src="./img/leadscrewcoupler.png" height="500" /></li></ul></li><li> <span><table class="table table-bordered">
+            <li>Lead Screw Coupler<ul><li><li>Picture<ul><li><img src="./img/leadscrewcoupler.png" height="200" /></li></ul></li><li> <span><table class="table table-bordered">
                 
 		  <tr><td>Length of the Lead Screw Couplers (Vertical Axis)</td><td><input onfocus="hideDownload()" id="leadScrewCouplerLength" value="25" /></td></tr>
 		  <tr><td>Space Above and Below the Leadscrewcoupler (To Stop Collisions with Z Motor Mount Plate or X Carriage)</td><td><input onfocus="hideDownload()" onchange="generate()" id="leadScrewCouplerGap" value="5" /></td></tr></table></span><br />
@@ -676,6 +676,6 @@ var textFile = null,
         </ul>
         </div>
     <!--<input onfocus="hideDownload()" type="button" value="Click me" onclick="generate()" /><br />-->
-    <textarea style="display:none;" id="python" cols="200" rows="500">yoyo</textarea><!--<button id="create" onclick="download()">Create file</button> <a download="globalVars.py" id="downloadlink" style="display: none">Download</a>-->
+    <textarea style="display:none;" id="python" cols="200" rows="500">error, check input configurations</textarea><!--<button id="create" onclick="download()">Create file</button> <a download="globalVars.py" id="downloadlink" style="display: none">Download</a>-->
     </body>
 </html>
