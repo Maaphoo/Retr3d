@@ -5,9 +5,17 @@ function prepareList() {
     $('#expList').find('li:has(ul)')
     .click( function(event) {
         if (this == event.target) {
-            $(this).toggleClass('expanded');
-            $(this).children('ul').toggle('medium');
-        }
+	    if (this.className == 'collapsed') {
+	      $('.collapsed').removeClass('expanded');
+	      $('.collapsed').children().hide('medium');
+	      $(this).toggleClass('expanded');
+	      $(this).children('ul').toggle('medium');
+	    }else if (this.className == 'collapsed expanded'){
+	      $(this).toggleClass('expanded');
+	      $(this).children('ul').toggle('medium');
+	    }
+	  
+	}
         return false;
     })
     .addClass('collapsed')

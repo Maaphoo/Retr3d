@@ -5,7 +5,7 @@ body {
     background-color: beige;
     font-size: 16px;
     margin-top: 50px;
-    margin-bottom: 100px;
+    margin-bottom: 500px;
     margin-right: 150px;
     margin-left: 150px;
     
@@ -66,6 +66,9 @@ body {
 
 .listControl{
   margin-bottom: 15px;
+    position: fixed;
+    top: 30px;
+    right: 50px;
 }
 .listControl a {
     border: 1px solid #555555;
@@ -96,4 +99,11 @@ table{
     margin-left:auto;
     margin-right:auto;
     font-weight: normal;
+}
+
+img {opacity:0;
+-moz-transition: opacity .5s; /* Firefox 4 */
+-webkit-transition: opacity .5s; /* Safari and Chrome */
+-o-transition: opacity .5s;
+transition: opacity .5s;
 }
