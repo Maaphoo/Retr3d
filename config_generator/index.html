@@ -47,9 +47,9 @@ var textFile = null,
 
 	'#Change the following to the path to the directory that will hold your printer designs'+'\n'+
 	'#Make sure to use forward slashes like this / and not back slashes like this \\ '+'\n'+
-	'printerDir = "'+document.getElementById('partsLocation').value+'"'+'\n'+
+	'freecadDir = "'+document.getElementById('freecad').value+'"'+'\n'+
 	'scriptsDir = "'+document.getElementById('scriptLocation').value+'"'+'\n'+
-	'freecadDir = "'+document.getElementById('freecad').value+'"'+'\n'+ ///usr/lib/freecad/lib
+	'printerDir = "'+document.getElementById('partsLocation').value+'"'+'\n'+
 	' '+'\n'+
 	'#make test hole pattern. True if you would like the test hole pattern to be included in your stl files'+'\n'+
 	'printTestHolePattern = True'+'\n'+
@@ -468,7 +468,7 @@ var textFile = null,
         <div id="listContainer">
             <div class="listControl">
                 <!--<a id="expandList">Expand All</a><a id="collapseList">Collapse All</a> -->
-                <a id="create" onclick="download()" >Create file</button>
+                <a id="create" onclick="generate(),download()" >Create file</button>
                 <a download="globalVars.py" id="downloadlink" onclick="hideDownload()" style="display: none">Download</a>
             </div>
             <li><ul><li><li> <span><table class="table table-bordered">
