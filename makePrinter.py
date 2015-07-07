@@ -7,16 +7,17 @@ from itertools import product
 import os
 import sys
 import datetime
+import globalVars as gv
 
 #Change the following line to locate the folder containing FreeCAD's FreeCAD.so or FreeCAD.dll file
 #For Mac users it is inside the FreeCAD.app file. Use "show package contents" to locate it. .../FreeCAD.app/Contents/lib
 #For Windows users it is in the .../FreeCAD 0.xx/bin or .../FreeCAD 0.xx/lib folder
 #This actually shouldn't even be necessary
-#sys.path.append("/Applications/FreeCAD.app/Contents/lib")
+sys.path.append(gv.freecadDir)
 
 #Change the following line to locate the folder containing the printer building scripts
 #Make sure to use forward slashes like this '/' and not back slashes like this '\'
-sys.path.append("/Path/To/Ewaste3DPrinter/Scripts")
+sys.path.append(gv.scriptsDir)
 
 #import FreeCAD modules
 import FreeCAD as App
@@ -29,7 +30,6 @@ import Sketcher
 
 
 #import printer related
-import globalVars as gv
 import utilityFunctions as uf
 
 
