@@ -7,6 +7,11 @@ from itertools import product
 import os
 import sys
 import datetime
+
+#Change the following line to locate the folder containing the printer building scripts
+#Make sure to use forward slashes like this '/' and not back slashes like this '\'
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
 import globalVars as gv
 
 #Change the following line to locate the folder containing FreeCAD's FreeCAD.so or FreeCAD.dll file
@@ -15,9 +20,8 @@ import globalVars as gv
 #This actually shouldn't even be necessary
 sys.path.append(gv.freecadDir)
 
-#Change the following line to locate the folder containing the printer building scripts
-#Make sure to use forward slashes like this '/' and not back slashes like this '\'
-sys.path.append(gv.scriptsDir)
+
+
 
 #import FreeCAD modules
 import FreeCAD as App
@@ -70,6 +74,7 @@ import extruderBarrel
 import nozzle
 import xEndstop
 import zEndstop
+import plate
 
 #If any of the parameters have been changed, the includes must be reloaded
 #Normally, this would just be globalVariables because that is what would be changed,
@@ -115,6 +120,7 @@ if gv.reloadClasses:
 	reload(nozzle)
 	reload(xEndstop)
 	reload(zEndstop)
+	reload(plate)
 
 gv.reloadClasses = True	
 
@@ -674,4 +680,6 @@ Gui.ActiveDocument=Gui.getDocument("PrinterAssembly")
 
 uf.saveAssembly()
 
+if(gv.plate):
+    plate.plate()
 
