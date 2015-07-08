@@ -5,9 +5,9 @@ test = None
 
 #Change the following to the path to the directory that will hold your printer designs
 #Make sure to use forward slashes like this / and not back slashes like this \ 
-printerDir = "/home/master/Documents/ewaste/ewast2/"
-scriptsDir = "/home/master/Documents/ewaste/ewaste3dprinter/"
-freecadDir = "/usr/lib/freecad/lib"
+freecadDir = "/Path/To/FreeCAD/"
+scriptsDir = "/Path/To/Scripts/"
+printerDir = "/Path/For/3D/Models/"
  
 #make test hole pattern. True if you would like the test hole pattern to be included in your stl files
 printTestHolePattern = True
@@ -394,15 +394,13 @@ vertBarLength = None #CALCULATED The length of the vertical bar
 #Parts lists                                                                                                                                                               
 xAxisParts = []                                                                                                                                                            
 yAxisParts = []                                                                                                                                                            
-zAxisParts = []                  
-                                                                                                                                          
-#Plater Variables
-plate = True #To Plate or not to Plate, that is the Question
-platerName = 'plater.exe' #Name of actual Plater file, eg 'plater' 'plater.exe' 'plater.dmg'
-platerWidth = 150 #width, width of the plate, in mm (default 150)
-platerHeight = 150 #height of the plate, in mm (default 150)
-platerPrecision = 0.5 #precision, in mm (default 0.5)
-platerSpacing = 2 #parts spacing, in mm (default 2)
-platerDelta = 2 #sets the spacing of the brute forcing (see below), default 2mm
-platerRotation = 90 #sets the angle of the brute forcing, default 90
-
+zAxisParts = []                                                                                                                                                            
+#Plater Variables                                                                                                                                                          
+plate = False #To Plate or not to Plate, that is the Question                                                                                                               
+platerName = "plater" #Name of actual Plater file, eg "plater" "plater.exe" "plater.dmg"                                                                               
+platerWidth = 150 #width, width of the plate, in mm (default 150)                                                                                                          
+platerHeight = 150 #height of the plate, in mm (default 150)                                                                                                               
+platerPrecision = 0.5 #precision, in mm (default 0.5)                                                                                                                      
+platerSpacing = 2 #parts spacing, in mm (default 2)                                                                                                                        
+platerDelta = 2 #sets the spacing of the brute forcing (see below), default 2mm                                                                                            
+platerRotation = 2 #sets the angle of the brute forcing, default 90                                                                                                       
