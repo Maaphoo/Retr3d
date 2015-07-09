@@ -14,3 +14,6 @@ Finally, select “makePrinter.py” for the available options. After that, hit 
 If everything was installed correctly, you should now have something that looks like this:
 ![printer](https://github.com/masterperson40/ewaste3Dprinter/raw/master/docs/picture4.png)
 Remember, it might take a while for your printer to be modeled. Please be patient. 
+## Plate
+To facilitate an efficient workflow, E-Waste 3D Printer can now interface with [Plater](https://github.com/RobotsWar/Plater) to arrange parts in an extremely efficient manner. Make sure to put the appropriate version of plater in the "plater" folder. (Eg. plater.exe, plater.dmg, or plater)
+![Plater](https://github.com/masterperson40/ewaste3Dprinter/raw/master/docs/picture5.png)

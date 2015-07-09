@@ -248,7 +248,7 @@ def saveAssembly():
 	date = datetime.date.today().strftime("%m_%d_%Y")
 
 	#make the printer's directory if it doesn't exist
-	printerDir = gv.printerDir+"Printer "+date+"/"
+	printerDir = gv.printerDir+"Printer_"+date+"/"
 	if not os.path.exists(printerDir):
 		os.makedirs(printerDir)
 
@@ -263,7 +263,7 @@ def saveAndClose(name,saveSTL):
 	date = datetime.date.today().strftime("%m_%d_%Y")
 
 	#make the printer's directory if it doesn't exist
-	printerDir = gv.printerDir+"Printer "+date+"/"
+	printerDir = gv.printerDir+"Printer_"+date+"/"
 	if not os.path.exists(printerDir):
 		os.makedirs(printerDir)
 		
