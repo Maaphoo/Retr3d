@@ -5,9 +5,9 @@ test = None
 
 #Change the following to the path to the directory that will hold your printer designs
 #Make sure to use forward slashes like this / and not back slashes like this \ 
-freecadDir = "/Path/To/FreeCAD/"
-scriptsDir = "/Path/To/Scripts/"
-printerDir = "/Path/For/3D/Models/"
+freecadDir = "/Path/To/FreeCAD/Files/"
+scriptsDir = "/Path/To/Printer/Scripts/"
+printerDir = "/Path/To/Store/3D/Files/"
  
 #make test hole pattern. True if you would like the test hole pattern to be included in your stl files
 printTestHolePattern = True
@@ -395,6 +395,7 @@ vertBarLength = None #CALCULATED The length of the vertical bar
 xAxisParts = []                                                                                                                                                            
 yAxisParts = []                                                                                                                                                            
 zAxisParts = []                                                                                                                                                            
+
 #Plater Variables                                                                                                                                                          
 plate = False #To Plate or not to Plate, that is the Question                                                                                                               
 platerName = "plater" #Name of actual Plater file, eg "plater" "plater.exe" "plater.dmg"                                                                               
@@ -402,5 +403,10 @@ platerWidth = 150 #width, width of the plate, in mm (default 150)
 platerHeight = 150 #height of the plate, in mm (default 150)                                                                                                               
 platerPrecision = 0.5 #precision, in mm (default 0.5)                                                                                                                      
 platerSpacing = 2 #parts spacing, in mm (default 2)                                                                                                                        
-platerDelta = 2 #sets the spacing of the brute forcing (see below), default 2mm                                                                                            
-platerRotation = 2 #sets the angle of the brute forcing, default 90                                                                                                       
+platerDelta = 2 #sets the spacing of the brute forcing (see below), default 2mm                                                                                          
+platerRotation = 2 #sets the angle of the brute forcing, default 90     
+
+#Slic3r Variables                                                                                                                                                         
+slic3r = False #Slice or nah?                                                                                                                                             
+sli3erName = "slic3r" #Name of actual Slic3r file, eg "slic3r" "slic3r.exe" "slic3r.dmg"                                                                                  
+sli3erVars = ""                                                                                                                                                           
