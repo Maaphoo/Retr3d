@@ -683,3 +683,5 @@ uf.saveAssembly()
 if(gv.plate):
     plate.plate()
 
+if(gv.slic3r):
+    slic3r.slic3r()
