@@ -14,4 +14,4 @@ def slic3r():
     
     #Go Time, Start Plater
     os.system('mkdir '+printerDir+'GCode/')
-    os.system(os.path.dirname(os.path.abspath(__file__))+'/Slic3r/bin/'+sli3erName +' '+printerDir+'STL_Files/plate*.stl '+ sli3erVars +' '+'--output '+printerDir+'GCode/')
+    os.system(os.path.dirname(os.path.abspath(__file__))+'/Slic3r/bin/'+sli3erName +' '+printerDir+'STL_Files/*.stl '+ sli3erVars +' '+'--output '+printerDir+'GCode/')
