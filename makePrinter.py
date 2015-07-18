@@ -75,6 +75,8 @@ import nozzle
 import xEndstop
 import zEndstop
 import plate
+import slic3r
+import zipup
 
 #If any of the parameters have been changed, the includes must be reloaded
 #Normally, this would just be globalVariables because that is what would be changed,
@@ -121,6 +123,8 @@ if gv.reloadClasses:
 	reload(xEndstop)
 	reload(zEndstop)
 	reload(plate)
+	reload(slic3r)
+	reload(zipup)
 
 gv.reloadClasses = True	
 
@@ -685,3 +689,5 @@ if(gv.plate):
 
 if(gv.slic3r):
     slic3r.slic3r()
+
+zipup.zipup()
