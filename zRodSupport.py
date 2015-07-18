@@ -506,10 +506,11 @@ class ZRodSupport(object):
 														  0,0)
 		App.ActiveDocument.Sketch005.addExternal("Refined",uf.getEdge(App.ActiveDocument.Refined, 
  														  0,1,
+ 														  None, None,
  														  0, 0,
- 														  0, 0,
- 														  radius = gv.printedToPrintedDia/2))
-
+ 														  radius = gv.printedToPrintedDia/2,
+ 														  makeUnique = True))
+							
 		App.ActiveDocument.Sketch005.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch005.addGeometry(Part.Line(App.Vector(p2x,p2y,0),App.Vector(p3x,p3y,0)))
