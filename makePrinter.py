@@ -77,6 +77,7 @@ import zEndstop
 import plate
 import slic3r
 import zipup
+import draw
 
 #If any of the parameters have been changed, the includes must be reloaded
 #Normally, this would just be globalVariables because that is what would be changed,
@@ -125,6 +126,7 @@ if gv.reloadClasses:
 	reload(plate)
 	reload(slic3r)
 	reload(zipup)
+	reload(draw)
 
 gv.reloadClasses = True	
 
@@ -678,7 +680,7 @@ uf.saveAndClose("sideBarTopR", False)
 frameSpacers.draw()
 frameSpacers.assemble()
 uf.saveAndClose("frameSpacers", False)
-
+draw.setup("printBedSupport",'Pocket001')
 App.ActiveDocument=App.getDocument("PrinterAssembly")
 Gui.ActiveDocument=Gui.getDocument("PrinterAssembly")
 
