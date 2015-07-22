@@ -410,3 +410,6 @@ platerRotation = 2 #sets the angle of the brute forcing, default 90
 slic3r = False #Slice or nah?                                                                                                                                             
 sli3erName = "slic3r" #Name of actual Slic3r file, eg "slic3r" "slic3r.exe" "slic3r.dmg"                                                                                  
 sli3erVars = ""                                                                                                                                                           
+
+#Zip Variables
+zipName = "Printer_Files"
