@@ -28,8 +28,7 @@ This error is generated when running "makePrinter.py" directly from the command 
 
 #### raise Exception("getFace() error: No such face exists.")
 
-Due to the way FreeCAD assign's faces in its new versions, some users may have to downgrade to an earlier version. FreeCAD 0.14 Revision 
-2935 has been confirmed to work on a multitude of operating systems. 
+Due to the way FreeCAD assign's faces in its new versions, some users may have to downgrade to an earlier version. FreeCAD 0.14 Revision 2935 has been confirmed to work on a multitude of operating systems. 
 
 To downgrade on Debian Linux:
 ```
