@@ -78,6 +78,7 @@ import plate
 import slic3r
 import zipup
 import draw
+import checklist
 
 #If any of the parameters have been changed, the includes must be reloaded
 #Normally, this would just be globalVariables because that is what would be changed,
@@ -127,6 +128,7 @@ if gv.reloadClasses:
 	reload(slic3r)
 	reload(zipup)
 	reload(draw)
+	reload(checklist)
 
 gv.reloadClasses = True	
 
@@ -681,6 +683,9 @@ frameSpacers.draw()
 frameSpacers.assemble()
 uf.saveAndClose("frameSpacers", False)
 draw.setup("printBedSupport",'Pocket001')
+draw.setup("extruderMountPlate",'Pocket002')
+draw.setup("xEndIdlerPlate",'Pocket')
+draw.setup("xEndMotorPlate",'Pocket001')
 App.ActiveDocument=App.getDocument("PrinterAssembly")
 Gui.ActiveDocument=Gui.getDocument("PrinterAssembly")
 
@@ -691,5 +696,5 @@ if(gv.plate):
 
 if(gv.slic3r):
     slic3r.slic3r()
-
+checklist.create()
 zipup.zipup()

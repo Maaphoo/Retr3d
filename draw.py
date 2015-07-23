@@ -1,5 +1,4 @@
 import sys
-sys.path.append('/usr/lib/freecad/lib')
 import FreeCAD, Part, Drawing
 import FreeCAD as App
 import FreeCADGui as Gui
