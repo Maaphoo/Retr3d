@@ -26,7 +26,15 @@ E-Waste 3D Printer can also interface with [Slic3r](https://github.com/alexrj/Sl
 #### AttributeError: 'module' object has no attribute 'getDocument'
 This error is generated when running "makePrinter.py" directly from the command line. To fix, follow the instructions under "Getting Started" to run "makePrinter.py" as a FreeCAD macro. 
 
+#### raise Exception("getFace() error: No such face exists.")
 
+Due to the way FreeCAD assign's faces in its new versions, some users may have to downgrade to an earlier version. FreeCAD 0.14 Revision 
+2935 has been confirmed to work on a multitude of operating systems. 
+
+To downgrade on Debian Linux:
+```
+sudo apt-get install freecad=0.13.2935-dfsg-1.1build1
+```
 
 
 
