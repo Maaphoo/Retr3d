@@ -1,4 +1,10 @@
-# E-Waste 3D Printer
+
+## Notice
+E-Waste 3D Printer is now **Retr3d**, pronounced just like "Retread." This change reflects the "Retreading" of 2D printers with a Z-Axis.
+_____________
+
+
+# Retr3d
 In 2009, discarded TVs, computers, peripherals (including printers, scanners, fax machines) mice, keyboards, and cell phones totalled about 2.37 million short tons. Most of our e-waste ends up in landfills—mostly in the developing world—where toxic metals leach into the environment. This open source project aims to convert some of that e-waste into usable 3D printers. 
 ## Software
 E-Waste 3D Printer uses python and FreeCAD to 3D model printable parts for the construction of more 3D printers. Through globalVars.py dimensions of procured e-waste are turned into customized 3D models. E-Waste 3D Printer's software depends on FreeCAD's python scripting API. FreeCAD can be found [here](http://www.freecadweb.org/wiki/index.php?title=Download "Download FreeCAD").
