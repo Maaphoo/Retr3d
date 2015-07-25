@@ -9,9 +9,13 @@ def slic3r():
     printerDir = gv.printerDir+"Printer_"+date+"/"
     
     #Name Variables
-    sli3erName = gv.sli3erName
-    sli3erVars = gv.sli3erVars
-    
-    #Go Time, Start Plater
-    os.system('mkdir '+printerDir+'GCode/')
-    os.system(os.path.dirname(os.path.abspath(__file__))+'/Slic3r/bin/'+sli3erName +' '+printerDir+'STL_Files/*.stl '+ sli3erVars +' '+'--output '+printerDir+'GCode/')
+    slic3rName = gv.slic3rName
+    slic3rVars = gv.slic3rVars
+
+    #Go Time, Start Slic3r
+    os.system('mkdir '+printerDir+'GCode/') 
+#    if not os.path.exists(printerDir+'GCode/'):
+#        os.makedirs(printerDir+'GCode/')
+
+    #Slice all stl files
+    os.system(os.path.abspath(os.path.join(os.path.dirname(__file__),"."))+'/Slic3r/'+slic3rName+' '+printerDir+'STL_Files/*.stl '+ slic3rVars +' --output '+printerDir+'GCode/')

@@ -598,7 +598,7 @@ del gv.zAxisParts[:]
 	
 #Make file for assembly
 uf.makeAssemblyFile()
-
+ 
 #Make components for x-Axis, add to assembly, save and close
 xRodBottom.draw()
 xRodBottom.assemble()
@@ -643,12 +643,12 @@ xEndstop.draw()
 xEndstop.assemble()
 uf.saveAndClose("xEndstop",True)
 uf.saveAndClose("xEndstopCap",True)
- 
- 
+  
+  
 uf.positionXAxis()
- 
+  
 #Make components for ZAxis, add to assembly, save and close#
- 
+  
 zRodL.draw()
 zRodL.assemble()
 uf.saveAndClose("zRodL",False)
@@ -669,12 +669,12 @@ uf.saveAndClose("zMotorMount",True)
 zEndstop.draw()
 zEndstop.assemble()
 uf.saveAndClose("zEndstop",False)
-
+ 
 uf.positionZAxis()
-
-
+ 
+ 
 #Make components for yAxis, add to assembly, save and close#
-
+ 
 yRodL.draw()
 yRodL.assemble()
 uf.saveAndClose("yRodL",False)
@@ -707,8 +707,8 @@ yRodSupportL.draw()
 yRodSupportL.assemble()
 uf.saveAndClose("yRodSupportL", True)
 uf.saveAndClose("yRodSupportLClamp", True)
-
-
+ 
+ 
 #Make components for frame, add to assembly, save and close
 verticalBars.draw()
 verticalBars.assemble()
@@ -749,13 +749,16 @@ draw.setup("xEndIdlerPlate",'Pocket')
 draw.setup("xEndMotorPlate",'Pocket001')
 App.ActiveDocument=App.getDocument("PrinterAssembly")
 Gui.ActiveDocument=Gui.getDocument("PrinterAssembly")
-
+ 
 uf.saveAssembly()
 
 if(gv.plate):
     plate.plate()
 
+
 if(gv.slic3r):
     slic3r.slic3r()
+
+
 checklist.create()
 zipup.zipup()
