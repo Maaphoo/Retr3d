@@ -395,7 +395,7 @@ zAxisParts = []
 
 #Plater Variables                                                                                                                                                          
 plate = False #To Plate or not to Plate, that is the Question                                                                                                               
-platerName = "plater" #Name of actual Plater file, eg "plater" "plater.exe" "plater.dmg"                                                                               
+platerName = "plater" #Name of actual Plater file, eg "plater" "plater.exe" "plater.app"                                                                               
 platerWidth = 150 #width, width of the plate, in mm (default 150)                                                                                                          
 platerHeight = 150 #height of the plate, in mm (default 150)                                                                                                               
 platerPrecision = 0.5 #precision, in mm (default 0.5)                                                                                                                      
@@ -404,6 +404,7 @@ platerDelta = 2 #sets the spacing of the brute forcing (see below), default 2mm
 platerRotation = 2 #sets the angle of the brute forcing, default 90     
 
 #Slic3r Variables                                                                                                                                                         
+<<<<<<< HEAD
 slic3r = True #Slice or nah?          
 # Note: you might need to replace the value of slic3rName with the name and/or path to the Slic3r executable which might be:
 # 
@@ -413,6 +414,11 @@ slic3r = True #Slice or nah?
 #     perl slic3r.pl on all platforms if you're running from git/source code                                                                                                                        
 slic3rName = "Slic3r.app/Contents/MacOS/slic3r" #Name of actual Slic3r file, eg "slic3r" "slic3r.exe" "slic3r.app"                                                                                  
 slic3rVars = ""                                                                                                                                                           
+=======
+slic3r = False #Slice or nah?                                                                                                                                             
+sli3erName = "slic3r" #Name of actual Slic3r file, eg "slic3r" "slic3r.exe" "slic3r.app"                                                                                  
+sli3erVars = ""                                                                                                                                                           
+>>>>>>> c6feb5257a8aa254f42fa13bfca7cd5188fd27b9
 
 #Zip Variables
 zipName = "Printer_Files"

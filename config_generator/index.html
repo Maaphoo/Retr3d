@@ -439,7 +439,7 @@ var textFile = null,
 	'zAxisParts = []                                                                                                                                                            '+'\n'+'\n'+
         '#Plater Variables                                                                                                                                                          '+'\n'+
         'plate = '+document.getElementById('platerEnable').value+' #To Plate or not to Plate, that is the Question                                                                                                               '+'\n'+
-        'platerName = "'+document.getElementById('platerName').value+'" #Name of actual Plater file, eg "plater" "plater.exe" "plater.dmg"                                                                               '+'\n'+
+        'platerName = "'+document.getElementById('platerName').value+'" #Name of actual Plater file, eg "plater" "plater.exe" "plater.app"                                                                               '+'\n'+
         'platerWidth = '+document.getElementById('platerWidth').value+' #width, width of the plate, in mm (default 150)                                                                                                          '+'\n'+
         'platerHeight = '+document.getElementById('platerHeight').value+' #height of the plate, in mm (default 150)                                                                                                               '+'\n'+
         'platerPrecision = '+document.getElementById('platerPrecision').value+' #precision, in mm (default 0.5)                                                                                                                      '+'\n'+
@@ -448,7 +448,7 @@ var textFile = null,
         'platerRotation = '+document.getElementById('platerRotation').value+' #sets the angle of the brute forcing, default 90                                                     '+'\n'+'\n'+                                                
         '#Slic3r Variables                                                                                                                                                         '+'\n'+
 	'slic3r = '+document.getElementById('slic3rEnable').value+' #Slice or nah?                                                                                                                                             '+'\n'+
-	'sli3erName = "'+document.getElementById('slic3rName').value+'" #Name of actual Slic3r file, eg "slic3r" "slic3r.exe" "slic3r.dmg"                                                                                  '+'\n'+
+	'sli3erName = "'+document.getElementById('slic3rName').value+'" #Name of actual Slic3r file, eg "slic3r" "slic3r.exe" "slic3r.app"                                                                                  '+'\n'+
 	'sli3erVars = "'+document.getElementById('slic3rVars').value+'"                                                                                                                                                           '+'\n'+
         '                                                                                                                                                         '+'\n'+
 	'#Zip Variables                                                                                                                                            '+'\n'+
@@ -735,7 +735,7 @@ var textFile = null,
            <li>Plater Options<ul><li><span><table class="table table-bordered">
                 
 		  <tr><td>Enable</td><td><input onfocus="showPicture(500,'plater'),hideDownload()" onBlur="hidePicture('plater')" id="platerEnable" value="False" /></td></tr>
-		  <tr><td>Name of Plater executable, eg. 'plater' 'plater.exe' 'plater.dmg'</td><td><input onfocus="showPicture(500,'plater'),hideDownload()" onBlur="hidePicture('plater')" id="platerName" value="plater" /></td></tr>
+		  <tr><td>Name of Plater executable, eg. 'plater' 'plater.exe' 'plater.app'</td><td><input onfocus="showPicture(500,'plater'),hideDownload()" onBlur="hidePicture('plater')" id="platerName" value="plater" /></td></tr>
 		  <tr><td>Width of Printer Build Plate</td><td><input onfocus="showPicture(500,'plater'),hideDownload()" onBlur="hidePicture('plater')" id="platerWidth" value="150" /></td></tr>
 		  <tr><td>Height of Printer Build Plate</td><td><input onfocus="showPicture(500,'plater'),hideDownload()" onBlur="hidePicture('plater')" id="platerHeight" value="150" /></td></tr>
 		  <tr><td>Precision</td><td><input onfocus="showPicture(500,'plater'),hideDownload()" onBlur="hidePicture('plater')" id="platerPrecision" value="0.5" /></td></tr>
@@ -748,7 +748,7 @@ var textFile = null,
           <li>Slic3r Options<ul><li><span><table class="table table-bordered">
                 
 		  <tr><td>Enable</td><td><input onfocus="hideDownload()" id="slic3rEnable" value="False" /></td></tr>
-		  <tr><td>Name of Slic3r executable, eg. 'slic3r' 'slic3r.exe' 'slic3r.dmg'</td><td><input onfocus="hideDownload()" id="slic3rName" value="slic3r" /></td></tr>
+		  <tr><td>Name of Slic3r executable, eg. 'slic3r' 'slic3r.exe' 'slic3r.app'</td><td><input onfocus="hideDownload()" id="slic3rName" value="slic3r" /></td></tr>
 		  <tr><td>Slic3r Configuration</td><td /><input onfocus="hideDownload()" onBlur="hidePicture('slic3r')" id="slic3rVars" value="" /></td></tr></table></span><br />
            </li></ul></li>
            
