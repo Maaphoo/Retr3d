@@ -40,4 +40,3 @@ def plate():
     
     #Clean up after our self
     os.remove(printerDir+'STL_Files/plater.conf')  
-plate()
