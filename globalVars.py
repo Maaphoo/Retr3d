@@ -5,7 +5,10 @@ test = None
 
 #Change the following to the path to the directory that will hold your printer designs
 #Make sure to use forward slashes like this / and not back slashes like this \ 
- 
+freecadDir = "/Path/To/FreeCAD/Files/"
+scriptsDir = "/Path/To/Printer/Scripts/"
+printerDir = "/Path/To/Store/3D/Files/"
+
 #make test hole pattern. True if you would like the test hole pattern to be included in your stl files
 printTestHolePattern = True
  
@@ -404,7 +407,6 @@ platerDelta = 2 #sets the spacing of the brute forcing (see below), default 2mm
 platerRotation = 2 #sets the angle of the brute forcing, default 90     
 
 #Slic3r Variables                                                                                                                                                         
-<<<<<<< HEAD
 slic3r = True #Slice or nah?          
 # Note: you might need to replace the value of slic3rName with the name and/or path to the Slic3r executable which might be:
 # 
@@ -414,11 +416,7 @@ slic3r = True #Slice or nah?
 #     perl slic3r.pl on all platforms if you're running from git/source code                                                                                                                        
 slic3rName = "Slic3r.app/Contents/MacOS/slic3r" #Name of actual Slic3r file, eg "slic3r" "slic3r.exe" "slic3r.app"                                                                                  
 slic3rVars = ""                                                                                                                                                           
-=======
-slic3r = False #Slice or nah?                                                                                                                                             
-sli3erName = "slic3r" #Name of actual Slic3r file, eg "slic3r" "slic3r.exe" "slic3r.app"                                                                                  
-sli3erVars = ""                                                                                                                                                           
->>>>>>> c6feb5257a8aa254f42fa13bfca7cd5188fd27b9
+
 
 #Zip Variables
 zipName = "Printer_Files"
