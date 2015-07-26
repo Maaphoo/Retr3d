@@ -22,30 +22,29 @@ def slic3r():
     else:
       sli3erVars = gv.sli3erVars
     
-
+    #Remove files that might have been left over by plater
     for filename in os.listdir(printerDir+'STL_Files/'):
 	if not ('.stl' in filename):
 	    os.remove(printerDir+'STL_Files/'+filename)
      
-    
     #Go Time, Start Plater
     if not os.path.exists(printerDir+'GCode/'):
         os.makedirs(printerDir+'GCode/')
         
     if platform.system()=='Windows':
 	for filename in os.listdir(printerDir+'STL_Files/'):
-	    command = [os.path.dirname(os.path.abspath(__file__))+'/Slic3r/slic3r-console.exe', printerDir+'STL_Files/'+filename]
+	    command = [os.path.dirname(os.path.abspath(__file__))+'/Slic3r/slic3r-console.exe', '--output', printerDir+'GCode/', printerDir+'STL_Files/'+filename]
 	    for line in run(command):
 		print line.rstrip()
 	
     if platform.system()=='Darwin':    #OSX 
 	for filename in os.listdir(printerDir+'STL_Files/'):
-	    command = [os.path.dirname(os.path.abspath(__file__))+'/Slic3r/bin/Slic3r.app/Contents/MacOS/slic3r', printerDir+'STL_Files/'+filename]
+	    command = [os.path.dirname(os.path.abspath(__file__))+'/Slic3r/bin/Slic3r.app/Contents/MacOS/slic3r', '--output', printerDir+'GCode/', printerDir+'STL_Files/'+filename]
 	    for line in run(command):
 		print line.rstrip()
 	
     if platform.system()=='Linux':
         for filename in os.listdir(printerDir+'STL_Files/'):
-	    command = [os.path.dirname(os.path.abspath(__file__))+'/Slic3r/bin/slic3r', printerDir+'STL_Files/'+filename]
+	    command = [os.path.dirname(os.path.abspath(__file__))+'/Slic3r/bin/slic3r', '--output', printerDir+'GCode/', printerDir+'STL_Files/'+filename]
 	    for line in run(command):
-		print line.rstrip()
+		print line.rstrip()	
