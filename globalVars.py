@@ -398,7 +398,7 @@ zAxisParts = []
 
 #Plater Variables                                                                                                                                                          
 plate = False #To Plate or not to Plate, that is the Question                                                                                                               
-platerName = "plater" #Name of actual Plater file, eg "plater" "plater.exe" "plater.dmg"                                                                               
+platerName = "plater" #Name of actual Plater file, eg "plater" "plater.exe" "plater.app"                                                                               
 platerWidth = 150 #width, width of the plate, in mm (default 150)                                                                                                          
 platerHeight = 150 #height of the plate, in mm (default 150)                                                                                                               
 platerPrecision = 0.5 #precision, in mm (default 0.5)                                                                                                                      
@@ -408,5 +408,8 @@ platerRotation = 2 #sets the angle of the brute forcing, default 90
 
 #Slic3r Variables                                                                                                                                                         
 slic3r = False #Slice or nah?                                                                                                                                             
-sli3erName = "slic3r" #Name of actual Slic3r file, eg "slic3r" "slic3r.exe" "slic3r.dmg"                                                                                  
+sli3erName = "slic3r" #Name of actual Slic3r file, eg "slic3r" "slic3r.exe" "slic3r.app"                                                                                  
 sli3erVars = ""                                                                                                                                                           
+
+#Zip Variables
+zipName = "Printer_Files"

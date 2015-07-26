@@ -1,5 +1,5 @@
  #import Math stuff
-from __future__ import division # allows floating point division from integersimport math
+from __future__ import division # allows floating point division from integers
 import math
 from itertools import product
 
@@ -7,11 +7,34 @@ from itertools import product
 import os
 import sys
 import datetime
+import platform
+
+
+class colors:
+    if (os.getcwd() == os.path.dirname(os.path.abspath(__file__))):
+	HEADER = '\033[95m'
+	OKBLUE = '\033[94m'
+	OKGREEN = '\033[92m'
+	WARNING = '\033[93m'
+	FAIL = '\033[91m'
+	ENDC = '\033[0m'
+	BOLD = '\033[1m'
+	UNDERLINE = '\033[4m'
+    else:
+	HEADER = ''
+	OKBLUE = ''
+	OKGREEN = ''
+	WARNING = ''
+	FAIL = ''
+	ENDC = ''
+	BOLD = ''
+	UNDERLINE = ''
 
 #Change the following line to locate the folder containing the printer building scripts
 #Make sure to use forward slashes like this '/' and not back slashes like this '\'
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
+
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import globalVars as gv
 
 #Change the following line to locate the folder containing FreeCAD's FreeCAD.so or FreeCAD.dll file
@@ -20,16 +43,54 @@ import globalVars as gv
 #This actually shouldn't even be necessary
 sys.path.append(gv.freecadDir)
 
-
-
-
 #import FreeCAD modules
 import FreeCAD as App
 import FreeCADGui as Gui
 import Part
 import Sketcher
 
+VersionError = Exception("Version Error")
 
+if platform.system()=='Windows':
+  if (App.Version()[1]>'14'):
+	try:
+	    import FreeCADGui 
+	    FreeCADGui.showMainWindow()
+	    print "FreeCAD Version 0."+App.Version()[1]+" Revision "+App.Version()[2]
+	except AttributeError:
+	    FreeCAD.Console.PrintMessage("FreeCAD Version 0."+App.Version()[1]+" Revision "+App.Version()[2]+"\n")
+	pass
+      
+if platform.system()=='Darwin':    #OSX
+    if (App.Version()[1]>'14'):
+	try:
+	    import FreeCADGui 
+	    FreeCADGui.showMainWindow()
+	    print "FreeCAD Version 0."+App.Version()[1]+" Revision "+App.Version()[2]
+	except AttributeError:
+	    FreeCAD.Console.PrintMessage("FreeCAD Version 0."+App.Version()[1]+" Revision "+App.Version()[2]+"\n")
+	pass
+      
+if platform.system()=='Linux':
+    if (App.Version()[1]<'14'):
+	FreeCAD.Console.PrintMessage("FreeCAD Version 0."+App.Version()[1]+" Revision "+App.Version()[2]+"\n")
+	print colors.WARNING + "Retr3d has not been tested on FreeCAD version .13 and below. You are using version 0."+App.Version()[1]+". If problems ensue, please upgrade to versions .14 or .16." + colors.ENDC
+    if (App.Version()[1]=='14'):
+	FreeCAD.Console.PrintMessage("FreeCAD Version 0."+App.Version()[1]+" Revision "+App.Version()[2]+"\n")
+    if (App.Version()[1]=='15'):
+        print colors.FAIL + "Retr3d on Linux is not compatible with FreeCAD version .15. Please upgrade to .16 or downgrade to .14 to continue." + colors.ENDC
+        if (os.getcwd() == os.path.dirname(os.path.abspath(__file__))):
+	  raise SystemExit
+	else:
+	  raise VersionError
+    if (App.Version()[1]=='16'):
+	try:
+	    import FreeCADGui 
+	    FreeCADGui.showMainWindow()
+	    print "FreeCAD Version 0."+App.Version()[1]+" Revision "+App.Version()[2]
+	except AttributeError:
+	    FreeCAD.Console.PrintMessage("FreeCAD Version 0."+App.Version()[1]+" Revision "+App.Version()[2]+"\n")
+	pass
 
 
 
@@ -77,6 +138,8 @@ import zEndstop
 import plate
 import slic3r
 import zipup
+import draw
+import checklist
 
 #If any of the parameters have been changed, the includes must be reloaded
 #Normally, this would just be globalVariables because that is what would be changed,
@@ -125,6 +188,8 @@ if gv.reloadClasses:
 	reload(plate)
 	reload(slic3r)
 	reload(zipup)
+	reload(draw)
+	reload(checklist)
 
 gv.reloadClasses = True	
 
@@ -678,7 +743,10 @@ uf.saveAndClose("sideBarTopR", False)
 frameSpacers.draw()
 frameSpacers.assemble()
 uf.saveAndClose("frameSpacers", False)
-
+draw.setup("printBedSupport",'Pocket001')
+draw.setup("extruderMountPlate",'Pocket002')
+draw.setup("xEndIdlerPlate",'Pocket')
+draw.setup("xEndMotorPlate",'Pocket001')
 App.ActiveDocument=App.getDocument("PrinterAssembly")
 Gui.ActiveDocument=Gui.getDocument("PrinterAssembly")
 
@@ -689,5 +757,5 @@ if(gv.plate):
 
 if(gv.slic3r):
     slic3r.slic3r()
-
+checklist.create()
 zipup.zipup()

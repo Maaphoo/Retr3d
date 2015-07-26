@@ -1,0 +1,129 @@
+body {
+    background-color: beige;
+    margin-top: 50px;
+    margin-bottom: 500px;
+    margin-right: 150px;
+    margin-left: 150px;
+    
+}
+
+#content{
+  margin-top:25px;
+  margin-left:25px;
+}
+
+sub{
+    font-size: 12px;
+    position:relative;
+    bottom:10px;
+    left:10px
+}
+
+td{
+  padding-top:15px;
+  padding-right:5px;
+}
+
+label{
+    font-size: 18px;
+}
+#full{
+  width:100%;
+}
+
+#small-table{
+  width:50%;
+}
+
+@media print {
+    * { 
+      background: transparent !important; color: black !important; text-shadow: none !important; filter:none !important;
+    -ms-filter: none !important; } /* Black prints faster: sanbeiji.com/archives/953 */
+    tr, img { page-break-inside: avoid; }
+    @page { margin: 0.5cm; }
+    p, h2, h3 { orphans: 3; widows: 3; }
+    h2, h3{ page-break-after: avoid; }
+    
+    
+    input[type=checkbox].css-checkbox {
+    position:absolute; 
+    z-index:-1000; 
+    left:-1000px; 
+    overflow: hidden; 
+    clip: rect(0 0 0 0); 
+    height:1px; 
+    width:1px; 
+    margin:-1px; 
+    padding:0; 
+    border:0;
+  
+}
+
+input[type=checkbox].css-checkbox + label.css-label {
+    padding-left:39px;
+    height:34px; 
+    display:inline-block;
+    line-height:30px;
+    background-repeat:no-repeat;
+    background-position: 0 0;
+    vertical-align:middle;
+    cursor:pointer;
+  
+}
+
+input[type=checkbox].css-checkbox:checked + label.css-label {
+    background-position: 0 -34px;
+}
+						
+label.css-label {
+    background-image:url(checkbox.png);
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  
+}
+}
+
+input[type=checkbox].css-checkbox {
+    position:absolute; 
+    z-index:-1000; 
+    left:-1000px; 
+    overflow: hidden; 
+    clip: rect(0 0 0 0); 
+    height:1px; 
+    width:1px; 
+    margin:-1px; 
+    padding:0; 
+    border:0;
+  
+}
+
+input[type=checkbox].css-checkbox + label.css-label {
+    padding-left:39px;
+    height:34px; 
+    display:inline-block;
+    line-height:30px;
+    background-repeat:no-repeat;
+    background-position: 0 0;
+    vertical-align:middle;
+    cursor:pointer;
+  
+}
+
+input[type=checkbox].css-checkbox:checked + label.css-label {
+    background-position: 0 -34px;
+}
+						
+label.css-label {
+    background-image:url(checkbox.png);
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  
+}
