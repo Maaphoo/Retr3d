@@ -22,6 +22,12 @@ def slic3r():
     else:
       sli3erVars = gv.sli3erVars
     
+
+    for filename in os.listdir(printerDir+'STL_Files/'):
+	if not ('.stl' in filename):
+	    os.remove(printerDir+'STL_Files/'+filename)
+     
+    
     #Go Time, Start Plater
     if not os.path.exists(printerDir+'GCode/'):
         os.makedirs(printerDir+'GCode/')
