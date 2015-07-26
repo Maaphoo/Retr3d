@@ -16,7 +16,6 @@ def slic3r():
     printerDir = gv.printerDir+"Printer_"+date+"/"
     
     #Name Variables
-<<<<<<< HEAD
     sli3erName = gv.sli3erName
     if len(gv.sli3erVars)>1:
       sli3erVars = gv.sli3erVars.split( )
