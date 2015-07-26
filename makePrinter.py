@@ -76,7 +76,10 @@ if platform.system()=='Linux':
 	FreeCAD.Console.PrintMessage("FreeCAD Version 0."+App.Version()[1]+" Revision "+App.Version()[2]+"\n")
 	print colors.WARNING + "Retr3d has not been tested on FreeCAD version .13 and below. You are using version 0."+App.Version()[1]+". If problems ensue, please upgrade to versions .14 or .16." + colors.ENDC
     if (App.Version()[1]=='14'):
-	FreeCAD.Console.PrintMessage("FreeCAD Version 0."+App.Version()[1]+" Revision "+App.Version()[2]+"\n")
+	if not (os.getcwd() == os.path.dirname(os.path.abspath(__file__))):
+	    FreeCAD.Console.PrintMessage("FreeCAD Version 0."+App.Version()[1]+" Revision "+App.Version()[2]+"\n")
+	else:
+	    print colors.FAIL + "Retr3d on Linux is not compatible with FreeCAD version .14 for command line usage. Please upgrade to .16 to continue" + colors.ENDC
     if (App.Version()[1]=='15'):
         print colors.FAIL + "Retr3d on Linux is not compatible with FreeCAD version .15. Please upgrade to .16 or downgrade to .14 to continue." + colors.ENDC
         if (os.getcwd() == os.path.dirname(os.path.abspath(__file__))):
