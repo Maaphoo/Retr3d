@@ -4,13 +4,14 @@ import globalVars as gv
 import shutil
 import platform
 import subprocess
+import threading
 
 def run(command):
     p = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     return iter(p.stdout.readline, b'')
 
 
-def slic3r():
+def slic3(local_path):
     #Make dateString and add it to the directory string
     date = datetime.date.today().strftime("%m_%d_%Y")
     printerDir = gv.printerDir+"Printer_"+date+"/"
@@ -45,6 +46,13 @@ def slic3r():
 	
     if platform.system()=='Linux':
         for filename in os.listdir(printerDir+'STL_Files/'):
-	    command = [os.path.dirname(os.path.abspath(__file__))+'/Slic3r/bin/slic3r', '--output', printerDir+'GCode/', printerDir+'STL_Files/'+filename]
+	    command = [local_path+'/Slic3r/bin/slic3r', '--output', printerDir+'GCode/', printerDir+'STL_Files/'+filename]
 	    for line in run(command):
 		print line.rstrip()	
+
+def slic3r():
+    local_path = os.path.dirname(os.path.abspath(__file__))
+    threads = []
+    t = threading.Thread(target=slic3, args=(local_path,))
+    threads.append(t)
+    t.start()	
