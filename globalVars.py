@@ -5,10 +5,9 @@ test = None
 
 #Change the following to the path to the directory that will hold your printer designs
 #Make sure to use forward slashes like this / and not back slashes like this \ 
-freecadDir = "/Path/To/FreeCAD/Files/"
-scriptsDir = "/Path/To/Printer/Scripts/"
-printerDir = "/Path/To/Store/3D/Files/"
-
+freecadDir = "/Path/To/FreeCAD/"
+printerDir = "/Path/To/Store/3D/Files"
+ 
 #make test hole pattern. True if you would like the test hole pattern to be included in your stl files
 printTestHolePattern = True
  
@@ -22,16 +21,16 @@ xMotorBodyWidth = None 				#CALCULATED Width of the xMotors body
 xRodSpacing = None 					#CALCULATED The distance between the axes of the xRods. 
  
 #yRod vars
-yRodDiaL = 8.0 #Diameter of the top yRod
-yRodDiaR = 8.0 #Diameter of the bottom yRod
+yRodDiaL = 12.7 #Diameter of the top yRod
+yRodDiaR = 12.7 #Diameter of the bottom yRod
 yRodLength = 460 # Length of the shorter yRod
 yRodSpacing = None	#CALCULATED Distance between yRods
 yRodDiaMax = None 	#CALCULATED largest yRod diameter
 yBushingNutMaxThickness = None #Calculated The maximum thickness of the y bushing nuts
                                                                                             
 #zRod vars                                                                                  
-zRodDiaR = 6.0 #Diameter of the right zRod                                                   
-zRodDiaL = 6.0 #Diameter of the left zRod                                                 
+zRodDiaR = 12.7 #Diameter of the right zRod                                                   
+zRodDiaL = 12.7 #Diameter of the left zRod                                                 
 zRodLength = 460 #Length of the shorter zRod                                                
 zRodSpacing = None	#CALCULATED Distance between zRod axes                               
 zRodStandoff = None	#CALCULATED Distance between frame surface and zRod Axis             
@@ -404,13 +403,12 @@ platerHeight = 150 #height of the plate, in mm (default 150)
 platerPrecision = 0.5 #precision, in mm (default 0.5)                                                                                                                      
 platerSpacing = 2 #parts spacing, in mm (default 2)                                                                                                                        
 platerDelta = 2 #sets the spacing of the brute forcing (see below), default 2mm                                                                                          
-platerRotation = 2 #sets the angle of the brute forcing, default 90     
+platerRotation = 2 #sets the angle of the brute forcing, default 90                                                     
 
 #Slic3r Variables                                                                                                                                                         
-slic3r = True #Slice or nah?          
-slic3rName = "" #Name of actual Slic3r file, eg "slic3r" "slic3r.exe" "slic3r.app"                                                                                  
-slic3rVars = ""                                                                                                                                                           
-
-
-#Zip Variables
-zipName = "Printer_Files"
+slic3r = False #Slice or nah?                                                                                                                                             
+sli3erName = "slic3r" #Name of actual Slic3r file, eg "slic3r" "slic3r.exe" "slic3r.app"                                                                                  
+sli3erVars = ""                                                                                                                                                           
+                                                                                                                                                         
+#Zip Variables                                                                                                                                            
+zipName = "Printer_Files" #Name of zip file                                                                                  
