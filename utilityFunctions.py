@@ -17,14 +17,14 @@ import __main__
 import globalVars as gv
 if not os.path.exists(os.path.dirname(os.path.abspath(__file__))+'/logs/'):
     os.makedirs(os.path.dirname(os.path.abspath(__file__))+'/logs/')
-LOG_FILENAME = os.path.dirname(os.path.abspath(__file__))+'/logs/logging_example.out'
+LOG_FILENAME = os.path.dirname(os.path.abspath(__file__))+'/logs/retr3d.log'
 logging.basicConfig(filename=LOG_FILENAME, level=logging.DEBUG, filemode='w')
 
 logging.info('Retr3d Log File')
 logging.info('Version 0.1.0')
 
-def log(msg, source):
-  logging.getLogger(source).info(msg)
+def log(msg, level, source):
+  eval('logging.getLogger(source).'+level+'(msg)')
 
 def bold(msg,log):
   if log:
@@ -32,7 +32,10 @@ def bold(msg,log):
   if not platform.system()=='Windows' and os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
     print '\033[1m'+msg+'\x1b[0m'
   else:
-    print msg
+    if os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
+        print msg
+    else:
+	App.Console.PrintMessage(msg+'\n')
 
 def underline(msg,log):
   if log:
@@ -40,7 +43,10 @@ def underline(msg,log):
   if not platform.system()=='Windows' and os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
     print '\033[4m'+msg+'\x1b[0m'
   else:
-    print msg
+    if os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
+        print msg
+    else:
+	App.Console.PrintMessage(msg+'\n')
       
 def header(msg,log):
   if log:
@@ -48,7 +54,11 @@ def header(msg,log):
   if not platform.system()=='Windows' and os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
     print '\033[95m'+msg+'\x1b[0m'
   else:
-    print msg      
+    if os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
+        print msg
+    else:
+	App.Console.PrintMessage(msg+'\n')
+  
       
 def critical(msg,log,level,source):
   logging.getLogger(source).critical(log)
@@ -56,7 +66,10 @@ def critical(msg,log,level,source):
     if not platform.system()=='Windows' and os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
       print '\033[1m\033[31m'+msg+'\x1b[0m'
     else:
-      print 'Critical: '+msg
+      if os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
+	  print msg
+      else:
+	  App.Console.PrintError(msg+'\n')
 
 def error(msg,log,level,source):
   logging.getLogger(source).error(log)
@@ -64,7 +77,10 @@ def error(msg,log,level,source):
     if not platform.system()=='Windows' and os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
       print '\033[91m'+msg+'\x1b[0m'
     else:
-      print 'Error: '+msg
+      if os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
+	  print msg
+      else:
+	  App.Console.PrintError(msg+'\n')
 
 def warning(msg,log,level,source):
   logging.getLogger(source).warning(log)
@@ -72,7 +88,10 @@ def warning(msg,log,level,source):
     if not platform.system()=='Windows' and os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
       print '\033[93m'+msg+'\x1b[0m'
     else:
-      print 'Warning: '+msg
+      if os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
+	  print msg
+      else:
+	  App.Console.PrintWarning(msg+'\n')
 
 def info(msg,log,level,source):
   logging.getLogger(source).info(log)
@@ -80,15 +99,21 @@ def info(msg,log,level,source):
     if not platform.system()=='Windows' and os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
       print '\033[92m'+msg+'\x1b[0m'
     else:
-      print 'Info: '+msg
+      if os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
+	  print msg
+      else:
+	  App.Console.PrintMessage(msg+'\n')
 
 def debug(msg,log,level,source):
   logging.getLogger(source).debug(log)
   if level<=1:
     if not platform.system()=='Windows' and os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
       print '\033[94m'+msg+'\x1b[0m'  
-    else:
-      print 'Debug: '+msg
+  else:
+      if os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
+	  print msg
+      else:
+	  App.Console.PrintLog(msg+'\n')
 
 
 #FreeCAD related
@@ -103,26 +128,6 @@ import Draft
 import Part
 import Sketcher
 
-
-class colors:
-    if (os.getcwd() == os.path.dirname(os.path.abspath(__file__))):
-	HEADER = '\033[95m'
-	OKBLUE = '\033[94m'
-	OKGREEN = '\033[92m'
-	WARNING = '\033[93m'
-	FAIL = '\033[91m'
-	ENDC = '\033[0m'
-	BOLD = '\033[1m'
-	UNDERLINE = '\033[4m'
-    else:
-	HEADER = ''
-	OKBLUE = ''
-	OKGREEN = ''
-	WARNING = ''
-	FAIL = ''
-	ENDC = ''
-	BOLD = ''
-	UNDERLINE = ''
 
 def getFace(feature, x, compX, y, compY, z, compZ):
 	possibleFaces = []
