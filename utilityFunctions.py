@@ -15,7 +15,8 @@ import __main__
 
 #Specific to printer
 import globalVars as gv
-
+if not os.path.exists(os.path.dirname(os.path.abspath(__file__))+'/logs/'):
+    os.makedirs(os.path.dirname(os.path.abspath(__file__))+'/logs/')
 LOG_FILENAME = os.path.dirname(os.path.abspath(__file__))+'/logs/logging_example.out'
 logging.basicConfig(filename=LOG_FILENAME, level=logging.DEBUG, filemode='w')
 
