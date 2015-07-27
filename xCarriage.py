@@ -951,6 +951,7 @@ class XCarriage(object):
 		App.activeDocument().recompute()
 #		Gui.activeDocument().setEdit('Sketch009')
 		#App.ActiveDocument.Sketch009.addExternal("Pad002","Edge30")
+
 		App.ActiveDocument.Sketch009.addExternal("Pad002",uf.getEdge(App.ActiveDocument.Pad002, 
  																  gv.xCarriageWidth,0,
  																  height/2,-1,
@@ -960,6 +961,7 @@ class XCarriage(object):
 		App.ActiveDocument.Sketch009.addGeometry(Part.Line(App.Vector(p4x,p4y,0),App.Vector(p3x,p3y,0)))
 		App.ActiveDocument.Sketch009.addGeometry(Part.Line(App.Vector(p3x,p3y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.Sketch009.addGeometry(Part.Line(App.Vector(p2x,p2y,0),App.Vector(p1x,p1y,0)))
+		
 		App.ActiveDocument.Sketch009.addConstraint(Sketcher.Constraint('Coincident',0,2,1,1)) 
 		App.ActiveDocument.Sketch009.addConstraint(Sketcher.Constraint('Coincident',1,2,2,1)) 
 		App.ActiveDocument.Sketch009.addConstraint(Sketcher.Constraint('Coincident',2,2,3,1)) 
@@ -973,11 +975,11 @@ class XCarriage(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch009.addConstraint(Sketcher.Constraint('PointOnObject',1,2,-3)) 
 		App.ActiveDocument.recompute()
-		
+	
 		#Add Dimensions
 		App.ActiveDocument.Sketch009.addConstraint(Sketcher.Constraint('DistanceY',1,gv.xBeltAnchorThickness)) 
 		App.ActiveDocument.recompute()
-		App.ActiveDocument.Sketch009.addConstraint(Sketcher.Constraint('DistanceY',0,2,-3,1,-p1y)) 
+		App.ActiveDocument.Sketch009.addConstraint(Sketcher.Constraint('DistanceY',-1,1,0,2,p1y)) 
 		App.ActiveDocument.recompute()
 #		Gui.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
@@ -1010,7 +1012,7 @@ class XCarriage(object):
 #		Gui.ActiveDocument.ActiveObject.LineColor=Gui.ActiveDocument.Pad003.LineColor
 #		Gui.ActiveDocument.ActiveObject.PointColor=Gui.ActiveDocument.Pad003.PointColor
 		App.ActiveDocument.recompute()
-
+		
 		#Cut away material between columns
 		p1x = -gv.xCarriageWidth+gv.xBeltAnchorWidthBottom
 		p1y = gv.xCarriageThickness
