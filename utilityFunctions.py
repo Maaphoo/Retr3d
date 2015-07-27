@@ -8,16 +8,100 @@ import os
 import sys
 import datetime
 import re
+import logging
+import platform
+import __main__
+
+
+#Specific to printer
+import globalVars as gv
+
+LOG_FILENAME = os.path.dirname(os.path.abspath(__file__))+'/logs/logging_example.out'
+logging.basicConfig(filename=LOG_FILENAME, level=logging.DEBUG, filemode='w')
+
+logging.info('Retr3d Log File')
+logging.info('Version 0.1.0')
+
+def log(msg, source):
+  logging.getLogger(source).info(msg)
+
+def bold(msg,log):
+  if log:
+    logging.info(msg)
+  if not platform.system()=='Windows' and os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
+    print '\033[1m'+msg+'\x1b[0m'
+  else:
+    print msg
+
+def underline(msg,log):
+  if log:
+    logging.info(msg)
+  if not platform.system()=='Windows' and os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
+    print '\033[4m'+msg+'\x1b[0m'
+  else:
+    print msg
+      
+def header(msg,log):
+  if log:
+    logging.info(msg)
+  if not platform.system()=='Windows' and os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
+    print '\033[95m'+msg+'\x1b[0m'
+  else:
+    print msg      
+      
+def critical(msg,log,level,source):
+  logging.getLogger(source).critical(log)
+  if level<=5:
+    if not platform.system()=='Windows' and os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
+      print '\033[1m\033[31m'+msg+'\x1b[0m'
+    else:
+      print 'Critical: '+msg
+
+def error(msg,log,level,source):
+  logging.getLogger(source).error(log)
+  if level<=4:
+    if not platform.system()=='Windows' and os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
+      print '\033[91m'+msg+'\x1b[0m'
+    else:
+      print 'Error: '+msg
+
+def warning(msg,log,level,source):
+  logging.getLogger(source).warning(log)
+  if level<=3:
+    if not platform.system()=='Windows' and os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
+      print '\033[93m'+msg+'\x1b[0m'
+    else:
+      print 'Warning: '+msg
+
+def info(msg,log,level,source):
+  logging.getLogger(source).info(log)
+  if level<=2:
+    if not platform.system()=='Windows' and os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
+      print '\033[92m'+msg+'\x1b[0m'
+    else:
+      print 'Info: '+msg
+
+def debug(msg,log,level,source):
+  logging.getLogger(source).debug(log)
+  if level<=1:
+    if not platform.system()=='Windows' and os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
+      print '\033[94m'+msg+'\x1b[0m'  
+    else:
+      print 'Debug: '+msg
+
 
 #FreeCAD related
-import FreeCAD as App
+try:
+  import FreeCAD as App
+except ImportError:
+    critical("Failure to import FreeCAD, check your configuration file.", "", gv.level, os.path.basename(__file__))
+    if (os.getcwd() == os.path.dirname(os.path.abspath(__file__))):
+		raise SystemExit
 import FreeCADGui as Gui
 import Draft
 import Part
 import Sketcher
 
-#Specific to printer
-import globalVars as gv
 
 class colors:
     if (os.getcwd() == os.path.dirname(os.path.abspath(__file__))):
@@ -287,8 +371,8 @@ def saveAndClose(name,saveSTL):
 	if not os.path.exists(printerDir):
 	    try:
 	      os.makedirs(printerDir)
-	    except OSError:
-	      print colors.FAIL+"Failure to save files, check your configuration file."+colors.ENDC
+	    except OSError as e:
+	      critical("Failure to save files, check your configuration file.", 'Error making "printerDir" in saveAndClose: '+str(e), gv.level, os.path.basename(__file__))
 	      if (os.getcwd() == os.path.dirname(os.path.abspath(__file__))):
 		raise SystemExit
 		

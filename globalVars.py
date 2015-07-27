@@ -5,8 +5,11 @@ test = None
 
 #Change the following to the path to the directory that will hold your printer designs
 #Make sure to use forward slashes like this / and not back slashes like this \ 
-freecadDir = "/Path/To/FreeCAD/"
+freecadDir = "/Path/To/FreeCAD"
 printerDir = "/Path/To/Store/3D/Files"
+
+#Output Options
+level = 0
  
 #make test hole pattern. True if you would like the test hole pattern to be included in your stl files
 printTestHolePattern = True
