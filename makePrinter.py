@@ -8,7 +8,7 @@ import os
 import sys
 import datetime
 import platform
-
+import subprocess
 
 class colors:
     if (os.getcwd() == os.path.dirname(os.path.abspath(__file__))):
@@ -30,11 +30,29 @@ class colors:
 	BOLD = ''
 	UNDERLINE = ''
 
+if platform.system()=='Windows':
+    subprocess.call('cls',shell=True)
+else:
+    subprocess.call('clear',shell=True)
+    
+print colors.HEADER+"______     _       _____     _           _____     __      _____ "
+print               "| ___ \   | |     |____ |   | |         |  _  |   /  |    |  _  |"
+print               "| |_/ /___| |_ _ __   / / __| |  __   __| |/' |   `| |    | |/' |"
+print               "|    // _ \ __| '__|  \ \/ _` |  \ \ / /|  /| |    | |    |  /| |"
+print               "| |\ \  __/ |_| | .___/ / (_| |   \ V / \ |_/ / _ _| |_ _ \ |_/ /"
+print               "\_| \_\___|\__|_| \____/ \__,_|    \_/   \___/ (_)\___/(_) \___/ "+colors.ENDC
+print colors.BOLD+"Version: 0.1.0 "
+print "If you encounter any issues, please let us know at https://github.com/maaphoo/retr3d/issues" +colors.ENDC
+print ""
+
+
+
 #Change the following line to locate the folder containing the printer building scripts
 #Make sure to use forward slashes like this '/' and not back slashes like this '\'
 
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
 import globalVars as gv
 
 #Change the following line to locate the folder containing FreeCAD's FreeCAD.so or FreeCAD.dll file
@@ -44,12 +62,23 @@ import globalVars as gv
 sys.path.append(gv.freecadDir)
 
 #import FreeCAD modules
-import FreeCAD as App
+try:
+  import FreeCAD as App
+except ImportError:
+    print colors.FAIL+"Failure to import FreeCAD, check your configuration file."+colors.ENDC
+
 import FreeCADGui as Gui
 import Part
-import Sketcher
+import Sketcher    
+    
 
-VersionError = Exception("Version Error")
+
+
+class versionError(Exception):
+    def __init__(self):
+        # Set some exception infomation
+        print colors.FAIL + "Retr3d is not compatible with this FreeCAD version." + colors.ENDC
+
 
 if platform.system()=='Windows':
   if (App.Version()[1]>'14'):
@@ -80,12 +109,10 @@ if platform.system()=='Linux':
 	    FreeCAD.Console.PrintMessage("FreeCAD Version 0."+App.Version()[1]+" Revision "+App.Version()[2]+"\n")
 	else:
 	    print colors.FAIL + "Retr3d on Linux is not compatible with FreeCAD version .14 for command line usage. Please upgrade to .16 to continue" + colors.ENDC
+	    raise versionError
     if (App.Version()[1]=='15'):
         print colors.FAIL + "Retr3d on Linux is not compatible with FreeCAD version .15. Please upgrade to .16 or downgrade to .14 to continue." + colors.ENDC
-        if (os.getcwd() == os.path.dirname(os.path.abspath(__file__))):
-	  raise SystemExit
-	else:
-	  raise VersionError
+        raise versionError
     if (App.Version()[1]=='16'):
 	try:
 	    import FreeCADGui 

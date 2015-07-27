@@ -19,6 +19,26 @@ import Sketcher
 #Specific to printer
 import globalVars as gv
 
+class colors:
+    if (os.getcwd() == os.path.dirname(os.path.abspath(__file__))):
+	HEADER = '\033[95m'
+	OKBLUE = '\033[94m'
+	OKGREEN = '\033[92m'
+	WARNING = '\033[93m'
+	FAIL = '\033[91m'
+	ENDC = '\033[0m'
+	BOLD = '\033[1m'
+	UNDERLINE = '\033[4m'
+    else:
+	HEADER = ''
+	OKBLUE = ''
+	OKGREEN = ''
+	WARNING = ''
+	FAIL = ''
+	ENDC = ''
+	BOLD = ''
+	UNDERLINE = ''
+
 def getFace(feature, x, compX, y, compY, z, compZ):
 	possibleFaces = []
 	for i in range(len(feature.Shape.Faces)):
@@ -265,7 +285,12 @@ def saveAndClose(name,saveSTL):
 	#make the printer's directory if it doesn't exist
 	printerDir = gv.printerDir+"Printer_"+date+"/"
 	if not os.path.exists(printerDir):
-		os.makedirs(printerDir)
+	    try:
+	      os.makedirs(printerDir)
+	    except OSError:
+	      print colors.FAIL+"Failure to save files, check your configuration file."+colors.ENDC
+	      if (os.getcwd() == os.path.dirname(os.path.abspath(__file__))):
+		raise SystemExit
 		
 	#make the Parts directory if it doesn't exist
 	partsDir = printerDir+"Parts/"
