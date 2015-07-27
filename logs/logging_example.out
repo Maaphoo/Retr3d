@@ -1,0 +1,4 @@
+INFO:root:Retr3d Log File
+INFO:root:Version 0.1.0
+INFO:makePrinter.py:FreeCAD Version 0.16 Revision 5239 (Git)
+CRITICAL:utilityFunctions.pyc:Error making "printerDir" in saveAndClose: [Errno 13] Permission denied: '/Path'
