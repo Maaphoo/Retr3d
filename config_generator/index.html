@@ -48,7 +48,7 @@ var textFile = null,
 	'#Change the following to the path to the directory that will hold your printer designs'+'\n'+
 	'#Make sure to use forward slashes like this / and not back slashes like this \\ '+'\n'+
 	'freecadDir = "'+document.getElementById('freecad').value+'"'+'\n'+
-	'scriptsDir = "'+document.getElementById('scriptLocation').value+'"'+'\n'+
+	//'scriptsDir = "'+document.getElementById('scriptLocation').value+'"'+'\n'+
 	'printerDir = "'+document.getElementById('partsLocation').value+'"'+'\n'+
 	' '+'\n'+
 	'#make test hole pattern. True if you would like the test hole pattern to be included in your stl files'+'\n'+
@@ -491,7 +491,7 @@ var textFile = null,
             
                   <!--<tr><td>Make sure to use forward slashes like this '/' and not back slashes like this '\'.</td><td></td></tr>-->
 		  <tr><td>Folder with FreeCAD's "FreeCAD.so" or "FreeCAD.dll" File</td><td><input id="freecad" onfocus="hideDownload()" /></td></tr>
-                  <tr><td>Folder Containing the Printer Building Scripts</td><td><input onfocus="hideDownload()" id="scriptLocation" /></td></tr>
+                  <!--<tr><td>Folder Containing the Printer Building Scripts</td><td><input onfocus="hideDownload()" id="scriptLocation" /></td></tr>-->
                   <tr><td>Folder to Store Generated 3D Files</td><td><input onfocus="hideDownload()" id="partsLocation" /></td></tr></table></span>
                   
             </li></li></ul></li>
