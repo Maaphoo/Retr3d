@@ -12,9 +12,10 @@ import logging
 import platform
 import __main__
 
-
 #Specific to printer
 import globalVars as gv
+
+
 if not os.path.exists(os.path.dirname(os.path.abspath(__file__))+'/logs/'):
     os.makedirs(os.path.dirname(os.path.abspath(__file__))+'/logs/')
 LOG_FILENAME = os.path.dirname(os.path.abspath(__file__))+'/logs/retr3d.log'
@@ -22,6 +23,13 @@ logging.basicConfig(filename=LOG_FILENAME, level=logging.DEBUG, filemode='w')
 
 logging.info('Retr3d Log File')
 logging.info('Version 0.1.0')
+
+def setStatus():
+  App.Console.SetStatus("Console","Msg",1)
+  App.Console.SetStatus("Console","Wrn",1)
+  App.Console.SetStatus("Console","Err",1)
+  App.Console.SetStatus("Console","Log",0)
+    
 
 def log(msg, level, source):
   eval('logging.getLogger(source).'+level+'(msg)')
@@ -35,6 +43,7 @@ def bold(msg,log):
     if os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
         print msg
     else:
+        setStatus()
 	App.Console.PrintMessage(msg+'\n')
 
 def underline(msg,log):
@@ -46,6 +55,7 @@ def underline(msg,log):
     if os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
         print msg
     else:
+        setStatus()
 	App.Console.PrintMessage(msg+'\n')
       
 def header(msg,log):
@@ -57,6 +67,7 @@ def header(msg,log):
     if os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
         print msg
     else:
+        setStatus()
 	App.Console.PrintMessage(msg+'\n')
   
       
@@ -69,6 +80,7 @@ def critical(msg,log,level,source):
       if os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
 	  print msg
       else:
+	  setStatus()
 	  App.Console.PrintError(msg+'\n')
 
 def error(msg,log,level,source):
@@ -80,6 +92,7 @@ def error(msg,log,level,source):
       if os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
 	  print msg
       else:
+	  setStatus()
 	  App.Console.PrintError(msg+'\n')
 
 def warning(msg,log,level,source):
@@ -91,6 +104,7 @@ def warning(msg,log,level,source):
       if os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
 	  print msg
       else:
+	  setStatus()
 	  App.Console.PrintWarning(msg+'\n')
 
 def info(msg,log,level,source):
@@ -102,6 +116,7 @@ def info(msg,log,level,source):
       if os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
 	  print msg
       else:
+	  setStatus()
 	  App.Console.PrintMessage(msg+'\n')
 
 def debug(msg,log,level,source):
@@ -113,6 +128,7 @@ def debug(msg,log,level,source):
       if os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
 	  print msg
       else:
+	  setStatus()
 	  App.Console.PrintLog(msg+'\n')
 
 
@@ -121,8 +137,8 @@ try:
   import FreeCAD as App
 except ImportError:
     critical("Failure to import FreeCAD, check your configuration file.", "", gv.level, os.path.basename(__file__))
-    if (os.getcwd() == os.path.dirname(os.path.abspath(__file__))):
-		raise SystemExit
+    raise StandardError
+    
 import FreeCADGui as Gui
 import Draft
 import Part
@@ -378,9 +394,9 @@ def saveAndClose(name,saveSTL):
 	    try:
 	      os.makedirs(printerDir)
 	    except OSError as e:
-	      critical("Failure to save files, check your configuration file.", 'Error making "printerDir" in saveAndClose: '+str(e), gv.level, os.path.basename(__file__))
-	      if (os.getcwd() == os.path.dirname(os.path.abspath(__file__))):
-		raise SystemExit
+	      import traceback
+	      critical("Failure to save files, check your configuration file.", 'Error making "printerDir" in saveAndClose: '+str(e)+'\n'+traceback.format_exc(limit=1), gv.level, os.path.basename(__file__))
+	      raise StandardError
 		
 	#make the Parts directory if it doesn't exist
 	partsDir = printerDir+"Parts/"
