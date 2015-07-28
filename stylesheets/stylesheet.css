@@ -23,8 +23,20 @@ a {
 
 .side {width:33%}
 
-.imagecap{ padding-bottom: 25px;}
-    
+.imagecap{ padding-bottom: 25px;
+	   
+}
+
+.other {text-align:center; 
+        border-top: 1px solid #e9ebec;
+	border-bottom: 1px solid #e9ebec;
+	padding-top:20px;
+	padding: 10px;
+}
+
+.oentity{
+  padding: 100px;
+}
 .btn {
   display: inline-block;
   margin-bottom: 1rem;
@@ -196,7 +208,9 @@ a {
     font-weight: bold; }
   .main-content table th, .main-content table td {
     padding: 0.5rem 1rem;
-    border: 1px solid #e9ebec; }
+  }
+  #border {
+  border: 1px solid #e9ebec;}
 .main-content dl {
   padding: 0; }
   .main-content dl dt {
