@@ -5,17 +5,17 @@ _____________
 
 
 # Retr3d
-In 2009, discarded TVs, computers, peripherals (including printers, scanners, fax machines) mice, keyboards, and cell phones totalled about 2.37 million short tons. Most of our e-waste ends up in landfills—mostly in the developing world—where toxic metals leach into the environment. This open source project aims to convert some of that e-waste into usable 3D printers. 
+In 2009, discarded TVs, computers, peripherals (including printers, scanners, fax machines) mice, keyboards, and cell phones totaled about 2.37 million short tons. Most of our e-waste ends up in landfills where toxic metals leach into the environment. This open source project aims to convert some of that e-waste into usable 3D printers. 
 ## Software
 Retr3d uses python and FreeCAD to 3D model printable parts for the construction of more 3D printers. Through globalVars.py dimensions of procured e-waste are turned into customized 3D models. Retr3d's software depends on FreeCAD's python scripting API. FreeCAD can be found [here](http://www.freecadweb.org/wiki/index.php?title=Download "Download FreeCAD").
 ## Configuration
-All of the customisable options can be configured [here.](https://cdn.rawgit.com/masterperson40/ewaste3Dprinter/master/config_generator/index.html) After generating your configuration file make sure to replace the original "globalVars.py file with the newly generated one.
+All of the customizable options can be configured [here.](https://cdn.rawgit.com/masterperson40/ewaste3Dprinter/master/config_generator/index.html) After generating your configuration file make sure to replace the original "globalVars.py file with the newly generated one.
 ## Getting Started
-To begin creating a printer from the default options, open FreeCAD. Next, select “Macros ...” from the “Macro” menu. 
+To begin creating a printer from the default options, open FreeCAD. Next, select from the menu. 
 ![Select "Macros ..."](https://github.com/masterperson40/ewaste3Dprinter/raw/master/docs/picture1.png)
-Next, select the folder where “makePrinter.py” is stored. 
+Next, select the folder where is stored. 
 ![Select "makePrinter.py"](https://github.com/masterperson40/ewaste3Dprinter/raw/master/docs/picture2.png)
-Finally, select “makePrinter.py” for the available options. After that, hit “Execute” to create a printer.
+Finally, select for the available options. After that, hit to create a printer.
 ![Hit "Execute"](https://github.com/masterperson40/ewaste3Dprinter/raw/master/docs/picture3.png)
 If everything was installed correctly, you should now have something that looks like this:
 ![printer](https://github.com/masterperson40/ewaste3Dprinter/raw/master/docs/picture4.png)
@@ -40,6 +40,5 @@ To downgrade on Debian Linux:
 ```
 sudo apt-get install freecad=0.13.2935-dfsg-1.1build1
 ```
-
 
 
