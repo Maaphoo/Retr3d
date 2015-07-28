@@ -85,6 +85,115 @@ body {
     font-weight:normal;
 }
 
+
+/*******************/
+/**** Checkboxes****/
+/*******************/
+
+
+
+form {
+	margin: 40px 0;
+}
+
+div {
+	clear: both;
+	margin: 0 50px;
+}
+
+#label1 {width: 170px;}
+
+#label2 {width: 190px;}
+
+#label3 {width: 230px;}
+
+#label4 {width: 250px;}
+
+label {
+  border-radius: 3px;
+  border: 1px solid #D1D3D4
+}
+
+/* hide input */
+input.radio:empty {
+	margin-left: -99999px;
+}
+
+/* style label */
+input.radio:empty ~ label {
+	position: relative;
+	float: left;
+	line-height: 2.5em;
+	text-indent: 3.25em;
+	margin-top: 2em;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+input.radio:empty ~ label:before {
+	position: absolute;
+	display: block;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	content: '';
+	width: 2.5em;
+	background: #D1D3D4;
+	border-radius: 3px 0 0 3px;
+}
+
+/* toggle hover */
+input.radio:hover:not(:checked) ~ label:before {
+	content:'\2714';
+	text-indent: .9em;
+	color: #C2C2C2;
+}
+
+input.radio:hover:not(:checked) ~ label {
+	color: #888;
+}
+
+/* toggle on */
+input.radio:checked ~ label:before {
+	content:'\2714';
+	text-indent: .9em;
+	color: #FFFFFF;
+	/*background-color: #4DCB6D;*/
+}
+#radio1.radio:checked ~ label:before {
+	background-color: #FF3333;
+}
+
+#radio2.radio:checked ~ label:before {
+	background-color: #FFFF33;
+}
+
+#radio3.radio:checked ~ label:before {
+	background-color: #4DCB6D;
+}
+
+#radio4.radio:checked ~ label:before {
+	background-color: #0066FF;
+}
+
+input.radio:checked ~ label {
+	color: #777;
+}
+
+/* radio focus */
+input.radio:focus ~ label:before {
+	box-shadow: 0 0 0 3px #999;
+}
+
+.tradio{position:relative;
+	/*bottom:10px;*/
+	right:100px;
+	z-index:9999999;
+}
+
 /*******************/
 /****  OTHER  *****/
 /*****************/

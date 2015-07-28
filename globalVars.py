@@ -5,12 +5,12 @@ test = None
 
 #Change the following to the path to the directory that will hold your printer designs
 #Make sure to use forward slashes like this / and not back slashes like this \ 
-freecadDir = "/Path/To/FreeCAD"
-printerDir = "/Path/To/Store/3D/Files"
-
-#Output Options
-level = 0
+freecadDir = "/Path/To/FreeCAD/"
+printerDir = "/Path/To/Store/3D/Files/"
  
+#Output Options
+level = 2
+
 #make test hole pattern. True if you would like the test hole pattern to be included in your stl files
 printTestHolePattern = True
  
@@ -406,7 +406,7 @@ platerHeight = 150 #height of the plate, in mm (default 150)
 platerPrecision = 0.5 #precision, in mm (default 0.5)                                                                                                                      
 platerSpacing = 2 #parts spacing, in mm (default 2)                                                                                                                        
 platerDelta = 2 #sets the spacing of the brute forcing (see below), default 2mm                                                                                          
-platerRotation = 2 #sets the angle of the brute forcing, default 90                                                     
+platerRotation = 90 #sets the angle of the brute forcing, default 90                                                     
 
 #Slic3r Variables                                                                                                                                                         
 slic3r = False #Slice or nah?                                                                                                                                             
