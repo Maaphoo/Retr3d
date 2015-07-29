@@ -54,11 +54,6 @@ class YMotorMount(object):
 	def draw(self):
 		plateLength = gv.frameWidth+gv.yMotorBodyWidth
 		
-		#Check plate Width
-#Can't get exceptions to work inside of modules for some reason
-#Willo this in MakePrinter.py then
-#		if plateWidth<motorWidth:
-#			raise Exception("The yMotorMount plate is not wide enough")
 		
 		mountHoleSpacing = gv.yMotorMountPlateWidth/2
 

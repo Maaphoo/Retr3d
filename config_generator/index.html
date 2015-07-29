@@ -9,36 +9,70 @@
         <script type="text/javascript" src="js/scripts.js">
         </script>
         <script>
+        
+        function check(box){
+	
+	if(box==1){
+	document.getElementById('radio1').checked = true
+	document.getElementById('radio2').checked = false
+	document.getElementById('radio3').checked = false
+	document.getElementById('radio4').checked = false
+	}
+	
+	if(box==2){
+	document.getElementById('radio1').checked = true
+	document.getElementById('radio3').checked = false
+	document.getElementById('radio4').checked = false
+	}
+	if(box==3){
+	document.getElementById('radio1').checked = true
+	document.getElementById('radio2').checked = true
+	document.getElementById('radio4').checked = false
+	}
+	if(box==4){
+	document.getElementById('radio1').checked = true
+	document.getElementById('radio2').checked = true
+	document.getElementById('radio3').checked = true
+	}
+	
+	}
+	  
         function download() {
         generate();
-var textFile = null,
-  makeTextFile = function (text) {
-    var data = new Blob([text], {type: 'text/plain'});
+	    var textFile = null,
+	      makeTextFile = function (text) {
+		var data = new Blob([text], {type: 'text/plain'});
 
-    // If we are replacing a previously generated file we need to
-    // manually revoke the object URL to avoid memory leaks.
-    if (textFile !== null) {
-      window.URL.revokeObjectURL(textFile);
-    }
+		// If we are replacing a previously generated file we need to
+		// manually revoke the object URL to avoid memory leaks.
+		if (textFile !== null) {
+		  window.URL.revokeObjectURL(textFile);
+		}
 
-    textFile = window.URL.createObjectURL(data);
+		textFile = window.URL.createObjectURL(data);
 
-    return textFile;
-  };
+		return textFile;
+	      };
 
 
-  var create = document.getElementById('create'),
-    textbox = document.getElementById('python');
+	      var create = document.getElementById('create'),
+		textbox = document.getElementById('python');
 
-  create.addEventListener('click', function () {
-    var link = document.getElementById('downloadlink');
-    link.href = makeTextFile(textbox.value);
-    link.style.display = 'inline';
-  }, false);
-}
+	      create.addEventListener('click', function () {
+		var link = document.getElementById('downloadlink');
+		link.href = makeTextFile(textbox.value);
+		link.style.display = 'inline';
+	      }, false);
+	    }
 
 
         function generate() {
+        
+        if(document.getElementById('radio1').checked==true){level=5}
+	if(document.getElementById('radio2').checked==true){level=3}
+	if(document.getElementById('radio3').checked==true){level=2}
+	if(document.getElementById('radio4').checked==true){level=1}
+        
 	document.getElementById('python').value='from __future__ import division # allows floating point division from integersimport math'+'\n'+
 	'\n'+
 	'reloadClasses = False'+'\n'+
@@ -51,6 +85,8 @@ var textFile = null,
 	//'scriptsDir = "'+document.getElementById('scriptLocation').value+'"'+'\n'+
 	'printerDir = "'+document.getElementById('partsLocation').value+'"'+'\n'+
 	' '+'\n'+
+	'#Output Options'+'\n'+
+	'level = '+level+'\n\n'+
 	'#make test hole pattern. True if you would like the test hole pattern to be included in your stl files'+'\n'+
 	'printTestHolePattern = True'+'\n'+
 	' '+'\n'+
@@ -493,19 +529,21 @@ var textFile = null,
 		  <tr><td>Folder with FreeCAD's "FreeCAD.so" or "FreeCAD.dll" File</td><td><input id="freecad" onfocus="hideDownload()" /></td></tr>
                   <!--<tr><td>Folder Containing the Printer Building Scripts</td><td><input onfocus="hideDownload()" id="scriptLocation" /></td></tr>-->
                   <tr><td>Folder to Store Generated 3D Files</td><td><input onfocus="hideDownload()" id="partsLocation" /></td></tr></table></span>
+
+
                   
             </li></li></ul></li>
             <a download="globalVars.py" id="downloadlink" style="display: none">Download</a>
             <ul id="expList">
             
-            <li>X Rod<ul><li> <span><table class="table table-bordered">
+            <li>X Rod<ul><li> <span><table class="tbordered">
                 
 		  <tr><td>Top X Rod Diameter</td><td><input onfocus="showPicture(500,'xRod'),hideDownload()" onBlur="hidePicture('xRod')" id="xRodDiaTop" value="7.9" /></td></tr>
                   <tr><td>Bottom X Rod Diameter</td><td><input onfocus="showPicture(500,'xRod'),hideDownload()" onBlur="hidePicture('xRod')" id="xRodDiaBottom" value="7.9" /></td></tr>
                   <tr><td>Length of the Shorter Rod</td><td><input onfocus="showPicture(500,'xRod'),hideDownload()" onBlur="hidePicture('xRod')" id="xRodLength" value="400" /></td></tr></table></span><br />
                   <img src="./img/xRod.png" height="0" align="right" id="xRod" />
             </li></ul></li>
-            <li>Y Rod<ul> <span><table class="table table-bordered">
+            <li>Y Rod<ul> <span><table class="tbordered">
                 
 		  <tr><td>Left Y Rod Diameter</td><td><input onfocus="showPicture(500,'yRod'),hideDownload()" onBlur="hidePicture('yRod')" id="yRodDiaL" value="12.7" /></td></tr>
                   <tr><td>Right Y Rod Diameter</td><td><input onfocus="showPicture(500,'yRod'),hideDownload()" onBlur="hidePicture('yRod')" id="yRodDiaR" value="12.7" /></td></tr>
@@ -513,7 +551,7 @@ var textFile = null,
                   <img src="./img/yRod.png" id="yRod" height="0" align="right" />
                   
            </li></ul></li>
-            <li>Z Rod<ul><li><span><table class="table table-bordered">
+            <li>Z Rod<ul><li><span><table class="tbordered">
                 
 		  <tr><td>Right Z Rod Diameter</td><td><input onfocus="showPicture(500,'zRod'),hideDownload()" onBlur="hidePicture('zRod')" id="zRodDiaR" value="12.7" /></td></tr>
                   <tr><td>Left Z Rod Diameter</td><td><input onfocus="showPicture(500,'zRod'),hideDownload()" onBlur="hidePicture('zRod')" id="zRodDiaL" value="12.7" /></td></tr>
@@ -521,13 +559,13 @@ var textFile = null,
                   <img src="./img/zRod.png" id="zRod" height="0" align="right" />
            </li></ul></li>
             
-            <li>Lead Screw<ul><li><span><table class="table table-bordered">
+            <li>Lead Screw<ul><li><span><table class="tbordered">
                 
 		  <tr><td>Lead Screw Diameter</td><td><input onfocus="showPicture(200,'leadScrew'),hideDownload()" onBlur="hidePicture('leadScrew')" id="leadScrewDia" value="6.35" /></td></tr></table></span><br />
                   <img src="./img/leadScrew.png" height="0" id="leadScrew" align="right"/>
            </li></ul></li>
             
-            <li>Frame<ul><li><span><table class="table table-bordered">
+            <li>Frame<ul><li><span><table class="tbordered">
                 
 		  <tr><td>Frame Width</td><td><input onfocus="showPicture(500,'frame'),hideDownload()" onBlur="hidePicture('frame')" id="frameWidth" value="20" /></td></tr>
                   <tr><td>Frame Height</td><td><input onfocus="showPicture(500,'frame'),hideDownload()" onBlur="hidePicture('frame')" id="frameHeight" value="19.05" /></td></tr>
@@ -535,7 +573,7 @@ var textFile = null,
                   <img src="./img/frame.png" height="0" id='frame' align="right" />
            </li></ul></li>
             
-            <li>Mounting Hardware<ul><li><span><table class="table table-bordered">
+            <li>Mounting Hardware<ul><li><span><table class="tbordered">
                 
 		  <tr><td>Printed Parts Mounting Hole Diameter</td><td><input onfocus="showPicture(500,'hardware'),hideDownload()" onBlur="hidePicture('hardware')" id="mountToPrintedDia" value="3" /></td></tr>
                   <tr><td>Frame Mounting Hole Diameter</td><td><input onfocus="showPicture(500,'hardware'),hideDownload()" onBlur="hidePicture('hardware')" id="mountToFrameDia" value="4.12" /></td></tr></table></span><br />
@@ -543,7 +581,7 @@ var textFile = null,
                   
            </li></ul></li>
             
-            <li>Print Bed<ul><li><span><table class="table table-bordered">
+            <li>Print Bed<ul><li><span><table class="tbordered">
                 
 		  <tr><td>Diameter of Mounting Bolts</td><td><input onfocus="showPicture(500,'printbed'),hideDownload()" onBlur="hidePicture('printbed)" id="printBedMountHoleDia" value="3" /></td></tr>
                   <tr><td>Thickness of the Heated Build Plate</td><td><input onfocus="showPicture(500,'printbed'),hideDownload()" onBlur="hidePicture('printbed')" id="printBedThickness" value="1.5" /></td></tr></table></span><br />
@@ -551,7 +589,7 @@ var textFile = null,
                   
            </li></ul></li>
             
-            <li>Print Bed Busing Holder<ul><li><span><table class="table table-bordered">
+            <li>Print Bed Busing Holder<ul><li><span><table class="tbordered">
                 
 		  <tr><td>The Width of the Print Bed Bushing Support</td><td><input onfocus="showPicture(500,'PBBH'),hideDownload()" onBlur="hidePicture('PBBH')" id="printBedBusingSupportWidth" value="None" /></td></tr>
 		  <tr><td>Print Bed Busing Holder Max Face to Face</td><td><input onfocus="showPicture(500,'PBBH'),hideDownload()" onBlur="hidePicture('PBBH')" id="PBBHMaxFaceToFace" value="None" /></td></tr></table></span><br /><!--PBBHMaxFaceToFace = None   -->
@@ -559,20 +597,20 @@ var textFile = null,
                   
            </li></ul></li>
             
-            <li>Print Bed Support<ul><li> <span><table class="table table-bordered">
+            <li>Print Bed Support<ul><li> <span><table class="tbordered">
                 
 		  <tr><td>Thickness of the Print Bed Support</td><td><input onfocus="showPicture(500,'printbedsupport'),hideDownload()" onBlur="hidePicture('printbedsupport')" id="printBedSupportThickness" value="1.55" /></td></tr></table></span><br />
                   <img src="./img/printbedsupport.png" height="0" id="printbedsupport" align="right" />
                   
            </li></ul></li>
             
-            <li>X Rod Clamp<ul><li><span><table class="table table-bordered">
+            <li>X Rod Clamp<ul><li><span><table class="tbordered">
                 
 		  <tr><td>Diameter of the X Rod Clamp Idler Hole</td><td><input onfocus="showPicture(500,'xrodclamp'),hideDownload()" onBlur="hidePicture('xrodclamp')" id="xRodClampIdlerHoleDia" value="3.5" /></td></tr></table></span><br />
                   <img src="./img/xrodclamp.png" height="0" id="xrodclamp" align="right" />
            </li></ul></li>
             
-            <li>X End Motor Plate<ul><li><span><table class="table table-bordered">
+            <li>X End Motor Plate<ul><li><span><table class="tbordered">
                 
 		  <tr><td>Diameter of the Idler Hole (As Apposed to the Printed Idler Hole which is Larger)</td><td><input onfocus="showPicture(500,'xendmotorplate'),hideDownload()" onBlur="hidePicture('xendmotorplate')" id="xEndIdlerHoleDia" value="3" /></td></tr>
                   <tr><td>X Motor Mount Thickness</td><td><input onfocus="showPicture(500,'xendmotorplate'),hideDownload()" onBlur="hidePicture('xendmotorplate')" id="xMotorMountPlateThickness" value="3.175" /></td></tr>
@@ -585,7 +623,7 @@ var textFile = null,
                   <img src="./img/xendmotorplate.png" height="0" id="xendmotorplate" align="right" />
            </li></ul></li>
             
-            <li>X End Z Rod Holder<ul><li><span><table class="table table-bordered">
+            <li>X End Z Rod Holder<ul><li><span><table class="tbordered">
                 
 		  <tr><td>X End Z Rod Holder Thickness</td><td><input onfocus="showPicture(500,'xendzrodholder'),hideDownload()" onBlur="hidePicture('xendzrodholder')" id="xEndZRodHolderFaceThickness" value="3" /></td></tr>
                   <tr><td>Horizontal Distance From Edge of X End Z Rod Holder to the Edges of Mounting Holes</td><td><input onfocus="showPicture(500,'xendzrodholder'),hideDownload()" onBlur="hidePicture('xendzrodholder')" id="xEndZRodHolderMountHoletoEdgePadding" value="3" /></td></tr>
@@ -598,7 +636,7 @@ var textFile = null,
                   
            </li></ul></li>
             
-            <li>Z Motor Mount<ul><li><span><table class="table table-bordered">
+            <li>Z Motor Mount<ul><li><span><table class="tbordered">
                 
 		  <tr><td>Number of Motor Mounting Holes</td><td><input onfocus="showPicture(500,'zmotormount'),hideDownload()" onBlur="hidePicture('zmotormount')" id="zMotorMountHoles" value="4" /></td></tr>
                   <tr><td>Distance Between the Motor Shaft and the Mounting Holes</td><td><input onfocus="showPicture(500,'zmotormount'),hideDownload()" onBlur="hidePicture('zmotormount')" id="zShaftToMountHoleDist" value="21.92" /></td></tr>
@@ -611,7 +649,7 @@ var textFile = null,
                   
            </li></ul></li>
             
-             <li>Y End Motor Plate<ul><li><span><table class="table table-bordered">
+             <li>Y End Motor Plate<ul><li><span><table class="tbordered">
                 
 		  <tr><td>Thickness of the Y Motor Mount Plate</td><td><input onfocus="showPicture(500,'ymotormount'),hideDownload()" onBlur="hidePicture('ymotormount')" id="yMotorMountPlateThickness" value="6" /></td></tr>
                   <tr><td>Y Motor Mount Width</td><td><input onfocus="showPicture(500,'ymotormount'),hideDownload()" onBlur="hidePicture('ymotormount')" id="yMotorMountPlateWidth" value="57" /></td></tr>
@@ -625,7 +663,7 @@ var textFile = null,
                   
            </li></ul></li>
             
-            <li>Extruder Mount Plate<ul><li><span><table class="table table-bordered">
+            <li>Extruder Mount Plate<ul><li><span><table class="tbordered">
                 
 		  <tr><td>Thickness of Extruder Mount Plate</td><td><input onfocus="showPicture(500,'extrudermountplate'),hideDownload()" onBlur="hidePicture('extrudermountplate')" id="extruderMountPlateThickness" value="1.55" /></td></tr>
                   <tr><td>Diameter of Hot End Mounting Holes</td><td><input onfocus="showPicture(500,'extrudermountplate'),hideDownload()" onBlur="hidePicture('extrudermountplate')" id="hotEndMountHole" value="3" /></td></tr></table></span><br />
@@ -633,7 +671,7 @@ var textFile = null,
                   
            </li></ul></li>
             
-            <li>Extruder Mount Angle Bracket<ul><li><span><table class="table table-bordered">
+            <li>Extruder Mount Angle Bracket<ul><li><span><table class="tbordered">
                 
 		  <tr><td>Width of Angle Iron Used (Also known as L-Stock, Angle and Right Angle Stock)</td><td><input onfocus="showPicture(500,'extrudermountangle'),hideDownload()" onBlur="hidePicture('extrudermountangle')" id="extruderMountAngleWidth" value="19.05" /></td></tr>
                   <tr><td>Thickness of Angle Used</td><td><input onfocus="showPicture(500,'extrudermountangle'),hideDownload()" onBlur="hidePicture('extrudermountangle')" id="extruderMountAngleThickness" value="3.175" /></td></tr></table></span><br />
@@ -641,7 +679,7 @@ var textFile = null,
                   
            </li></ul></li>
             
-             <li>Extruder<ul><li><span><table class="table table-bordered">
+             <li>Extruder<ul><li><span><table class="tbordered">
                 
 		  <tr><td>Width of Extruder Body</td><td><input onfocus="showPicture(400,'extruder'),showPicture(400,'extruder-specific'),hideDownload()" onBlur="hidePicture('extruder'),hidePicture('extruder-specific')" id="extruderWidth" value="78" /></td></tr>
                   <tr><td>Required Depth for Mounting the Front Edge of the Extruder Body to Back Most Part of the Extruder</td><td><input onfocus="showPicture(400,'extruder'),showPicture(400,'extruder-specific'),hideDownload()" onBlur="hidePicture('extruder'),hidePicture('extruder-specific')" id="extruderDepth" value="55" /></td></tr>
@@ -653,7 +691,7 @@ var textFile = null,
                   
            </li></ul></li>
             
-            <li>Extruder Barrel<ul><li> <span><table class="table table-bordered">
+            <li>Extruder Barrel<ul><li> <span><table class="tbordered">
                 
 		  <tr><td>Width of Extruder Body</td><td><input onfocus="showPicture(500,'extruderbarrel'),hideDownload()" onBlur="hidePicture('extruderbarrel')" id="extruderBarrelDia" value="25.4" /></td></tr>
                   <tr><td>Diameter of the Extruder Body</td><td><input onfocus="showPicture(500,'extruderbarrel'),hideDownload()" onBlur="hidePicture('extruderbarrel')" id="extruderBarrelLength" value="42" /></td></tr>
@@ -669,7 +707,7 @@ var textFile = null,
                   
            </li></ul></li>
             
-            <li>Nozzle<ul><li> <span><table class="table table-bordered">
+            <li>Nozzle<ul><li> <span><table class="tbordered">
                 
 		  <tr><td>Height of Nozzle Body</td><td><input onfocus="showPicture(500,'nozzle'),hideDownload()" onBlur="hidePicture('nozzle')" id="nozzleBodyHeight" value="10" /></td></tr>
 		  <tr><td>Width of Nozzle Body</td><td><input onfocus="showPicture(500,'nozzle'),hideDownload()" onBlur="hidePicture('nozzle')" id="nozzleBodyWidth" value="19.05" /></td></tr>
@@ -692,21 +730,21 @@ var textFile = null,
                   
            </li></ul></li>
             
-            <li>Cross Bar<ul><li><span><table class="table table-bordered">
+            <li>Cross Bar<ul><li><span><table class="tbordered">
                 
 		  <tr><td>Diameter of Hole for Y Belt Idler</td><td><input onfocus="showPicture(500,'crossbar'),hideDownload()" onBlur="hidePicture('crossbar')" id="yBeltIdlerHoleDia" value="6" /></td></tr></table></span><br />
                   <img src="./img/crossbar.png" height="0" id="crossbar" align="right" />
                   
            </li></ul></li>
             
-            <li>Frame Space<ul><li><span><table class="table table-bordered">
+            <li>Frame Space<ul><li><span><table class="tbordered">
 
 		  <tr><td>Length of Frame Spacers</td><td><input onfocus="showPicture(500,'framespace'),hideDownload()" onBlur="hidePicture('framespace')" id="frameSpacerLength" value="90" /></td></tr>
 		  <tr><td>Distance Between the Edge of the Side Bar to the Edge of the Frame Spacer</td><td><input onfocus="showPicture(500,'framespace'),hideDownload()" onBlur="hidePicture('framespace')" id="frameSpacerOffset" value="10" /></td></tr></table></span><br />
                   <img src="./img/framespace.png" height="0" id="framespace" align="right" />
            </li></ul></li>
             
-            <li>X End Stop<ul><li><span><table class="table table-bordered">
+            <li>X End Stop<ul><li><span><table class="tbordered">
                 
 		  <tr><td>Height of End Stop Body</td><td><input onfocus="showPicture(500,'xendstop'),hideDownload()" onBlur="hidePicture('xendstop')" id="xEndstopHeight" value="4.5" /></td></tr>
 		  <tr><td>Distance Between the Contact Strips (Surface to Surface not Center to Center)</td><td><input onfocus="showPicture(500,'xendstop'),hideDownload()" onBlur="hidePicture('xendstop')" id="xEndstopContactSpacing" value="3" /></td></tr>
@@ -717,14 +755,14 @@ var textFile = null,
                   <img src="./img/xendstop.png" height="0" id="xendstop" align="right" />
            </li></ul></li>
             
-            <li>Z End Stop<ul><li><span><table class="table table-bordered">
+            <li>Z End Stop<ul><li><span><table class="tbordered">
               
 		  <tr><td>Width of the Jog Used to Trap Contacts</td><td><input onfocus="showPicture(500,'zendstop'),hideDownload()" onBlur="hidePicture('zendstop')" id="zEndstopJogWidth" value="2" /></td></tr></table></span><br />
                   <img src="./img/zendstop.png" height="0" id="zendstop" align="right" />
                   
            </li></ul></li>
             
-            <li>Lead Screw Coupler<ul><li><span><table class="table table-bordered">
+            <li>Lead Screw Coupler<ul><li><span><table class="tbordered">
                 
 		  <tr><td>Length of the Lead Screw Couplers (Vertical Axis)</td><td><input onfocus="showPicture(500,'leadscrewcoupler'),hideDownload()" onBlur="hidePicture('leadscrewcoupler')" id="leadScrewCouplerLength" value="25" /></td></tr>
 		  <tr><td>Space Above and Below the Leadscrewcoupler (To Stop Collisions with Z Motor Mount Plate or X Carriage)</td><td><input onfocus="showPicture(500,'leadscrewcoupler'),hideDownload()" onBlur="hidePicture('leadscrewcoupler')"  id="leadScrewCouplerGap" value="5" /></td></tr></table></span><br />
@@ -732,7 +770,7 @@ var textFile = null,
                   
            </li></ul></li>
            
-           <li>Plater Options<ul><li><span><table class="table table-bordered">
+           <li>Plater Options<ul><li><span><table class="tbordered">
                 
 		  <tr><td>Enable</td><td><input onfocus="showPicture(500,'plater'),hideDownload()" onBlur="hidePicture('plater')" id="platerEnable" value="False" /></td></tr>
 		  <tr><td>Name of Plater executable, eg. 'plater' 'plater.exe' 'plater.app'</td><td><input onfocus="showPicture(500,'plater'),hideDownload()" onBlur="hidePicture('plater')" id="platerName" value="plater" /></td></tr>
@@ -741,21 +779,33 @@ var textFile = null,
 		  <tr><td>Precision</td><td><input onfocus="showPicture(500,'plater'),hideDownload()" onBlur="hidePicture('plater')" id="platerPrecision" value="0.5" /></td></tr>
 		  <tr><td>Parts Spacing</td><td><input onfocus="showPicture(500,'plater'),hideDownload()" onBlur="hidePicture('plater')" id="platerSpacing" value="2" /></td></tr>
 		  <tr><td>Spacing of the Brute Forcing</td><td><input onfocus="showPicture(500,'plater'),hideDownload()" onBlur="hidePicture('plater')" id="platerDelta" value="2" /></td></tr>
-		  <tr><td>Angle of the Brute Forcing</td><td><input onfocus="showPicture(500,'plater'),hideDownload()" onBlur="hidePicture('plater')" id="platerRotation" value="2" /></td></tr></table></span><br />
+		  <tr><td>Angle of the Brute Forcing</td><td><input onfocus="showPicture(500,'plater'),hideDownload()" onBlur="hidePicture('plater')" id="platerRotation" value="90" /></td></tr></table></span><br />
                   <img src="./img/plater.png" height="0" id="plater" align="right" />
            </li></ul></li>
            
-          <li>Slic3r Options<ul><li><span><table class="table table-bordered">
+          <li>Slic3r Options<ul><li><span><table class="tbordered">
                 
 		  <tr><td>Enable</td><td><input onfocus="hideDownload()" id="slic3rEnable" value="False" /></td></tr>
 		  <tr><td>Name of Slic3r executable, eg. 'slic3r' 'slic3r.exe' 'slic3r.app'</td><td><input onfocus="hideDownload()" id="slic3rName" value="slic3r" /></td></tr>
 		  <tr><td>Slic3r Configuration</td><td /><input onfocus="hideDownload()" onBlur="hidePicture('slic3r')" id="slic3rVars" value="" /></td></tr></table></span><br />
            </li></ul></li>
            
-           <li>Zip Options<ul><li><span><table class="table table-bordered">
+           <li>Zip Options<ul><li><span><table class="tbordered">
                 
 		  <tr><td>Zip File Name</td><td><input onfocus="hideDownload()" id="zipName" value="Printer_Files" /></td></tr></table></span><br />
-           </li></ul></li>
+           </li></ul></li>      
+<script>
+
+</script>
+<table class="tradio"><tr>
+<td><div><input type="checkbox" name="radio" id="radio1" class="radio" onclick="check(1)" checked /><label id="label1" for="radio1">View Errors</label></div></td>
+
+<td><div><input type="checkbox" name="radio" id="radio2" class="radio" onclick="check(2)" checked /><label id="label2" for="radio2">View Warnings</label></div></td>
+
+<td><div><input type="checkbox" name="radio" id="radio3" class="radio" onclick="check(3)" checked /><label id="label3" for="radio3">View Info Messages</label></div></td>
+
+<td><div><input type="checkbox" name="radio" id="radio4" class="radio" onclick="check(4)" /><label id="label4" for="radio4">View Debug Messages</label></div></td>
+</tr></table><!--<input type="button" onclick="alert(document.getElementById('radio1').checked);alert(document.getElementById('radio2').checked);alert(document.getElementById('radio3').checked);alert(document.getElementById('radio4').checked);" /> -->
         </ul>
         </div>
     <!--<input onfocus="showPicture(500,''),hideDownload()" onBlur="hidePicture('')" type="button" value="Click me" onclick="generate()" /><br />-->

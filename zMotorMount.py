@@ -113,11 +113,6 @@ class ZMotorMount(object):
 			gv.zMotorMountEdgeToShaftHole = gv.zMotorMountMountingFaceWidth/2 + gv.zRodZScrewDist
 		
 
-		#Check plate Width
-#Can't get exceptions to work inside of modules for some reason
-#Willo this in MakePrinter.py then
-#		if plateWidth<gv.zMotorBodyWidth:
-#			raise Exception("The zMotorMount plate is not wide enough")
 		
 		mountHoleSpacing = gv.zMotorMountPlateWidth/2
 		

@@ -20,28 +20,6 @@ sys.path.append(gv.freecadDir)
 import utilityFunctions as uf
 source = os.path.basename(__file__)
 
-class colors:
-    if (os.getcwd() == os.path.dirname(os.path.abspath(__file__))):
-	HEADER = '\033[95m'
-	OKBLUE = '\033[94m'
-	OKGREEN = '\033[92m'
-	WARNING = '\033[93m'
-	FAIL = '\033[91m'
-	ENDC = '\033[0m'
-	BOLD = '\033[1m'
-	UNDERLINE = '\033[4m'
-    else:
-	HEADER = ''
-	OKBLUE = ''
-	OKGREEN = ''
-	WARNING = ''
-	FAIL = ''
-	ENDC = ''
-	BOLD = ''
-	UNDERLINE = ''
-
-
-
 class versionError(Exception):
   def __init__(self):
     raise StandardError
@@ -87,7 +65,7 @@ def makePrinter():
 	        uf.info("FreeCAD Version 0."+App.Version()[1]+" Revision "+App.Version()[2], "FreeCAD Version 0."+App.Version()[1]+" Revision "+App.Version()[2], gv.level, source)
 	  
     if platform.system()=='Darwin':    #OSX
-	if (App.Version()[1]>'14'):
+	if (App.Version()[1]=='14'):
 	    try:
 		import FreeCADGui 
 		FreeCADGui.showMainWindow()
@@ -95,6 +73,9 @@ def makePrinter():
 	        pass
 	    finally:
 		uf.info("FreeCAD Version 0."+App.Version()[1]+" Revision "+App.Version()[2], "FreeCAD Version 0."+App.Version()[1]+" Revision "+App.Version()[2], gv.level, source)
+	if (App.Version()[1]=='15'):
+	    uf.critical("Retr3d on OSX is not compatible with FreeCAD version .15. Please upgrade to .16 or downgrade to .14 to continue.", "VersionError: FreeCAD Version 0."+App.Version()[1]+" Revision "+App.Version()[2], gv.level, source)
+	    raise versionError
 	  
     if platform.system()=='Linux':
 	if (App.Version()[1]<'14'):
@@ -341,7 +322,12 @@ def makePrinter():
 		    gv.yRodSupportClampBoltLength = gv.clampBoltLengths[i]
 		    break;
 	    elif i == len(gv.clampBoltLengths):
-		    raise Exception("No clamp bolt available is long enough for the yRodSupport")
+		try:
+		    raise Exception("No clamp bolt available is long enough for the yRodSupport"+ str(possibleEdges))
+		except Exception as e:
+		     import traceback
+		     uf.critical("No available clamp bolt is long enough for the yRodSupport", 'Part error: No available clamp bolt is long enough for the yRodSupport: \n\n'+str(e)+'\n'+traceback.format_exc(limit=1), gv.level, os.path.basename(__file__))
+		     raise StandardError
 		    
     #Now redetermine yRodStandoff based on chosen yRodClampBoltLength
     gv.yRodStandoff = (gv.yRodSupportClampBoltLength
@@ -481,7 +467,12 @@ def makePrinter():
 				    else gv.yMotorMountPlateWidth + gv.yRodSupportWidth)
     #Check yRodSpacing to make sure that the Bushing supports can be attached to the print bed support
     if gv.yRodSpacing+gv.printBedBusingSupportWidth > gv.printableWidth + 2*gv.printBedPadding:
+	try:
 	    raise Exception("The yRods can't be spaced far enough apart. Try longer xAxis rods.")
+	except Exception as e:
+	    import traceback
+	    uf.critical("The yRods can't be spaced far enough apart. Try longer xAxis rods.", "Part error: The yRods can't be spaced far enough apart.: \n\n"+str(e)+'\n'+traceback.format_exc(limit=1), gv.level, os.path.basename(__file__))
+	    raise StandardError
 
     #Determine the maximum thickness of the y axis bushings
     gv.yBushingNutMaxThickness = (gv.yBushingNutL[3] 
