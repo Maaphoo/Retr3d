@@ -28,10 +28,11 @@ def slic3(local_path):
 	if not ('.stl' in filename):
 	    os.remove(printerDir+'STL_Files/'+filename)
      
-    #Go Time, Start Plater
+    #Make GCode folder
     if not os.path.exists(printerDir+'GCode/'):
         os.makedirs(printerDir+'GCode/')
-        
+       
+    #Run Slic3r 
     if platform.system()=='Windows':
 	for filename in os.listdir(printerDir+'STL_Files/'):
 	    command = [local_path+'/Slic3r/slic3r-console.exe', '--output', printerDir+'GCode/', printerDir+'STL_Files/'+filename]
@@ -40,7 +41,7 @@ def slic3(local_path):
 	
     if platform.system()=='Darwin':    #OSX 
 	for filename in os.listdir(printerDir+'STL_Files/'):
-	    command = [local_path+'/Slic3r/bin/Slic3r.app/Contents/MacOS/slic3r', '--output', printerDir+'GCode/', printerDir+'STL_Files/'+filename]
+	    command = [local_path+'/Slic3r/Slic3r-Mac.app/Contents/MacOS/slic3r', '--output', printerDir+'GCode/', printerDir+'STL_Files/'+filename]
 	    for line in run(command):
 		print line.rstrip()
 	
