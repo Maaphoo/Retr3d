@@ -1,0 +1,10 @@
+### Python ###
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+test*
+
+/logs
+/Slic3r
+/.idea
