@@ -17,7 +17,17 @@ import globalVars as gv
 
 sys.path.append(gv.freecadDir)
 
-import utilityFunctions as uf
+try:
+    import utilityFunctions as uf
+except StandardError as e:
+    msg="Unable to import FreeCAD, please check your configuration."
+    if not platform.system()=='Windows' and os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
+        print '\033[1m\033[31m'+msg+'\x1b[0m'
+    else:
+      print msg
+    print str(e)
+
+
 source = os.path.basename(__file__)
 
 class versionError(Exception):
