@@ -48,9 +48,13 @@
 		if (textFile !== null) {
 		  window.URL.revokeObjectURL(textFile);
 		}
-
+		
 		textFile = window.URL.createObjectURL(data);
-
+		
+		//if(true)
+		window.navigator.msSaveOrOpenBlob(textFile, 'globalVars.py');
+		//
+		
 		return textFile;
 	      };
 
