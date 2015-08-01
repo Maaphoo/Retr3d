@@ -87,6 +87,8 @@ def critical(msg, log, level, source):
             else:
                 setStatus()
                 App.Console.PrintError(msg + '\n')
+                from PySide import QtGui
+                QtGui.QMessageBox.critical(None, "Retr3d: Error", msg)
 
 
 def error(msg, log, level, source):
