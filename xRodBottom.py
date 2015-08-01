@@ -1,4 +1,3 @@
-#import Math stuff
 from __future__ import division # allows floating point division from integersimport math
 import math
 from itertools import product

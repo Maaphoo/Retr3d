@@ -5,9 +5,7 @@ from itertools import product
 
 # import system and file handling stuff
 import os
-import sys
 import datetime
-import re
 import sys
 sys.path.append('C:\\Users\\micha\\Documents\\Git\\retr3d\\')
 import logging
