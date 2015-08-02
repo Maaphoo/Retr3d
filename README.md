@@ -6,6 +6,9 @@ _____________
 In 2009, discarded TVs, computers, peripherals (including printers, scanners, fax machines) mice, keyboards, and cell phones totaled about 2.37 million short tons. Most of our e-waste ends up in landfills where toxic metals leach into the environment. This open source project aims to convert some of that e-waste into usable 3D printers. 
 ## Software
 Retr3d uses python and FreeCAD to 3D model printable parts for the construction of more 3D printers. Through globalVars.py dimensions of procured e-waste are turned into customized 3D models. Retr3d's software depends on FreeCAD's python scripting API. FreeCAD can be found [here](http://www.freecadweb.org/wiki/index.php?title=Download "Download FreeCAD").
+## Installation: Quick Version
+Head over to our [latest release](https://github.com/masterperson40/retr3d/releases/latest) and download your appropriate file. Next, extract it. Hazzah! You're all done, now head over to <a href="#Getting_Started">Getting Started</a> to get on your way.
+
 ## Configuration
 All of the customizable options can be configured [here.](https://cdn.rawgit.com/masterperson40/ewaste3Dprinter/master/config_generator/index.html) After generating your configuration file make sure to replace the original "globalVars.py file with the newly generated one.
 ## Getting Started
