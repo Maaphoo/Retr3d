@@ -867,9 +867,9 @@ def makePrinter():
     uf.saveAndClose("crossBarBackTop", False)
 
     crossBarBackBottom.draw()
-    uf.info("Done drawing rossBarBackBottom", "Finished rossBarBackBottom.draw()", gv.level, source)
+    uf.info("Done drawing rossBarBackBottom", "Finished crossBarBackBottom.draw()", gv.level, source)
     crossBarBackBottom.assemble()
-    uf.info("Done assembling rossBarBackBottom", "Finished rossBarBackBottom.assemble()", gv.level, source)
+    uf.info("Done assembling rossBarBackBottom", "Finished crossBarBackBottom.assemble()", gv.level, source)
     uf.saveAndClose("crossBarBackBottom", False)
 
     sideBarTopL.draw()
