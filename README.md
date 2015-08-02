@@ -11,7 +11,7 @@ All of the customizable options can be configured [here.](https://cdn.rawgit.com
 ## Getting Started
 To begin creating a printer from the default options, open FreeCAD. Next, select from the menu.
 ![Select "Macro > Macros ..."](https://github.com/masterperson40/ewaste3Dprinter/raw/master/docs/step1.1.png)<br />
-Next, select the folder where is stored.
+Next, select the folder where is stored.<br />
 ![Click the "..." Button](https://github.com/masterperson40/ewaste3Dprinter/raw/master/docs/step2.png)
 ![Select Retr3d Folder](https://github.com/masterperson40/ewaste3Dprinter/raw/master/docs/step3.png)<br />
 Finally, select for the available options. After that, hit to create a printer.
