@@ -13,10 +13,8 @@ To begin creating a printer from the default options, open FreeCAD. Next, select
 ![Select "Macro > Macros ..."](https://github.com/masterperson40/ewaste3Dprinter/raw/master/docs/step1.1.png)<br />
 Next, select the folder where is stored.<br />
 ![Click the "..." Button](https://github.com/masterperson40/ewaste3Dprinter/raw/master/docs/step2.png)
-![Select Retr3d Folder](https://github.com/masterperson40/ewaste3Dprinter/raw/master/docs/step3.png)<br />
 Finally, select for the available options. After that, hit to create a printer.
 ![Click makePrinter.py](https://github.com/masterperson40/ewaste3Dprinter/raw/master/docs/step4.png)<br />
-![Click Execute](https://github.com/masterperson40/ewaste3Dprinter/raw/master/docs/step5.png)<br />
 If everything was installed correctly, you should now have something that looks like this:
 ![printer](https://github.com/masterperson40/ewaste3Dprinter/raw/master/docs/printer.png)<br />
 Remember, it might take a while for your printer to be modelled. Please be patient. 
