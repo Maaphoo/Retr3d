@@ -10,13 +10,17 @@ Retr3d uses python and FreeCAD to 3D model printable parts for the construction 
 All of the customizable options can be configured [here.](https://cdn.rawgit.com/masterperson40/ewaste3Dprinter/master/config_generator/index.html) After generating your configuration file make sure to replace the original "globalVars.py file with the newly generated one.
 ## Getting Started
 To begin creating a printer from the default options, open FreeCAD. Next, select from the menu.
-![Select "Macro > Macros ..."](https://github.com/masterperson40/ewaste3Dprinter/raw/master/docs/step1.1.png)<br />
-Next, select the folder where is stored.<br />
+![Select "Macro > Macros ..."](https://github.com/masterperson40/ewaste3Dprinter/raw/master/docs/step1.1.png)
+<br />
+Next, select the folder where is stored.
+<br />
 ![Click the "..." Button](https://github.com/masterperson40/ewaste3Dprinter/raw/master/docs/step2.png)
 Finally, select for the available options. After that, hit to create a printer.
-![Click makePrinter.py](https://github.com/masterperson40/ewaste3Dprinter/raw/master/docs/step4.png)<br />
+![Click makePrinter.py](https://github.com/masterperson40/ewaste3Dprinter/raw/master/docs/step4.png)
+<br />
 If everything was installed correctly, you should now have something that looks like this:
-![printer](https://github.com/masterperson40/ewaste3Dprinter/raw/master/docs/printer.png)<br />
+![printer](https://github.com/masterperson40/ewaste3Dprinter/raw/master/docs/printer.png)
+<br />
 Remember, it might take a while for your printer to be modelled. Please be patient. 
 ## Plate
 To facilitate an efficient work flow, Retr3d can interface with [Plater](https://github.com/RobotsWar/Plater) to arrange parts in an extremely efficient manner. Make sure to put the appropriate version of plater in the "plater" folder. (Eg. plater.exe, plater.app, or plater)
