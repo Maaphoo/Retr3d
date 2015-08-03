@@ -66,7 +66,7 @@ def makePrinter():
                         "FreeCAD Version 0." + App.Version()[1] + " Revision " + App.Version()[2], gv.level, source)
 
     if platform.system() == 'Darwin':  # OSX
-        if (App.Version()[1] == '14'):
+        if (App.Version()[1] >= '14'):
             try:
                 import FreeCADGui
                 FreeCADGui.showMainWindow()
@@ -75,12 +75,6 @@ def makePrinter():
             finally:
                 uf.info("FreeCAD Version 0." + App.Version()[1] + " Revision " + App.Version()[2],
                         "FreeCAD Version 0." + App.Version()[1] + " Revision " + App.Version()[2], gv.level, source)
-        if (App.Version()[1] == '15'):
-            uf.critical(
-                "Retr3d on OSX is not compatible with FreeCAD version .15. Please upgrade to .16 or downgrade to .14 to continue.",
-                "VersionError: FreeCAD Version 0." + App.Version()[1] + " Revision " + App.Version()[2], gv.level,
-                source)
-            raise versionError
 
     if platform.system() == 'Linux':
         if (App.Version()[1] < '14'):
