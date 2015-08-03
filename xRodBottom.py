@@ -2,7 +2,6 @@ from __future__ import division  # allows floating point division from integers
 
 # import FreeCAD modules
 import FreeCAD as App
-import FreeCADGui as Gui
 import Part
 import Sketcher
 import Draft
@@ -44,13 +43,10 @@ class XRodBottom(object):
 
     def draw(self):
         try:
-            Gui.getDocument('xRodBottom')
-            Gui.getDocument('xRodBottom').resetEdit()
             App.getDocument('xRodBottom').recompute()
             App.closeDocument("xRodBottom")
             App.setActiveDocument("")
             App.ActiveDocument = None
-            Gui.ActiveDocument = None
         except:
             pass
 
@@ -58,7 +54,6 @@ class XRodBottom(object):
         App.newDocument("xRodBottom")
         App.setActiveDocument("xRodBottom")
         App.ActiveDocument = App.getDocument("xRodBottom")
-        Gui.ActiveDocument = Gui.getDocument("xRodBottom")
 
         # make sketch
         App.activeDocument().addObject('Sketcher::SketchObject', 'Sketch')
@@ -81,7 +76,7 @@ class XRodBottom(object):
         App.activeDocument().Pad.Sketch = App.activeDocument().Sketch
         App.activeDocument().Pad.Length = 10.0
         App.ActiveDocument.recompute()
-        Gui.activeDocument().hide("Sketch")
+        #Gui.activeDocument().hide("Sketch")
         App.ActiveDocument.Pad.Length = gv.xRodLength
         App.ActiveDocument.Pad.Reversed = 0
         App.ActiveDocument.Pad.Midplane = 0
