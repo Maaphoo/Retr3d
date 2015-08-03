@@ -45,13 +45,13 @@ class XRodTop(object):
 			
 	def draw(self):
 		try:
-			Gui.getDocument('xRodTop')
-			Gui.getDocument('xRodTop').resetEdit()
+			#Gui.getDocument('xRodTop')
+			#Gui.getDocument('xRodTop').resetEdit()
 			App.getDocument('xRodTop').recompute()
 			App.closeDocument("xRodTop")
 			App.setActiveDocument("")
 			App.ActiveDocument=None
-			Gui.ActiveDocument=None	
+			#Gui.ActiveDocument=None
 		except:
 			pass
 
@@ -59,7 +59,7 @@ class XRodTop(object):
 		App.newDocument("xRodTop")
 		App.setActiveDocument("xRodTop")
 		App.ActiveDocument=App.getDocument("xRodTop")
-		Gui.ActiveDocument=Gui.getDocument("xRodTop")
+		#Gui.ActiveDocument=Gui.getDocument("xRodTop")
 
 		#make sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch')
@@ -80,7 +80,7 @@ class XRodTop(object):
 		App.activeDocument().Pad.Sketch = App.activeDocument().Sketch
 		App.activeDocument().Pad.Length = 10.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch")
+		#Gui.activeDocument().hide("Sketch")
 		App.ActiveDocument.Pad.Length = gv.xRodLength
 		App.ActiveDocument.Pad.Reversed = 0
 		App.ActiveDocument.Pad.Midplane = 0
