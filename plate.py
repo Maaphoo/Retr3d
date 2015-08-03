@@ -13,8 +13,7 @@ def plate():
     date = datetime.date.today().strftime("%m_%d_%Y")
     printerDir = gv.printerDir+"Printer_"+date+"/"
     
-    #Name Variables
-    platerName = gv.platerName
+    #Plater Variables
     platerWidth = gv.platerWidth
     platerHeight = gv.platerHeight
     platerPrecision = gv.platerPrecision
@@ -44,7 +43,7 @@ def plate():
         os.remove(printerDir+'STL_Files/plater-mac') 
 
     if platform.system()=='Linux':
-        shutil.copy2(os.path.dirname(os.path.abspath(__file__))+'/plater/plater-linux', printerDir+'STL_Files/'+platerName)
+        shutil.copy2(os.path.dirname(os.path.abspath(__file__))+'/plater/plater-linux', printerDir+'STL_Files/plater-linux')
         subprocess.check_output([printerDir+'STL_Files/plater-linux','-v', '-W '+ str(platerWidth), '-H '+str(platerHeight), '-j '+str(platerPrecision), '-s '+str(platerSpacing), '-d '+str(platerDelta), '-r '+str(platerRotation), printerDir+'STL_Files/plater.conf'])
         os.remove(printerDir+'STL_Files/plater-linux')
     
