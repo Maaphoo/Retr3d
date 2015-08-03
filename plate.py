@@ -35,8 +35,8 @@ def plate():
     #Go Time, Start Plater
     if platform.system()=='Windows':
         shutil.copy2(os.path.dirname(os.path.abspath(__file__))+'/plater/plater.exe', printerDir+'STL_Files/plater.exe')
-    subprocess.check_output([printerDir+'STL_Files/plater.exe','-v', '-W '+ str(platerWidth), '-H '+str(platerHeight), '-j '+str(platerPrecision), '-s '+str(platerSpacing), '-d '+str(platerDelta), '-r '+str(platerRotation), printerDir+'STL_Files/plater.conf'])
-    os.remove(printerDir+'STL_Files/plater.exe')
+        subprocess.check_output([printerDir+'STL_Files/plater.exe','-v', '-W '+ str(platerWidth), '-H '+str(platerHeight), '-j '+str(platerPrecision), '-s '+str(platerSpacing), '-d '+str(platerDelta), '-r '+str(platerRotation), printerDir+'STL_Files/plater.conf'])
+        os.remove(printerDir+'STL_Files/plater.exe')
 
     if platform.system()=='Darwin':    #OSX 
         shutil.copy2(os.path.dirname(os.path.abspath(__file__))+'/plater/plater-mac', printerDir+'STL_Files/plater-mac')
