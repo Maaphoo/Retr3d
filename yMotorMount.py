@@ -5,7 +5,7 @@ from itertools import product
 
 #import FreeCAD modules
 import FreeCAD as App
-import FreeCADGui as Gui
+import FreeCAD# as #
 import Part
 import Sketcher
 import Draft
@@ -22,11 +22,11 @@ class YMotorMount(object):
 		App.ActiveDocument=App.getDocument(self.name)
 		shape = App.ActiveDocument.ActiveObject.Shape
 		App.ActiveDocument=App.getDocument("PrinterAssembly")
-		Gui.ActiveDocument=Gui.getDocument("PrinterAssembly")
+		#.ActiveDocument=#.getDocument("PrinterAssembly")
 		App.ActiveDocument.addObject('Part::Feature',self.name).Shape= shape
 		
 		#Color Part
-#		Gui.ActiveDocument.getObject(self.name).ShapeColor = (gv.printedR,gv.printedG,gv.printedB,gv.printedA)
+#		#.ActiveDocument.getObject(self.name).ShapeColor = (gv.printedR,gv.printedG,gv.printedB,gv.printedA)
 		
 		#Get the feature and move it into position
 		objs = App.ActiveDocument.getObjectsByLabel(self.name)
@@ -60,13 +60,13 @@ class YMotorMount(object):
 		
 		#Make file and build part
 		try:
-			Gui.getDocument('yMotorMount')
-			Gui.getDocument('yMotorMount').resetEdit()
+			#.getDocument('yMotorMount')
+			#.getDocument('yMotorMount').resetEdit()
 			App.getDocument('yMotorMount').recompute()
 			App.closeDocument("yMotorMount")
 			App.setActiveDocument("")
 			App.ActiveDocument=None
-			Gui.ActiveDocument=None	
+			#.ActiveDocument=None	
 		except:
 			pass
 
@@ -74,7 +74,7 @@ class YMotorMount(object):
 		App.newDocument("yMotorMount")
 		App.setActiveDocument("yMotorMount")
 		App.ActiveDocument=App.getDocument("yMotorMount")
-		Gui.ActiveDocument=Gui.getDocument("yMotorMount")
+		#.ActiveDocument=#.getDocument("yMotorMount")
 		
 		#Make plate
 		#sketch points
@@ -90,8 +90,8 @@ class YMotorMount(object):
 		#Make Sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch')
 		App.activeDocument().Sketch.Placement = App.Placement(App.Vector(0.000000,0.000000,0.000000),App.Rotation(0.000000,0.000000,0.000000,1.000000))
-		Gui.activeDocument().activeView().setCamera('#Inventor V2.1 ascii \n OrthographicCamera {\n viewportMapping ADJUST_CAMERA \n position 0 0 87 \n orientation 0 0 1  0 \n nearDistance -112.88701 \n farDistance 287.28702 \n aspectRatio 1 \n focalDistance 87 \n height 143.52005 }')
-#		Gui.activeDocument().setEdit('Sketch')
+		#.activeDocument().activeView().setCamera('#Inventor V2.1 ascii \n OrthographicCamera {\n viewportMapping ADJUST_CAMERA \n position 0 0 87 \n orientation 0 0 1  0 \n nearDistance -112.88701 \n farDistance 287.28702 \n aspectRatio 1 \n focalDistance 87 \n height 143.52005 }')
+#		#.activeDocument().setEdit('Sketch')
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p4x,p4y,0)))
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p4x,p4y,0),App.Vector(p3x,p3y,0)))
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p3x,p3y,0),App.Vector(p2x,p2y,0)))
@@ -121,7 +121,7 @@ class YMotorMount(object):
 		App.activeDocument().Pad.Sketch = App.activeDocument().Sketch
 		App.activeDocument().Pad.Length = 10.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch")
+		#.activeDocument().hide("Sketch")
 		App.ActiveDocument.Pad.Length = gv.yMotorMountPlateThickness
 		App.ActiveDocument.Pad.Reversed = 0
 		App.ActiveDocument.Pad.Midplane = 0
@@ -129,7 +129,7 @@ class YMotorMount(object):
 		App.ActiveDocument.Pad.Type = 0
 		App.ActiveDocument.Pad.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
+#		#.activeDocument().resetEdit()
 		
 		#Make holes for mounting plate to frame
 		#Sketch Points
@@ -145,7 +145,7 @@ class YMotorMount(object):
 														  None, None,
 														  gv.yMotorMountPlateThickness, 0)
 		App.activeDocument().recompute()
-#		Gui.activeDocument().setEdit('Sketch001')
+#		#.activeDocument().setEdit('Sketch001')
 		App.ActiveDocument.Sketch001.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch001.addConstraint(Sketcher.Constraint('Horizontal',0)) 
@@ -172,7 +172,7 @@ class YMotorMount(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch001.addConstraint(Sketcher.Constraint('Distance',-1,1,0,gv.frameWidth/2)) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument('yMotorMount').resetEdit()
+#		#.getDocument('yMotorMount').resetEdit()
 		App.getDocument('yMotorMount').recompute()
 		
 		#Cut holes through all
@@ -180,16 +180,16 @@ class YMotorMount(object):
 		App.activeDocument().Pocket.Sketch = App.activeDocument().Sketch001
 		App.activeDocument().Pocket.Length = 5.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch001")
-		Gui.activeDocument().hide("Pad")
-#		Gui.ActiveDocument.Pocket.ShapeColor=Gui.ActiveDocument.Pad.ShapeColor
-#		Gui.ActiveDocument.Pocket.LineColor=Gui.ActiveDocument.Pad.LineColor
-#		Gui.ActiveDocument.Pocket.PointColor=Gui.ActiveDocument.Pad.PointColor
+		#.activeDocument().hide("Sketch001")
+		#.activeDocument().hide("Pad")
+#		#.ActiveDocument.Pocket.ShapeColor=#.ActiveDocument.Pad.ShapeColor
+#		#.ActiveDocument.Pocket.LineColor=#.ActiveDocument.Pad.LineColor
+#		#.ActiveDocument.Pocket.PointColor=#.ActiveDocument.Pad.PointColor
 		App.ActiveDocument.Pocket.Length = 5.000000
 		App.ActiveDocument.Pocket.Type = 1
 		App.ActiveDocument.Pocket.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
+#		#.activeDocument().resetEdit()
 		
 		#Make motorMountHoles in plate
 		#Sketch points
@@ -211,7 +211,7 @@ class YMotorMount(object):
 														  None, None,
 														  gv.yMotorMountPlateThickness, 0)
 		App.activeDocument().recompute()
-#		Gui.activeDocument().setEdit('Sketch002')
+#		#.activeDocument().setEdit('Sketch002')
 		App.ActiveDocument.Sketch002.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p4x,p4y,0)))
 		App.ActiveDocument.Sketch002.addGeometry(Part.Line(App.Vector(p4x,p4y,0),App.Vector(p3x,p3y,0)))
 		App.ActiveDocument.Sketch002.addGeometry(Part.Line(App.Vector(p3x,p3y,0),App.Vector(p2x,p2y,0)))
@@ -275,7 +275,7 @@ class YMotorMount(object):
 		#Add symetric constraint
 		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Symmetric',0,2,2,2,4,3)) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument('yMotorMount').resetEdit()
+#		#.getDocument('yMotorMount').resetEdit()
 		App.getDocument('yMotorMount').recompute()
 		
 		#Cut holes
@@ -283,17 +283,17 @@ class YMotorMount(object):
 		App.activeDocument().Pocket001.Sketch = App.activeDocument().Sketch002
 		App.activeDocument().Pocket001.Length = 5.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch002")
-		Gui.activeDocument().hide("Pocket")
-#		Gui.ActiveDocument.Pocket001.ShapeColor=Gui.ActiveDocument.Pocket.ShapeColor
-#		Gui.ActiveDocument.Pocket001.LineColor=Gui.ActiveDocument.Pocket.LineColor
-#		Gui.ActiveDocument.Pocket001.PointColor=Gui.ActiveDocument.Pocket.PointColor
+		#.activeDocument().hide("Sketch002")
+		#.activeDocument().hide("Pocket")
+#		#.ActiveDocument.Pocket001.ShapeColor=#.ActiveDocument.Pocket.ShapeColor
+#		#.ActiveDocument.Pocket001.LineColor=#.ActiveDocument.Pocket.LineColor
+#		#.ActiveDocument.Pocket001.PointColor=#.ActiveDocument.Pocket.PointColor
 		App.ActiveDocument.Pocket001.Length = 5.000000
 		App.ActiveDocument.Pocket001.Type = 1
 		App.ActiveDocument.Pocket001.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
+#		#.activeDocument().resetEdit()
 		
 		#Set view as axometric
-#		Gui.activeDocument().activeView().viewAxometric()		
+#		#.activeDocument().activeView().viewAxometric()		
 		

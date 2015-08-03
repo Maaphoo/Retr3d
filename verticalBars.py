@@ -5,7 +5,7 @@ from itertools import product
 
 #import FreeCAD modules
 import FreeCAD as App
-import FreeCADGui as Gui
+import FreeCAD# as #
 import Part
 import Sketcher
 import Draft
@@ -22,11 +22,11 @@ class VerticalBars(object):
 		App.ActiveDocument=App.getDocument(self.name)
 		shape = App.ActiveDocument.ActiveObject.Shape
 		App.ActiveDocument=App.getDocument("PrinterAssembly")
-		Gui.ActiveDocument=Gui.getDocument("PrinterAssembly")
+		#.ActiveDocument=#.getDocument("PrinterAssembly")
 		App.ActiveDocument.addObject('Part::Feature',self.name+"L").Shape= shape
 		
 		#Color Part
-		Gui.ActiveDocument.getObject(self.name+"L").ShapeColor = (gv.frameR,gv.frameG,gv.frameB,gv.frameA)
+		#.ActiveDocument.getObject(self.name+"L").ShapeColor = (gv.frameR,gv.frameG,gv.frameB,gv.frameA)
 		
 		#Get the feature and move it into position
 		objs = App.ActiveDocument.getObjectsByLabel(self.name+"L")
@@ -66,7 +66,7 @@ class VerticalBars(object):
 		verticalBarL = App.ActiveDocument.getObjectsByLabel(self.name+"R")[-1]
 		
 		#Color part
-		Gui.ActiveDocument.getObject(self.name+"R").ShapeColor = (gv.frameR,gv.frameG,gv.frameB,gv.frameA)
+		#.ActiveDocument.getObject(self.name+"R").ShapeColor = (gv.frameR,gv.frameG,gv.frameB,gv.frameA)
 
 		#Move copy to Right side
 		xShift = gv.zRodSpacing
@@ -83,13 +83,13 @@ class VerticalBars(object):
 		mountHoleSpacing = gv.zRodSupportLength+2*gv.slotPadding+gv.slotDia
 	
 		try:
-			Gui.getDocument(self.name)
-			Gui.getDocument(self.name).resetEdit()
+			#.getDocument(self.name)
+			#.getDocument(self.name).resetEdit()
 			App.getDocument(self.name).recompute()
 			App.closeDocument(self.name)
 			App.setActiveDocument("")
 			App.ActiveDocument=None
-			Gui.ActiveDocument=None	
+			#.ActiveDocument=None	
 		except:
 			pass
 
@@ -97,7 +97,7 @@ class VerticalBars(object):
 		App.newDocument(self.name)
 		App.setActiveDocument(self.name)
 		App.ActiveDocument=App.getDocument(self.name)
-		Gui.ActiveDocument=Gui.getDocument(self.name)
+		#.ActiveDocument=#.getDocument(self.name)
 		
 		#extrude verticalBar
 		uf.extrudeFrameMember(self.name, gv.vertBarLength)
@@ -130,7 +130,7 @@ class VerticalBars(object):
 														 None, None,
 														 gv.frameHeight/2, 0)
 		App.activeDocument().recompute()
-#		Gui.activeDocument().setEdit('Sketch001')
+#		#.activeDocument().setEdit('Sketch001')
 		App.ActiveDocument.Sketch001.addExternal("Pad",uf.getEdge(App.ActiveDocument.Pad,
 																 gv.vertBarLength, 0,
 																 None, None, 
@@ -223,7 +223,7 @@ class VerticalBars(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch001.addConstraint(Sketcher.Constraint('Distance',-1,1,6,1,gv.vertBarDistBelowZRod+gv.zRodSupportLength/2)) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument(self.name).resetEdit()
+#		#.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 		
 		#Cut holes through all
@@ -231,15 +231,15 @@ class VerticalBars(object):
 		App.activeDocument().Pocket.Sketch = App.activeDocument().Sketch001
 		App.activeDocument().Pocket.Length = 5.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch001")
-		Gui.activeDocument().hide("Pad")
-#		Gui.ActiveDocument.Pocket.ShapeColor=Gui.ActiveDocument.Pad.ShapeColor
-#		Gui.ActiveDocument.Pocket.LineColor=Gui.ActiveDocument.Pad.LineColor
-#		Gui.ActiveDocument.Pocket.PointColor=Gui.ActiveDocument.Pad.PointColor
+		#.activeDocument().hide("Sketch001")
+		#.activeDocument().hide("Pad")
+#		#.ActiveDocument.Pocket.ShapeColor=#.ActiveDocument.Pad.ShapeColor
+#		#.ActiveDocument.Pocket.LineColor=#.ActiveDocument.Pad.LineColor
+#		#.ActiveDocument.Pocket.PointColor=#.ActiveDocument.Pad.PointColor
 		App.ActiveDocument.Pocket.Length = 5.000000
 		App.ActiveDocument.Pocket.Type = 1
 		App.ActiveDocument.Pocket.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
+#		#.activeDocument().resetEdit()
 
 		

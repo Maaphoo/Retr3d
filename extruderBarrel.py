@@ -5,7 +5,7 @@ from itertools import product
 
 #import FreeCAD modules
 import FreeCAD as App
-import FreeCADGui as Gui
+import FreeCAD# as #
 import Part
 import Sketcher
 import Draft
@@ -22,11 +22,11 @@ class ExtruderBarrel(object):
 		App.ActiveDocument=App.getDocument(self.name)
 		shape = App.ActiveDocument.ActiveObject.Shape
 		App.ActiveDocument=App.getDocument("PrinterAssembly")
-		Gui.ActiveDocument=Gui.getDocument("PrinterAssembly")
+		#.ActiveDocument=#.getDocument("PrinterAssembly")
 		App.ActiveDocument.addObject('Part::Feature',self.name).Shape= shape
 		
 		#Color Part
-#		Gui.ActiveDocument.getObject(self.name).ShapeColor = (gv.frameR,gv.frameG,gv.frameB,gv.frameA)
+#		#.ActiveDocument.getObject(self.name).ShapeColor = (gv.frameR,gv.frameG,gv.frameB,gv.frameA)
 		
 		#Get the feature and move it into position
 		objs = App.ActiveDocument.getObjectsByLabel(self.name)
@@ -57,13 +57,13 @@ class ExtruderBarrel(object):
 
 	def draw(self):
 		try:
-			Gui.getDocument(self.name)
-			Gui.getDocument(self.name).resetEdit()
+			#.getDocument(self.name)
+			#.getDocument(self.name).resetEdit()
 			App.getDocument(self.name).recompute()
 			App.closeDocument(self.name)
 			App.setActiveDocument("")
 			App.ActiveDocument=None
-			Gui.ActiveDocument=None	
+			#.ActiveDocument=None	
 		except:
 			pass
 
@@ -71,7 +71,7 @@ class ExtruderBarrel(object):
 		App.newDocument(self.name)
 		App.setActiveDocument(self.name)
 		App.ActiveDocument=App.getDocument(self.name)
-		Gui.ActiveDocument=Gui.getDocument(self.name)
+		#.ActiveDocument=#.getDocument(self.name)
 		
 		#Revolve barrel body
 		#Sketch points
@@ -98,8 +98,8 @@ class ExtruderBarrel(object):
 		
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch')
 		App.activeDocument().Sketch.Placement = App.Placement(App.Vector(0.000000,0.000000,0.000000),App.Rotation(-0.707107,0.000000,0.000000,-0.707107))
-		Gui.activeDocument().activeView().setCamera('#Inventor V2.1 ascii \n OrthographicCamera {\n viewportMapping ADJUST_CAMERA\n  position 0 -87 0 \n  orientation -1 0 0  4.712389\n  nearDistance -112.88701\n  farDistance 287.28702\n  aspectRatio 1\n  focalDistance 87\n  height 143.52005\n\n}')
-#		Gui.activeDocument().setEdit('Sketch')
+		#.activeDocument().activeView().setCamera('#Inventor V2.1 ascii \n OrthographicCamera {\n viewportMapping ADJUST_CAMERA\n  position 0 -87 0 \n  orientation -1 0 0  4.712389\n  nearDistance -112.88701\n  farDistance 287.28702\n  aspectRatio 1\n  focalDistance 87\n  height 143.52005\n\n}')
+#		#.activeDocument().setEdit('Sketch')
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.Sketch.addConstraint(Sketcher.Constraint('PointOnObject',0,1,-1)) 
 		App.ActiveDocument.Sketch.addConstraint(Sketcher.Constraint('PointOnObject',0,2,-1)) 
@@ -158,7 +158,7 @@ class ExtruderBarrel(object):
 		App.ActiveDocument.Sketch.addConstraint(Sketcher.Constraint('DistanceY',1,gv.extruderBarrelLength)) 
 		App.ActiveDocument.Sketch.addConstraint(Sketcher.Constraint('Distance',4,2,1,gv.extruderBarrelCoreThickness)) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument(self.name).resetEdit()
+#		#.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 		
 		#revolve profile to make barrel
@@ -168,14 +168,14 @@ class ExtruderBarrel(object):
 		App.activeDocument().Revolution.Angle = 360.0
 		App.activeDocument().Revolution.Reversed = 1
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch")
-#		Gui.activeDocument().setEdit('Revolution')
+		#.activeDocument().hide("Sketch")
+#		#.activeDocument().setEdit('Revolution')
 		App.ActiveDocument.Revolution.Angle = 360.000000
 		App.ActiveDocument.Revolution.ReferenceAxis = (App.ActiveDocument.Sketch,['V_Axis'])
 		App.ActiveDocument.Revolution.Midplane = 0
 		App.ActiveDocument.Revolution.Reversed = 1
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
+#		#.activeDocument().resetEdit()
 		
 		#Make mounting holes in top face
 		#Sketch Points
@@ -190,7 +190,7 @@ class ExtruderBarrel(object):
 															gv.extruderBarrelLength,0)
 
 		App.activeDocument().recompute()
-##		Gui.activeDocument().setEdit('Sketch001')
+##		#.activeDocument().setEdit('Sketch001')
 		App.ActiveDocument.Sketch001.addGeometry(Part.Circle(App.Vector(p1x,p1y,0),App.Vector(0,0,1),gv.extruderBarrelMountHoleDia/2))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch001.addConstraint(Sketcher.Constraint('PointOnObject',0,3,-1)) 
@@ -201,23 +201,23 @@ class ExtruderBarrel(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch001.addConstraint(Sketcher.Constraint('Radius',0,gv.extruderBarrelMountHoleDia/2)) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument(self.name).resetEdit()
+#		#.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 
 		App.activeDocument().addObject("PartDesign::Pocket","Pocket")
 		App.activeDocument().Pocket.Sketch = App.activeDocument().Sketch001
 		App.activeDocument().Pocket.Length = 5.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch001")
-		Gui.activeDocument().hide("Revolution")
-#		Gui.ActiveDocument.Pocket.ShapeColor=Gui.ActiveDocument.Revolution.ShapeColor
-#		Gui.ActiveDocument.Pocket.LineColor=Gui.ActiveDocument.Revolution.LineColor
-#		Gui.ActiveDocument.Pocket.PointColor=Gui.ActiveDocument.Revolution.PointColor
+		#.activeDocument().hide("Sketch001")
+		#.activeDocument().hide("Revolution")
+#		#.ActiveDocument.Pocket.ShapeColor=#.ActiveDocument.Revolution.ShapeColor
+#		#.ActiveDocument.Pocket.LineColor=#.ActiveDocument.Revolution.LineColor
+#		#.ActiveDocument.Pocket.PointColor=#.ActiveDocument.Revolution.PointColor
 		App.ActiveDocument.Pocket.Length = gv.extruderBarrelMountHoleDepth
 		App.ActiveDocument.Pocket.Type = 0
 		App.ActiveDocument.Pocket.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
+#		#.activeDocument().resetEdit()
 		
 		#Copy hole to other side of face
 		App.activeDocument().addObject("PartDesign::PolarPattern","PolarPattern")
@@ -226,16 +226,16 @@ class ExtruderBarrel(object):
 		App.activeDocument().PolarPattern.Axis = (App.activeDocument().Sketch001, ["N_Axis"])
 		App.activeDocument().PolarPattern.Angle = 360
 		App.activeDocument().PolarPattern.Occurrences = 2
-		Gui.activeDocument().Pocket.Visibility=False
-#		Gui.ActiveDocument.PolarPattern.ShapeColor=Gui.ActiveDocument.Pocket.ShapeColor
-#		Gui.ActiveDocument.PolarPattern.DisplayMode=Gui.ActiveDocument.Pocket.DisplayMode
+		#.activeDocument().Pocket.Visibility=False
+#		#.ActiveDocument.PolarPattern.ShapeColor=#.ActiveDocument.Pocket.ShapeColor
+#		#.ActiveDocument.PolarPattern.DisplayMode=#.ActiveDocument.Pocket.DisplayMode
 		App.ActiveDocument.PolarPattern.Originals = [App.ActiveDocument.Pocket,]
 		App.ActiveDocument.PolarPattern.Axis = (App.ActiveDocument.Sketch001,["N_Axis"])
 		App.ActiveDocument.PolarPattern.Reversed = 0
 		App.ActiveDocument.PolarPattern.Angle = 360.000000
 		App.ActiveDocument.PolarPattern.Occurrences = 2
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
+#		#.activeDocument().resetEdit()
 		
 		#Make mounting holes on bottom face
 		p1x = gv.hotEndMountHoleSpacing/2
@@ -247,7 +247,7 @@ class ExtruderBarrel(object):
 															0,0,
 															0,0, 
 															0,0)
-#		Gui.activeDocument().setEdit('Sketch002')
+#		#.activeDocument().setEdit('Sketch002')
 		App.ActiveDocument.Sketch002.addGeometry(Part.Circle(App.Vector(p1x,p1y,0),App.Vector(0,0,1),gv.extruderBarrelMountHoleDia/2))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('PointOnObject',0,3,-1)) 
@@ -256,7 +256,7 @@ class ExtruderBarrel(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Radius',0,gv.extruderBarrelMountHoleDia/2)) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument(self.name).resetEdit()
+#		#.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 		
 		#Cut holes
@@ -264,16 +264,16 @@ class ExtruderBarrel(object):
 		App.activeDocument().Pocket001.Sketch = App.activeDocument().Sketch002
 		App.activeDocument().Pocket001.Length = 5.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch002")
-		Gui.activeDocument().hide("PolarPattern")
-#		Gui.ActiveDocument.Pocket001.ShapeColor=Gui.ActiveDocument.PolarPattern.ShapeColor
-#		Gui.ActiveDocument.Pocket001.LineColor=Gui.ActiveDocument.PolarPattern.LineColor
-#		Gui.ActiveDocument.Pocket001.PointColor=Gui.ActiveDocument.PolarPattern.PointColor
+		#.activeDocument().hide("Sketch002")
+		#.activeDocument().hide("PolarPattern")
+#		#.ActiveDocument.Pocket001.ShapeColor=#.ActiveDocument.PolarPattern.ShapeColor
+#		#.ActiveDocument.Pocket001.LineColor=#.ActiveDocument.PolarPattern.LineColor
+#		#.ActiveDocument.Pocket001.PointColor=#.ActiveDocument.PolarPattern.PointColor
 		App.ActiveDocument.Pocket001.Length = gv.extruderBarrelMountHoleDepth
 		App.ActiveDocument.Pocket001.Type = 0
 		App.ActiveDocument.Pocket001.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
+#		#.activeDocument().resetEdit()
 		
 		#Copy hole to other side of bottom face
 		App.activeDocument().addObject("PartDesign::PolarPattern","PolarPattern001")
@@ -282,16 +282,16 @@ class ExtruderBarrel(object):
 		App.activeDocument().PolarPattern001.Axis = (App.activeDocument().Sketch002, ["N_Axis"])
 		App.activeDocument().PolarPattern001.Angle = 360
 		App.activeDocument().PolarPattern001.Occurrences = 2
-		Gui.activeDocument().Pocket001.Visibility=False
-#		Gui.ActiveDocument.PolarPattern001.ShapeColor=Gui.ActiveDocument.Pocket001.ShapeColor
-#		Gui.ActiveDocument.PolarPattern001.DisplayMode=Gui.ActiveDocument.Pocket001.DisplayMode
+		#.activeDocument().Pocket001.Visibility=False
+#		#.ActiveDocument.PolarPattern001.ShapeColor=#.ActiveDocument.Pocket001.ShapeColor
+#		#.ActiveDocument.PolarPattern001.DisplayMode=#.ActiveDocument.Pocket001.DisplayMode
 		App.ActiveDocument.PolarPattern001.Originals = [App.ActiveDocument.Pocket001,]
 		App.ActiveDocument.PolarPattern001.Axis = (App.ActiveDocument.Sketch002,["N_Axis"])
 		App.ActiveDocument.PolarPattern001.Reversed = 0
 		App.ActiveDocument.PolarPattern001.Angle = 360.000000
 		App.ActiveDocument.PolarPattern001.Occurrences = 2
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
+#		#.activeDocument().resetEdit()
 		
 		#Set view
-#		Gui.activeDocument().activeView().viewAxometric()
+#		#.activeDocument().activeView().viewAxometric()

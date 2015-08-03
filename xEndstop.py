@@ -5,7 +5,7 @@ from itertools import product
 
 #import FreeCAD modules
 import FreeCAD as App
-import FreeCADGui as Gui
+import FreeCAD# as #
 import Part
 import Sketcher
 import Draft
@@ -22,11 +22,11 @@ class XEndstop(object):
 		App.ActiveDocument=App.getDocument(self.name)
 		endstop = App.ActiveDocument.ActiveObject.Shape
 		App.ActiveDocument=App.getDocument("PrinterAssembly")
-		Gui.ActiveDocument=Gui.getDocument("PrinterAssembly")
+		#.ActiveDocument=#.getDocument("PrinterAssembly")
 		App.ActiveDocument.addObject('Part::Feature',self.name).Shape= endstop
 		
 		#Color Part
-		Gui.ActiveDocument.getObject(self.name).ShapeColor = (gv.printedR,gv.printedG,gv.printedB,gv.printedA)
+		#.ActiveDocument.getObject(self.name).ShapeColor = (gv.printedR,gv.printedG,gv.printedB,gv.printedA)
 		
 		#Get the feature and move it into position
 		objs = App.ActiveDocument.getObjectsByLabel(self.name)
@@ -36,11 +36,11 @@ class XEndstop(object):
 		App.ActiveDocument=App.getDocument(self.name+"Cap")
 		cap = App.ActiveDocument.ActiveObject.Shape
 		App.ActiveDocument=App.getDocument("PrinterAssembly")
-		Gui.ActiveDocument=Gui.getDocument("PrinterAssembly")
+		#.ActiveDocument=#.getDocument("PrinterAssembly")
 		App.ActiveDocument.addObject('Part::Feature',self.name+"Cap").Shape= cap
 		
 		#Color Part
-		Gui.ActiveDocument.getObject(self.name+"Cap").ShapeColor = (gv.printedR,gv.printedG,gv.printedB,gv.printedA)
+		#.ActiveDocument.getObject(self.name+"Cap").ShapeColor = (gv.printedR,gv.printedG,gv.printedB,gv.printedA)
 		
 		#Get the feature and move it into position
 		objs = App.ActiveDocument.getObjectsByLabel(self.name+"Cap")
@@ -92,13 +92,13 @@ class XEndstop(object):
 		#Helper variables
 		width = 2*gv.xEndstopPadding+2*gv.xEndstopChannelWidth + gv.xEndstopContactSpacing
 		try:
-			Gui.getDocument(self.name)
-			Gui.getDocument(self.name).resetEdit()
+			#.getDocument(self.name)
+			#.getDocument(self.name).resetEdit()
 			App.getDocument(self.name).recompute()
 			App.closeDocument(self.name)
 			App.setActiveDocument("")
 			App.ActiveDocument=None
-			Gui.ActiveDocument=None	
+			#.ActiveDocument=None	
 		except:
 			pass
 
@@ -106,7 +106,7 @@ class XEndstop(object):
 		App.newDocument(self.name)
 		App.setActiveDocument(self.name)
 		App.ActiveDocument=App.getDocument(self.name)
-		Gui.ActiveDocument=Gui.getDocument(self.name)
+		#.ActiveDocument=#.getDocument(self.name)
 		
 		#Sketch Points
 		p1x = -(width/2)
@@ -123,8 +123,8 @@ class XEndstop(object):
 		#make endstop body
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch')
 		App.activeDocument().Sketch.Placement = App.Placement(App.Vector(0.000000,0.000000,0.000000),App.Rotation(0.000000,0.000000,0.000000,1.000000))
-		Gui.activeDocument().activeView().setCamera('#Inventor V2.1 ascii \n OrthographicCamera {\n viewportMapping ADJUST_CAMERA \n position 0 0 87 \n orientation 0 0 1  0 \n nearDistance -112.88701 \n farDistance 287.28702 \n aspectRatio 1 \n focalDistance 87 \n height 143.52005 }')
-#		Gui.activeDocument().setEdit('Sketch')
+		#.activeDocument().activeView().setCamera('#Inventor V2.1 ascii \n OrthographicCamera {\n viewportMapping ADJUST_CAMERA \n position 0 0 87 \n orientation 0 0 1  0 \n nearDistance -112.88701 \n farDistance 287.28702 \n aspectRatio 1 \n focalDistance 87 \n height 143.52005 }')
+#		#.activeDocument().setEdit('Sketch')
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p4x,p4y,0)))
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p4x,p4y,0),App.Vector(p3x,p3y,0)))
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p3x,p3y,0),App.Vector(p2x,p2y,0)))
@@ -155,7 +155,7 @@ class XEndstop(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch.addConstraint(Sketcher.Constraint('Distance',-1,1,0,gv.xEndstopPadding+gv.printedToPrintedDia/2)) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument(self.name).resetEdit()
+#		#.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 		
 		#Pad sketch
@@ -163,7 +163,7 @@ class XEndstop(object):
 		App.activeDocument().Pad.Sketch = App.activeDocument().Sketch
 		App.activeDocument().Pad.Length = 10.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch")
+		#.activeDocument().hide("Sketch")
 		App.ActiveDocument.Pad.Length = gv.xEndstopHeight
 		App.ActiveDocument.Pad.Reversed = 0
 		App.ActiveDocument.Pad.Midplane = 0
@@ -225,7 +225,7 @@ class XEndstop(object):
 														  width/2,0,
 														  None, None,
 														  gv.xEndstopHeight, 0))
-#		Gui.activeDocument().setEdit('Sketch001')
+#		#.activeDocument().setEdit('Sketch001')
 		App.ActiveDocument.Sketch001.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch001.addConstraint(Sketcher.Constraint('PointOnObject',0,1,-4)) 
@@ -335,7 +335,7 @@ class XEndstop(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch001.addConstraint(Sketcher.Constraint('Distance',9,2,-5,2,gv.xEndstopPadding)) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument(self.name).resetEdit()
+#		#.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 		
 		#Cut channels
@@ -343,26 +343,26 @@ class XEndstop(object):
 		App.activeDocument().Pocket.Sketch = App.activeDocument().Sketch001
 		App.activeDocument().Pocket.Length = 5.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch001")
-		Gui.activeDocument().hide("Pad")
-#		Gui.ActiveDocument.Pocket.ShapeColor=Gui.ActiveDocument.Pad.ShapeColor
-#		Gui.ActiveDocument.Pocket.LineColor=Gui.ActiveDocument.Pad.LineColor
-#		Gui.ActiveDocument.Pocket.PointColor=Gui.ActiveDocument.Pad.PointColor
+		#.activeDocument().hide("Sketch001")
+		#.activeDocument().hide("Pad")
+#		#.ActiveDocument.Pocket.ShapeColor=#.ActiveDocument.Pad.ShapeColor
+#		#.ActiveDocument.Pocket.LineColor=#.ActiveDocument.Pad.LineColor
+#		#.ActiveDocument.Pocket.PointColor=#.ActiveDocument.Pad.PointColor
 		App.ActiveDocument.Pocket.Length = 3.000000
 		App.ActiveDocument.Pocket.Type = 0
 		App.ActiveDocument.Pocket.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
+#		#.activeDocument().resetEdit()
 		
 		#Make cap
 		try:
-			Gui.getDocument(self.name+"Cap")
-			Gui.getDocument(self.name+"Cap").resetEdit()
+			#.getDocument(self.name+"Cap")
+			#.getDocument(self.name+"Cap").resetEdit()
 			App.getDocument(self.name+"Cap").recompute()
 			App.closeDocument(self.name+"Cap")
 			App.setActiveDocument("")
 			App.ActiveDocument=None
-			Gui.ActiveDocument=None	
+			#.ActiveDocument=None	
 		except:
 			pass
 
@@ -370,7 +370,7 @@ class XEndstop(object):
 		App.newDocument(self.name+"Cap")
 		App.setActiveDocument(self.name+"Cap")
 		App.ActiveDocument=App.getDocument(self.name+"Cap")
-		Gui.ActiveDocument=Gui.getDocument(self.name+"Cap")
+		#.ActiveDocument=#.getDocument(self.name+"Cap")
 		
 		#Sketch Points
 		p1x = -(width/2)
@@ -387,8 +387,8 @@ class XEndstop(object):
 		#make endstop body
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch')
 		App.activeDocument().Sketch.Placement = App.Placement(App.Vector(0.000000,0.000000,0.000000),App.Rotation(0.000000,0.000000,0.000000,1.000000))
-		Gui.activeDocument().activeView().setCamera('#Inventor V2.1 ascii \n OrthographicCamera {\n viewportMapping ADJUST_CAMERA \n position 0 0 87 \n orientation 0 0 1  0 \n nearDistance -112.88701 \n farDistance 287.28702 \n aspectRatio 1 \n focalDistance 87 \n height 143.52005 }')
-#		Gui.activeDocument().setEdit('Sketch')
+		#.activeDocument().activeView().setCamera('#Inventor V2.1 ascii \n OrthographicCamera {\n viewportMapping ADJUST_CAMERA \n position 0 0 87 \n orientation 0 0 1  0 \n nearDistance -112.88701 \n farDistance 287.28702 \n aspectRatio 1 \n focalDistance 87 \n height 143.52005 }')
+#		#.activeDocument().setEdit('Sketch')
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p4x,p4y,0)))
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p4x,p4y,0),App.Vector(p3x,p3y,0)))
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p3x,p3y,0),App.Vector(p2x,p2y,0)))
@@ -419,7 +419,7 @@ class XEndstop(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch.addConstraint(Sketcher.Constraint('Distance',-1,1,0,gv.xEndstopPadding+gv.printedToPrintedDia/2)) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument(self.name+"Cap").resetEdit()
+#		#.getDocument(self.name+"Cap").resetEdit()
 		App.getDocument(self.name+"Cap").recompute()
 		
 		#Pad sketch
@@ -427,7 +427,7 @@ class XEndstop(object):
 		App.activeDocument().Pad.Sketch = App.activeDocument().Sketch
 		App.activeDocument().Pad.Length = 10.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch")
+		#.activeDocument().hide("Sketch")
 		App.ActiveDocument.Pad.Length = gv.xEndstopCapThickness
 		App.ActiveDocument.Pad.Reversed = 0
 		App.ActiveDocument.Pad.Midplane = 0

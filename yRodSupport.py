@@ -5,7 +5,7 @@ from itertools import product
 
 #import FreeCAD modules
 import FreeCAD as App
-import FreeCADGui as Gui
+import FreeCAD# as #
 import Part
 import Sketcher
 import Draft
@@ -36,19 +36,19 @@ class YRodSupport(object):
 		App.ActiveDocument=App.getDocument(self.name)
 		support = App.ActiveDocument.ActiveObject.Shape
 		App.ActiveDocument=App.getDocument("PrinterAssembly")
-		Gui.ActiveDocument=Gui.getDocument("PrinterAssembly")
+		#.ActiveDocument=#.getDocument("PrinterAssembly")
 		App.ActiveDocument.addObject('Part::Feature',self.name+"Front").Shape= support
 
 		App.ActiveDocument=App.getDocument(self.name+"Clamp")
 		clamp = App.ActiveDocument.ActiveObject.Shape
 
 		App.ActiveDocument=App.getDocument("PrinterAssembly")
-		Gui.ActiveDocument=Gui.getDocument("PrinterAssembly")
+		#.ActiveDocument=#.getDocument("PrinterAssembly")
 		App.ActiveDocument.addObject('Part::Feature',self.name+"ClampFront").Shape= clamp
 			
 		#Color Part
-		Gui.ActiveDocument.getObject(self.name+"Front").ShapeColor = (gv.printedR,gv.printedG,gv.printedB,gv.printedA)
-		Gui.ActiveDocument.getObject(self.name+"ClampFront").ShapeColor = (gv.printedR,gv.printedG,gv.printedB,gv.printedA)
+		#.ActiveDocument.getObject(self.name+"Front").ShapeColor = (gv.printedR,gv.printedG,gv.printedB,gv.printedA)
+		#.ActiveDocument.getObject(self.name+"ClampFront").ShapeColor = (gv.printedR,gv.printedG,gv.printedB,gv.printedA)
 		
 		#move into position relative to eachother
 		objs = App.ActiveDocument.getObjectsByLabel(self.name+"ClampFront")
@@ -99,8 +99,8 @@ class YRodSupport(object):
 		App.ActiveDocument.addObject('Part::Feature',self.name+"ClampBack").Shape= supportClampFront[1].Shape		
 		
 		#Color Parts
-		Gui.ActiveDocument.getObject(self.name+"Back").ShapeColor = (gv.printedR,gv.printedG,gv.printedB,gv.printedA)
-		Gui.ActiveDocument.getObject(self.name+"ClampBack").ShapeColor = (gv.printedR,gv.printedG,gv.printedB,gv.printedA)
+		#.ActiveDocument.getObject(self.name+"Back").ShapeColor = (gv.printedR,gv.printedG,gv.printedB,gv.printedA)
+		#.ActiveDocument.getObject(self.name+"ClampBack").ShapeColor = (gv.printedR,gv.printedG,gv.printedB,gv.printedA)
 		
 		supportClampBack = App.ActiveDocument.getObjectsByLabel(self.name+"Back")
 		supportClampBack.append(App.ActiveDocument.getObjectsByLabel(self.name+"ClampBack")[-1])
@@ -134,13 +134,13 @@ class YRodSupport(object):
 						
 
 		try:
-			Gui.getDocument(self.name)
-			Gui.getDocument(self.name).resetEdit()
+			#.getDocument(self.name)
+			#.getDocument(self.name).resetEdit()
 			App.getDocument(self.name).recompute()
 			App.closeDocument(self.name)
 			App.setActiveDocument("")
 			App.ActiveDocument=None
-			Gui.ActiveDocument=None	
+			#.ActiveDocument=None	
 		except:
 			pass
 
@@ -148,7 +148,7 @@ class YRodSupport(object):
 		App.newDocument(self.name)
 		App.setActiveDocument(self.name)
 		App.ActiveDocument=App.getDocument(self.name)
-		Gui.ActiveDocument=Gui.getDocument(self.name)
+		#.ActiveDocument=#.getDocument(self.name)
 		App.ActiveDocument=App.getDocument(self.name)
 		
 		#Create tabs
@@ -165,8 +165,8 @@ class YRodSupport(object):
 		#MakeSketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch')
 		App.activeDocument().Sketch.Placement = App.Placement(App.Vector(0.000000,0.000000,0.000000),App.Rotation(0.000000,0.000000,0.000000,1.000000))
-		Gui.activeDocument().activeView().setCamera('#Inventor V2.1 ascii \n OrthographicCamera {\n viewportMapping ADJUST_CAMERA \n position 0 0 87 \n orientation 0 0 1  0 \n nearDistance -112.88701 \n farDistance 287.28702 \n aspectRatio 1 \n focalDistance 87 \n height 143.52005 }')
-#		Gui.activeDocument().setEdit('Sketch')
+		#.activeDocument().activeView().setCamera('#Inventor V2.1 ascii \n OrthographicCamera {\n viewportMapping ADJUST_CAMERA \n position 0 0 87 \n orientation 0 0 1  0 \n nearDistance -112.88701 \n farDistance 287.28702 \n aspectRatio 1 \n focalDistance 87 \n height 143.52005 }')
+#		#.activeDocument().setEdit('Sketch')
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p2x,p2y,0),App.Vector(p3x,p3y,0)))
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p3x,p3y,0),App.Vector(p4x,p4y,0)))
@@ -188,7 +188,7 @@ class YRodSupport(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch.addConstraint(Sketcher.Constraint('DistanceX',2,-gv.yRodSupportWidth)) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument(self.name).resetEdit()
+#		#.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 		
 		#Pad Sketch
@@ -196,7 +196,7 @@ class YRodSupport(object):
 		App.activeDocument().Pad.Sketch = App.activeDocument().Sketch
 		App.activeDocument().Pad.Length = 10.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch")
+		#.activeDocument().hide("Sketch")
 		App.ActiveDocument.Pad.Length = gv.tabThickness
 		App.ActiveDocument.Pad.Reversed = 0
 		App.ActiveDocument.Pad.Midplane = 0
@@ -204,7 +204,7 @@ class YRodSupport(object):
 		App.ActiveDocument.Pad.Type = 0
 		App.ActiveDocument.Pad.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
+#		#.activeDocument().resetEdit()
 
 		#Cut slot on right side
 		#Sketch points
@@ -230,7 +230,7 @@ class YRodSupport(object):
 														  None, None,
 														  gv.tabThickness, 0)
 		App.activeDocument().recompute()
-#		Gui.activeDocument().setEdit('Sketch001')
+#		#.activeDocument().setEdit('Sketch001')
 		App.ActiveDocument.Sketch001.addExternal("Pad",uf.getEdge(App.ActiveDocument.Pad, 
 														  gv.yRodSupportWidth/2,0,
 														  None, None,
@@ -266,7 +266,7 @@ class YRodSupport(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch001.addConstraint(Sketcher.Constraint('Distance',4,1,-3,gv.slotPadding)) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument(self.name).resetEdit()
+#		#.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 		
 		#Cut slot through all
@@ -274,30 +274,30 @@ class YRodSupport(object):
 		App.activeDocument().Pocket.Sketch = App.activeDocument().Sketch001
 		App.activeDocument().Pocket.Length = 5.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch001")
-		Gui.activeDocument().hide("Pad")
-#		Gui.ActiveDocument.Pocket.ShapeColor=Gui.ActiveDocument.Pad.ShapeColor
-#		Gui.ActiveDocument.Pocket.LineColor=Gui.ActiveDocument.Pad.LineColor
-#		Gui.ActiveDocument.Pocket.PointColor=Gui.ActiveDocument.Pad.PointColor
+		#.activeDocument().hide("Sketch001")
+		#.activeDocument().hide("Pad")
+#		#.ActiveDocument.Pocket.ShapeColor=#.ActiveDocument.Pad.ShapeColor
+#		#.ActiveDocument.Pocket.LineColor=#.ActiveDocument.Pad.LineColor
+#		#.ActiveDocument.Pocket.PointColor=#.ActiveDocument.Pad.PointColor
 		App.ActiveDocument.Pocket.Length = 5.000000
 		App.ActiveDocument.Pocket.Type = 1
 		App.ActiveDocument.Pocket.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
+#		#.activeDocument().resetEdit()
 	
 		#Mirror the slot
 		App.activeDocument().addObject("PartDesign::Mirrored","Mirrored")
 		App.ActiveDocument.recompute()
 		App.activeDocument().Mirrored.Originals = [App.activeDocument().Pocket,]
 		App.activeDocument().Mirrored.MirrorPlane = (App.activeDocument().Sketch001, ["V_Axis"])
-		Gui.activeDocument().Pocket.Visibility=False
-#		Gui.activeDocument().setEdit('Mirrored')
-#		Gui.ActiveDocument.Mirrored.ShapeColor=Gui.ActiveDocument.Pocket.ShapeColor
-#		Gui.ActiveDocument.Mirrored.DisplayMode=Gui.ActiveDocument.Pocket.DisplayMode
+		#.activeDocument().Pocket.Visibility=False
+#		#.activeDocument().setEdit('Mirrored')
+#		#.ActiveDocument.Mirrored.ShapeColor=#.ActiveDocument.Pocket.ShapeColor
+#		#.ActiveDocument.Mirrored.DisplayMode=#.ActiveDocument.Pocket.DisplayMode
 		App.ActiveDocument.Mirrored.Originals = [App.ActiveDocument.Pocket,]
 		App.ActiveDocument.Mirrored.MirrorPlane = (App.ActiveDocument.Sketch001,["V_Axis"])
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
+#		#.activeDocument().resetEdit()
 
 		#Make rod support column
 		#Sketch points
@@ -317,7 +317,7 @@ class YRodSupport(object):
 														  None, None,
 														  0, 0)
 		App.activeDocument().recompute()
-#		Gui.activeDocument().setEdit('Sketch002')
+#		#.activeDocument().setEdit('Sketch002')
 		App.ActiveDocument.Sketch002.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p4x,p4y,0)))
 		App.ActiveDocument.Sketch002.addGeometry(Part.Line(App.Vector(p4x,p4y,0),App.Vector(p3x,p3y,0)))
 		App.ActiveDocument.Sketch002.addGeometry(Part.Line(App.Vector(p3x,p3y,0),App.Vector(p2x,p2y,0)))
@@ -339,7 +339,7 @@ class YRodSupport(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('DistanceX',2,-columnWidth)) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument(self.name).resetEdit()
+#		#.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 		
 		#pad rod support
@@ -347,11 +347,11 @@ class YRodSupport(object):
 		App.activeDocument().Pad001.Sketch = App.activeDocument().Sketch002
 		App.activeDocument().Pad001.Length = 10.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch002")
-		Gui.activeDocument().hide("Mirrored")
-#		Gui.ActiveDocument.Pad001.ShapeColor=Gui.ActiveDocument.Mirrored.ShapeColor
-#		Gui.ActiveDocument.Pad001.LineColor=Gui.ActiveDocument.Mirrored.LineColor
-#		Gui.ActiveDocument.Pad001.PointColor=Gui.ActiveDocument.Mirrored.PointColor
+		#.activeDocument().hide("Sketch002")
+		#.activeDocument().hide("Mirrored")
+#		#.ActiveDocument.Pad001.ShapeColor=#.ActiveDocument.Mirrored.ShapeColor
+#		#.ActiveDocument.Pad001.LineColor=#.ActiveDocument.Mirrored.LineColor
+#		#.ActiveDocument.Pad001.PointColor=#.ActiveDocument.Mirrored.PointColor
 		App.ActiveDocument.Pad001.Length = gv.yRodStandoff-gv.clampGap/2
 		App.ActiveDocument.Pad001.Reversed = 1
 		App.ActiveDocument.Pad001.Midplane = 0
@@ -359,15 +359,15 @@ class YRodSupport(object):
 		App.ActiveDocument.Pad001.Type = 0
 		App.ActiveDocument.Pad001.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
+#		#.activeDocument().resetEdit()
 		
 		#Refine shape
 		App.ActiveDocument.addObject('Part::Feature','Refined').Shape=App.ActiveDocument.Pad001.Shape.removeSplitter()
 		App.ActiveDocument.ActiveObject.Label=App.ActiveDocument.Pad001.Label
-		Gui.ActiveDocument.Pad001.hide()
-#		Gui.ActiveDocument.ActiveObject.ShapeColor=Gui.ActiveDocument.Pad001.ShapeColor
-#		Gui.ActiveDocument.ActiveObject.LineColor=Gui.ActiveDocument.Pad001.LineColor
-#		Gui.ActiveDocument.ActiveObject.PointColor=Gui.ActiveDocument.Pad001.PointColor
+		#.ActiveDocument.Pad001.hide()
+#		#.ActiveDocument.ActiveObject.ShapeColor=#.ActiveDocument.Pad001.ShapeColor
+#		#.ActiveDocument.ActiveObject.LineColor=#.ActiveDocument.Pad001.LineColor
+#		#.ActiveDocument.ActiveObject.PointColor=#.ActiveDocument.Pad001.PointColor
 		App.ActiveDocument.recompute()
 		
 		#make cut out for rod
@@ -382,7 +382,7 @@ class YRodSupport(object):
 														  -gv.frameWidth/2,0,
 														  None, None)
 		App.activeDocument().recompute()
-#		Gui.activeDocument().setEdit('Sketch003')
+#		#.activeDocument().setEdit('Sketch003')
 		App.ActiveDocument.Sketch003.addGeometry(Part.Circle(App.Vector(p1x,p1y,0),App.Vector(0,0,1),self.rodDia/2))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch003.addConstraint(Sketcher.Constraint('PointOnObject',0,3,-2)) 
@@ -393,7 +393,7 @@ class YRodSupport(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch003.addConstraint(Sketcher.Constraint('Distance',-1,1,0,3,gv.yRodStandoff)) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument(self.name).resetEdit()
+#		#.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 
 		#Make Cut
@@ -401,16 +401,16 @@ class YRodSupport(object):
 		App.activeDocument().Pocket001.Sketch = App.activeDocument().Sketch003
 		App.activeDocument().Pocket001.Length = 5.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch003")
-		Gui.activeDocument().hide("Refined")
-#		Gui.ActiveDocument.Pocket001.ShapeColor=Gui.ActiveDocument.Refined.ShapeColor
-#		Gui.ActiveDocument.Pocket001.LineColor=Gui.ActiveDocument.Refined.LineColor
-#		Gui.ActiveDocument.Pocket001.PointColor=Gui.ActiveDocument.Refined.PointColor
+		#.activeDocument().hide("Sketch003")
+		#.activeDocument().hide("Refined")
+#		#.ActiveDocument.Pocket001.ShapeColor=#.ActiveDocument.Refined.ShapeColor
+#		#.ActiveDocument.Pocket001.LineColor=#.ActiveDocument.Refined.LineColor
+#		#.ActiveDocument.Pocket001.PointColor=#.ActiveDocument.Refined.PointColor
 		App.ActiveDocument.Pocket001.Length = 5.000000
 		App.ActiveDocument.Pocket001.Type = 1
 		App.ActiveDocument.Pocket001.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
+#		#.activeDocument().resetEdit()
 		
 		#Make Clamp hole
 		#Sketch Points
@@ -424,7 +424,7 @@ class YRodSupport(object):
 														  None, None,
 														  gv.yRodStandoff-gv.clampGap/2, 0)
 		App.activeDocument().recompute()
-#		Gui.activeDocument().setEdit('Sketch004')
+#		#.activeDocument().setEdit('Sketch004')
 		App.ActiveDocument.Sketch004.addGeometry(Part.Circle(App.Vector(p1x,p1y,0),App.Vector(0,0,1),gv.printedToPrintedDia/2))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch004.addConstraint(Sketcher.Constraint('PointOnObject',0,3,-1)) 
@@ -435,7 +435,7 @@ class YRodSupport(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch004.addConstraint(Sketcher.Constraint('Radius',0,gv.printedToPrintedDia/2)) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument(self.name).resetEdit()
+#		#.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 		
 		#Cut clamp hole though all
@@ -443,37 +443,37 @@ class YRodSupport(object):
 		App.activeDocument().Pocket002.Sketch = App.activeDocument().Sketch004
 		App.activeDocument().Pocket002.Length = 5.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch004")
-		Gui.activeDocument().hide("Pocket001")
-#		Gui.ActiveDocument.Pocket002.ShapeColor=Gui.ActiveDocument.Pocket001.ShapeColor
-#		Gui.ActiveDocument.Pocket002.LineColor=Gui.ActiveDocument.Pocket001.LineColor
-#		Gui.ActiveDocument.Pocket002.PointColor=Gui.ActiveDocument.Pocket001.PointColor
+		#.activeDocument().hide("Sketch004")
+		#.activeDocument().hide("Pocket001")
+#		#.ActiveDocument.Pocket002.ShapeColor=#.ActiveDocument.Pocket001.ShapeColor
+#		#.ActiveDocument.Pocket002.LineColor=#.ActiveDocument.Pocket001.LineColor
+#		#.ActiveDocument.Pocket002.PointColor=#.ActiveDocument.Pocket001.PointColor
 		App.ActiveDocument.Pocket002.Length = 5.000000
 		App.ActiveDocument.Pocket002.Type = 1
 		App.ActiveDocument.Pocket002.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()		
+#		#.activeDocument().resetEdit()		
 		
 		#Mirror clamp hole
 		App.activeDocument().addObject("PartDesign::Mirrored","Mirrored001")
 		App.ActiveDocument.recompute()
 		App.activeDocument().Mirrored001.Originals = [App.activeDocument().Pocket002,]
 		App.activeDocument().Mirrored001.MirrorPlane = (App.activeDocument().Sketch004, ["V_Axis"])
-		Gui.activeDocument().Pocket002.Visibility=False
-#		Gui.ActiveDocument.Mirrored001.ShapeColor=Gui.ActiveDocument.Pocket002.ShapeColor
-#		Gui.ActiveDocument.Mirrored001.DisplayMode=Gui.ActiveDocument.Pocket002.DisplayMode
+		#.activeDocument().Pocket002.Visibility=False
+#		#.ActiveDocument.Mirrored001.ShapeColor=#.ActiveDocument.Pocket002.ShapeColor
+#		#.ActiveDocument.Mirrored001.DisplayMode=#.ActiveDocument.Pocket002.DisplayMode
 		App.ActiveDocument.Mirrored001.Originals = [App.ActiveDocument.Pocket002,]
 		App.ActiveDocument.Mirrored001.MirrorPlane = (App.ActiveDocument.Sketch004,["V_Axis"])
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
+#		#.activeDocument().resetEdit()
 
 		App.ActiveDocument.addObject('Part::Feature','Refined001').Shape=App.ActiveDocument.Mirrored001.Shape.removeSplitter()
 		App.ActiveDocument.ActiveObject.Label='Refined001'
-		Gui.ActiveDocument.Mirrored001.hide()
+		#.ActiveDocument.Mirrored001.hide()
  		
-		Gui.ActiveDocument.ActiveObject.ShapeColor=Gui.ActiveDocument.Mirrored001.ShapeColor
-		Gui.ActiveDocument.ActiveObject.LineColor=Gui.ActiveDocument.Mirrored001.LineColor
-		Gui.ActiveDocument.ActiveObject.PointColor=Gui.ActiveDocument.Mirrored001.PointColor
+		#.ActiveDocument.ActiveObject.ShapeColor=#.ActiveDocument.Mirrored001.ShapeColor
+		#.ActiveDocument.ActiveObject.LineColor=#.ActiveDocument.Mirrored001.LineColor
+		#.ActiveDocument.ActiveObject.PointColor=#.ActiveDocument.Mirrored001.PointColor
 		App.ActiveDocument.recompute()
 		
 		#Cut nut trap in bottom of support
@@ -507,7 +507,7 @@ class YRodSupport(object):
 														  None, None,
 														  0, 0)
 		App.activeDocument().recompute()
-#		Gui.activeDocument().setEdit('Sketch005')
+#		#.activeDocument().setEdit('Sketch005')
 
 #error here
 		App.ActiveDocument.Sketch005.addExternal("Refined001",uf.getEdge(App.ActiveDocument.Refined001, 
@@ -564,7 +564,7 @@ class YRodSupport(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch005.addConstraint(Sketcher.Constraint('Distance',0,2,4,gv.clampNutFaceToFace)) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument(self.name).resetEdit()
+#		#.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 
 		#cut nut trap out
@@ -572,43 +572,43 @@ class YRodSupport(object):
 		App.activeDocument().Pocket003.Sketch = App.activeDocument().Sketch005
 		App.activeDocument().Pocket003.Length = 5.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch005")
-		Gui.activeDocument().hide("Refined001")
-#		Gui.ActiveDocument.Pocket003.ShapeColor=Gui.ActiveDocument.Pocket002.ShapeColor
-#		Gui.ActiveDocument.Pocket003.LineColor=Gui.ActiveDocument.Pocket002.LineColor
-#		Gui.ActiveDocument.Pocket003.PointColor=Gui.ActiveDocument.Pocket002.PointColor
+		#.activeDocument().hide("Sketch005")
+		#.activeDocument().hide("Refined001")
+#		#.ActiveDocument.Pocket003.ShapeColor=#.ActiveDocument.Pocket002.ShapeColor
+#		#.ActiveDocument.Pocket003.LineColor=#.ActiveDocument.Pocket002.LineColor
+#		#.ActiveDocument.Pocket003.PointColor=#.ActiveDocument.Pocket002.PointColor
 		App.ActiveDocument.Pocket003.Length = gv.rodSupportNutTrapDepthMin
 		App.ActiveDocument.Pocket003.Type = 0
 		App.ActiveDocument.Pocket003.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
+#		#.activeDocument().resetEdit()
 
 		#Mirror nut trap
 		App.activeDocument().addObject("PartDesign::Mirrored","Mirrored002")
 		App.ActiveDocument.recompute()
 		App.activeDocument().Mirrored002.Originals = [App.activeDocument().Pocket003,]
 		App.activeDocument().Mirrored002.MirrorPlane = (App.activeDocument().Sketch005, ["V_Axis"])
-		Gui.activeDocument().Pocket003.Visibility=False
-#		Gui.ActiveDocument.Mirrored002.ShapeColor=Gui.ActiveDocument.Pocket003.ShapeColor
-#		Gui.ActiveDocument.Mirrored002.DisplayMode=Gui.ActiveDocument.Pocket003.DisplayMode
+		#.activeDocument().Pocket003.Visibility=False
+#		#.ActiveDocument.Mirrored002.ShapeColor=#.ActiveDocument.Pocket003.ShapeColor
+#		#.ActiveDocument.Mirrored002.DisplayMode=#.ActiveDocument.Pocket003.DisplayMode
 		App.ActiveDocument.Mirrored002.Originals = [App.ActiveDocument.Pocket003,]
 		App.ActiveDocument.Mirrored002.MirrorPlane = (App.ActiveDocument.Sketch005,["V_Axis"])
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
-		Gui.getDocument(self.name).getObject("Mirrored001").Visibility=False
+#		#.activeDocument().resetEdit()
+		#.getDocument(self.name).getObject("Mirrored001").Visibility=False
 		
 		#Set view to axometric
-#		Gui.activeDocument().activeView().viewAxometric()
+#		#.activeDocument().activeView().viewAxometric()
 		
 		#Make Cap
 		try:
-	#		Gui.getDocument(self.name+"Clamp")
-	#		Gui.getDocument(self.name+"Clamp").resetEdit()
+	#		#.getDocument(self.name+"Clamp")
+	#		#.getDocument(self.name+"Clamp").resetEdit()
 			App.getDocument(self.name+"Clamp").recompute()
 			App.closeDocument(self.name+"Clamp")
 			App.setActiveDocument("")
 			App.ActiveDocument=None
-	#		Gui.ActiveDocument=None	
+	#		#.ActiveDocument=None	
 		except:
 			pass
 
@@ -616,7 +616,7 @@ class YRodSupport(object):
 		App.newDocument(self.name+"Clamp")
 		App.setActiveDocument(self.name+"Clamp")
 		App.ActiveDocument=App.getDocument(self.name+"Clamp")
-#		Gui.ActiveDocument=Gui.getDocument(self.name+"Clamp")
+#		#.ActiveDocument=#.getDocument(self.name+"Clamp")
 		App.ActiveDocument=App.getDocument(self.name+"Clamp")
 		
 		#Make clamp body
@@ -633,8 +633,8 @@ class YRodSupport(object):
 		#Make Sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch')
 		App.activeDocument().Sketch.Placement = App.Placement(App.Vector(0.000000,0.000000,0.000000),App.Rotation(0.000000,0.000000,0.000000,1.000000))
-#		Gui.activeDocument().activeView().setCamera('#Inventor V2.1 ascii \n OrthographicCamera {\n viewportMapping ADJUST_CAMERA \n position 0 0 87 \n orientation 0 0 1  0 \n nearDistance -112.88701 \n farDistance 287.28702 \n aspectRatio 1 \n focalDistance 87 \n height 143.52005 }')
-#		Gui.activeDocument().setEdit('Sketch')
+#		#.activeDocument().activeView().setCamera('#Inventor V2.1 ascii \n OrthographicCamera {\n viewportMapping ADJUST_CAMERA \n position 0 0 87 \n orientation 0 0 1  0 \n nearDistance -112.88701 \n farDistance 287.28702 \n aspectRatio 1 \n focalDistance 87 \n height 143.52005 }')
+#		#.activeDocument().setEdit('Sketch')
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p4x,p4y,0)))
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p4x,p4y,0),App.Vector(p3x,p3y,0)))
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p3x,p3y,0),App.Vector(p2x,p2y,0)))
@@ -656,7 +656,7 @@ class YRodSupport(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch.addConstraint(Sketcher.Constraint('DistanceX',2,-columnWidth)) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument(self.name+"Clamp").resetEdit()
+#		#.getDocument(self.name+"Clamp").resetEdit()
 		App.getDocument(self.name+"Clamp").recompute()
 		
 		#pad rod support
@@ -664,7 +664,7 @@ class YRodSupport(object):
 		App.activeDocument().Pad.Sketch = App.activeDocument().Sketch
 		App.activeDocument().Pad.Length = 10.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch")
+		#.activeDocument().hide("Sketch")
 		App.ActiveDocument.Pad.Length = gv.yRodDiaMax/2+gv.clampThickness-gv.clampGap/2
 		App.ActiveDocument.Pad.Reversed = 0
 		App.ActiveDocument.Pad.Midplane = 0
@@ -672,7 +672,7 @@ class YRodSupport(object):
 		App.ActiveDocument.Pad.Type = 0
 		App.ActiveDocument.Pad.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
+#		#.activeDocument().resetEdit()
 		
 		#make cut out for rod
 		#sketch points
@@ -691,7 +691,7 @@ class YRodSupport(object):
 														  -gv.frameWidth/2, 0,
 														  None, None)
 		App.activeDocument().recompute()
-#		Gui.activeDocument().setEdit('Sketch001')
+#		#.activeDocument().setEdit('Sketch001')
 		App.ActiveDocument.Sketch001.addExternal("Pad",uf.getEdge(App.ActiveDocument.Pad, 
 														  None, None,
 														  -gv.frameWidth/2, 0,
@@ -716,7 +716,7 @@ class YRodSupport(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch001.addConstraint(Sketcher.Constraint('Radius',0,self.rodDia/2)) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument(self.name+"Clamp").resetEdit()
+#		#.getDocument(self.name+"Clamp").resetEdit()
 		App.getDocument(self.name+"Clamp").recompute()
 		
 		#Cut through all
@@ -724,16 +724,16 @@ class YRodSupport(object):
 		App.activeDocument().Pocket.Sketch = App.activeDocument().Sketch001
 		App.activeDocument().Pocket.Length = 5.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch001")
-		Gui.activeDocument().hide("Pad")
-#		Gui.ActiveDocument.Pocket.ShapeColor=Gui.ActiveDocument.Pad.ShapeColor
-#		Gui.ActiveDocument.Pocket.LineColor=Gui.ActiveDocument.Pad.LineColor
-#		Gui.ActiveDocument.Pocket.PointColor=Gui.ActiveDocument.Pad.PointColor
+		#.activeDocument().hide("Sketch001")
+		#.activeDocument().hide("Pad")
+#		#.ActiveDocument.Pocket.ShapeColor=#.ActiveDocument.Pad.ShapeColor
+#		#.ActiveDocument.Pocket.LineColor=#.ActiveDocument.Pad.LineColor
+#		#.ActiveDocument.Pocket.PointColor=#.ActiveDocument.Pad.PointColor
 		App.ActiveDocument.Pocket.Length = 5.000000
 		App.ActiveDocument.Pocket.Type = 1
 		App.ActiveDocument.Pocket.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
+#		#.activeDocument().resetEdit()
 
 
 		#cut Right clamp hole
@@ -748,7 +748,7 @@ class YRodSupport(object):
 														  0, 0,
 														  gv.yRodDiaMax/2+gv.clampThickness-gv.clampGap/2, 0)
 		App.activeDocument().recompute()
-#		Gui.activeDocument().setEdit('Sketch002')
+#		#.activeDocument().setEdit('Sketch002')
 		App.ActiveDocument.Sketch002.addGeometry(Part.Circle(App.Vector(p1x,p1y,0),App.Vector(0,0,1),gv.printedToPrintedDia/2))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('PointOnObject',0,3,-1)) 
@@ -760,7 +760,7 @@ class YRodSupport(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Distance',-1,1,0,3,gv.yRodDiaMax/2+gv.printedToPrintedDia/2)) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument(self.name+"Clamp").resetEdit()
+#		#.getDocument(self.name+"Clamp").resetEdit()
 		App.getDocument(self.name+"Clamp").recompute()
 		
 		#Cut clamp hole through all
@@ -768,32 +768,32 @@ class YRodSupport(object):
 		App.activeDocument().Pocket001.Sketch = App.activeDocument().Sketch002
 		App.activeDocument().Pocket001.Length = 5.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch002")
-		Gui.activeDocument().hide("Pocket")
-#		Gui.ActiveDocument.Pocket001.ShapeColor=Gui.ActiveDocument.Pocket.ShapeColor
-#		Gui.ActiveDocument.Pocket001.LineColor=Gui.ActiveDocument.Pocket.LineColor
-#		Gui.ActiveDocument.Pocket001.PointColor=Gui.ActiveDocument.Pocket.PointColor
+		#.activeDocument().hide("Sketch002")
+		#.activeDocument().hide("Pocket")
+#		#.ActiveDocument.Pocket001.ShapeColor=#.ActiveDocument.Pocket.ShapeColor
+#		#.ActiveDocument.Pocket001.LineColor=#.ActiveDocument.Pocket.LineColor
+#		#.ActiveDocument.Pocket001.PointColor=#.ActiveDocument.Pocket.PointColor
 		App.ActiveDocument.Pocket001.Length = 5.000000
 		App.ActiveDocument.Pocket001.Type = 1
 		App.ActiveDocument.Pocket001.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
+#		#.activeDocument().resetEdit()
 		
 		#Mirror clamp hole
 		App.activeDocument().addObject("PartDesign::Mirrored","Mirrored")
 		App.ActiveDocument.recompute()
 		App.activeDocument().Mirrored.Originals = [App.activeDocument().Pocket001,]
 		App.activeDocument().Mirrored.MirrorPlane = (App.activeDocument().Sketch002, ["V_Axis"])
-		Gui.activeDocument().Pocket001.Visibility=False
-#		Gui.activeDocument().setEdit('Mirrored')
-#		Gui.ActiveDocument.Mirrored.ShapeColor=Gui.ActiveDocument.Pocket001.ShapeColor
-#		Gui.ActiveDocument.Mirrored.DisplayMode=Gui.ActiveDocument.Pocket001.DisplayMode
+		#.activeDocument().Pocket001.Visibility=False
+#		#.activeDocument().setEdit('Mirrored')
+#		#.ActiveDocument.Mirrored.ShapeColor=#.ActiveDocument.Pocket001.ShapeColor
+#		#.ActiveDocument.Mirrored.DisplayMode=#.ActiveDocument.Pocket001.DisplayMode
 		App.ActiveDocument.Mirrored.Originals = [App.ActiveDocument.Pocket001,]
 		App.ActiveDocument.Mirrored.MirrorPlane = (App.ActiveDocument.Sketch002,["V_Axis"])
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
+#		#.activeDocument().resetEdit()
 
 		#Set view as axometric
-#		Gui.activeDocument().activeView().viewAxometric()		
+#		#.activeDocument().activeView().viewAxometric()		
 
 

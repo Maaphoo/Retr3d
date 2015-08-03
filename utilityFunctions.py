@@ -87,8 +87,8 @@ def critical(msg, log, level, source):
             else:
                 setStatus()
                 App.Console.PrintError(msg + '\n')
-                from PySide import QtGui
-                QtGui.QMessageBox.critical(None, "Retr3d: Error", msg)
+                from PySide import Qt#
+                Qt#.QMessageBox.critical(None, "Retr3d: Error", msg)
 
 
 def error(msg, log, level, source):
@@ -150,7 +150,7 @@ except ImportError:
     critical("Failure to import FreeCAD, check your configuration file.", "", gv.level, os.path.basename(__file__))
     raise StandardError
 
-import FreeCADGui as Gui
+import FreeCAD# as #
 import Draft
 import Part
 import Sketcher
@@ -361,7 +361,7 @@ def getEdge(feature,
 
 def positionXAxis():
     App.ActiveDocument = App.getDocument("PrinterAssembly")
-    Gui.ActiveDocument = Gui.getDocument("PrinterAssembly")
+    #.ActiveDocument = #.getDocument("PrinterAssembly")
     xShift = 0
     yShift = 0
     zShift = (gv.vertBarDistBelowZRod
@@ -377,7 +377,7 @@ def positionXAxis():
 
 def positionZAxis():
     App.ActiveDocument = App.getDocument("PrinterAssembly")
-    Gui.ActiveDocument = Gui.getDocument("PrinterAssembly")
+    #.ActiveDocument = #.getDocument("PrinterAssembly")
     xShift = 0
     yShift = 0
     zShift = gv.vertBarDistBelowZRod - gv.yRodStandoff
@@ -448,13 +448,13 @@ def saveAndClose(name, saveSTL):
 
 def makeAssemblyFile():
     try:
-        Gui.getDocument('PrinterAssembly')
-        Gui.getDocument('PrinterAssembly').resetEdit()
+        #.getDocument('PrinterAssembly')
+        #.getDocument('PrinterAssembly').resetEdit()
         App.getDocument('PrinterAssembly').recompute()
         App.closeDocument("PrinterAssembly")
         App.setActiveDocument("")
         App.ActiveDocument = None
-        Gui.ActiveDocument = None
+        #.ActiveDocument = None
     except:
         pass
 
@@ -463,10 +463,9 @@ def makeAssemblyFile():
     App.newDocument("PrinterAssembly")
     App.setActiveDocument("PrinterAssembly")
     App.ActiveDocument = App.getDocument("PrinterAssembly")
-    Gui.ActiveDocument = Gui.getDocument("PrinterAssembly")
-    Gui.activeDocument().activeView().setCamera(
-        '#Inventor V2.1 ascii \n OrthographicCamera {\n viewportMapping ADJUST_CAMERA \n position 0 0 87 \n orientation 0 0 1  0 \n nearDistance -112.88701 \n farDistance 287.28702 \n aspectRatio 1 \n focalDistance 87 \n height 143.52005 }')
-    Gui.activeDocument().activeView().viewAxometric()
+    ##.ActiveDocument = #.getDocument("PrinterAssembly")
+    ##.activeDocument().activeView().setCamera('#Inventor V2.1 ascii \n OrthographicCamera {\n viewportMapping ADJUST_CAMERA \n position 0 0 87 \n orientation 0 0 1  0 \n nearDistance -112.88701 \n farDistance 287.28702 \n aspectRatio 1 \n focalDistance 87 \n height 143.52005 }')
+    ##.activeDocument().activeView().viewAxometric()
 
 
 def assemble(part):
@@ -482,13 +481,13 @@ def assemble(part):
     assemblyPart = listOfParts[-1]
 
     # Rotate and move part into position
-    Gui.ActiveDocument = Gui.getDocument("PrinterAssembly")
+    #.ActiveDocument = #.getDocument("PrinterAssembly")
     App.ActiveDocument = App.getDocument("PrinterAssembly")
     if part.rotateAngle:
         Draft.rotate([assemblyPart], part.rotateAngle, part.rotateCenter, part.rotateAxis, copy=False)
     Draft.move([assemblyPart], App.Vector(part.xShift, part.yShift, part.zShift), copy=False)
     App.ActiveDocument.recompute()
-    Gui.ActiveDocument = Gui.getDocument("PrinterAssembly")
+    #.ActiveDocument = #.getDocument("PrinterAssembly")
 
 
 def adjustHole(desiredDia):
@@ -609,13 +608,12 @@ def drawHexagon(x, y, faceToFace, theta):
 # function to extrude frame member length
 def extrudeFrameMember(name, length):
     App.ActiveDocument = App.getDocument(name)
-    Gui.ActiveDocument = Gui.getDocument(name)
+    #.ActiveDocument = #.getDocument(name)
     App.activeDocument().addObject('Sketcher::SketchObject', 'Sketch')
     App.activeDocument().Sketch.Placement = App.Placement(App.Vector(0.000000, 0.000000, 0.000000),
                                                           App.Rotation(0.500000, 0.500000, 0.500000, 0.500000))
-    Gui.activeDocument().activeView().setCamera(
-        '#Inventor V2.1 ascii \n OrthographicCamera {\n viewportMapping ADJUST_CAMERA\n  position 87 0 0 \n  orientation 0.57735026 0.57735026 0.57735026  2.0943952 \n  nearDistance -112.887\n  farDistance 287.28699\n  aspectRatio 1\n  focalDistance 87\n  height 143.52005\n\n}')
-    #	Gui.activeDocument().setEdit('Sketch')
+    #.activeDocument().activeView().setCamera('#Inventor V2.1 ascii \n OrthographicCamera {\n viewportMapping ADJUST_CAMERA\n  position 87 0 0 \n  orientation 0.57735026 0.57735026 0.57735026  2.0943952 \n  nearDistance -112.887\n  farDistance 287.28699\n  aspectRatio 1\n  focalDistance 87\n  height 143.52005\n\n}')
+    #	#.activeDocument().setEdit('Sketch')
 
     # Sketch Points
 
@@ -710,7 +708,7 @@ def extrudeFrameMember(name, length):
         App.ActiveDocument.Sketch.addConstraint(Sketcher.Constraint('DistanceY', 8, -gv.frameThickness))
         App.ActiveDocument.recompute()
 
-    #	Gui.getDocument(name).resetEdit()
+    #	#.getDocument(name).resetEdit()
     App.getDocument(name).recompute()
 
     # Extrude frame member
@@ -718,7 +716,7 @@ def extrudeFrameMember(name, length):
     App.activeDocument().Pad.Sketch = App.activeDocument().Sketch
     App.activeDocument().Pad.Length = 10.0
     App.ActiveDocument.recompute()
-    Gui.activeDocument().hide("Sketch")
+    #.activeDocument().hide("Sketch")
     App.ActiveDocument.Pad.Length = length
     App.ActiveDocument.Pad.Reversed = 0
     App.ActiveDocument.Pad.Midplane = 0
@@ -728,7 +726,7 @@ def extrudeFrameMember(name, length):
     App.ActiveDocument.recompute()
 
 
-#	Gui.activeDocument().resetEdit()
+#	#.activeDocument().resetEdit()
 
 def pickBushingNut(rodDia):
     for i in reversed(range(len(gv.bushingNutTable))):

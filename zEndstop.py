@@ -5,7 +5,7 @@ from itertools import product
 
 #import FreeCAD modules
 import FreeCAD as App
-import FreeCADGui as Gui
+import FreeCAD# as #
 import Part
 import Sketcher
 import Draft
@@ -22,11 +22,11 @@ class ZEndstop(object):
 		App.ActiveDocument=App.getDocument(self.name)
 		shape = App.ActiveDocument.ActiveObject.Shape
 		App.ActiveDocument=App.getDocument("PrinterAssembly")
-		Gui.ActiveDocument=Gui.getDocument("PrinterAssembly")
+		#.ActiveDocument=#.getDocument("PrinterAssembly")
 		App.ActiveDocument.addObject('Part::Feature',self.name).Shape= shape
 		
 		#Color Part
-		Gui.ActiveDocument.getObject(self.name).ShapeColor = (gv.printedR,gv.printedG,gv.printedB,gv.printedA)
+		#.ActiveDocument.getObject(self.name).ShapeColor = (gv.printedR,gv.printedG,gv.printedB,gv.printedA)
 		
 		#Get the feature and move it into position
 		objs = App.ActiveDocument.getObjectsByLabel(self.name)
@@ -62,13 +62,13 @@ class ZEndstop(object):
 
 		#Make the coresponding xRodClamp
 		try:
-			Gui.getDocument(self.name)
-			Gui.getDocument(self.name).resetEdit()
+			#.getDocument(self.name)
+			#.getDocument(self.name).resetEdit()
 			App.getDocument(self.name).recompute()
 			App.closeDocument(self.name)
 			App.setActiveDocument("")
 			App.ActiveDocument=None
-			Gui.ActiveDocument=None	
+			#.ActiveDocument=None	
 		except:
 			pass
 
@@ -76,7 +76,7 @@ class ZEndstop(object):
 		App.newDocument(self.name)
 		App.setActiveDocument(self.name)
 		App.ActiveDocument=App.getDocument(self.name)
-		Gui.ActiveDocument=Gui.getDocument(self.name)
+		#.ActiveDocument=#.getDocument(self.name)
 		App.ActiveDocument=App.getDocument(self.name)
 		
 		#Make clamp body
@@ -93,8 +93,8 @@ class ZEndstop(object):
 		#Make Sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch')
 		App.activeDocument().Sketch.Placement = App.Placement(App.Vector(0.000000,0.000000,0.000000),App.Rotation(0.000000,0.000000,0.000000,1.000000))
-#		Gui.activeDocument().activeView().setCamera('#Inventor V2.1 ascii \n OrthographicCamera {\n viewportMapping ADJUST_CAMERA \n position 0 0 87 \n orientation 0 0 1  0 \n nearDistance -112.88701 \n farDistance 287.28702 \n aspectRatio 1 \n focalDistance 87 \n height 143.52005 }')
-#		Gui.activeDocument().setEdit('Sketch')
+#		#.activeDocument().activeView().setCamera('#Inventor V2.1 ascii \n OrthographicCamera {\n viewportMapping ADJUST_CAMERA \n position 0 0 87 \n orientation 0 0 1  0 \n nearDistance -112.88701 \n farDistance 287.28702 \n aspectRatio 1 \n focalDistance 87 \n height 143.52005 }')
+#		#.activeDocument().setEdit('Sketch')
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p4x,p4y,0)))
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p4x,p4y,0),App.Vector(p3x,p3y,0)))
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p3x,p3y,0),App.Vector(p2x,p2y,0)))
@@ -116,7 +116,7 @@ class ZEndstop(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch.addConstraint(Sketcher.Constraint('DistanceX',2,-gv.zEndstopSupportWidth)) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument(self.name).resetEdit()
+#		#.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 		
 		#pad rod support
@@ -124,7 +124,7 @@ class ZEndstop(object):
 		App.activeDocument().Pad.Sketch = App.activeDocument().Sketch
 		App.activeDocument().Pad.Length = 10.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch")
+		#.activeDocument().hide("Sketch")
 		App.ActiveDocument.Pad.Length = gv.zRodDiaL/2+gv.zEndstopBodyThickness-gv.clampGap/2
 		App.ActiveDocument.Pad.Reversed = 0
 		App.ActiveDocument.Pad.Midplane = 0
@@ -132,7 +132,7 @@ class ZEndstop(object):
 		App.ActiveDocument.Pad.Type = 0
 		App.ActiveDocument.Pad.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
+#		#.activeDocument().resetEdit()
 		
 		#make cut out for rod
 		#sketch points
@@ -147,7 +147,7 @@ class ZEndstop(object):
 														  0,0,
 														  None, None)
 		App.activeDocument().recompute()
-#		Gui.activeDocument().setEdit('Sketch001')
+#		#.activeDocument().setEdit('Sketch001')
 		App.ActiveDocument.Sketch001.addExternal("Pad",uf.getEdge(App.ActiveDocument.Pad, 
 														  0,0,
 														  0,0,
@@ -163,7 +163,7 @@ class ZEndstop(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch001.addConstraint(Sketcher.Constraint('Radius',0,gv.zRodDiaL/2)) 
 		App.ActiveDocument.recompute()
-		Gui.getDocument(self.name).resetEdit()
+		#.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 		
 		#Cut through all
@@ -171,16 +171,16 @@ class ZEndstop(object):
 		App.activeDocument().Pocket.Sketch = App.activeDocument().Sketch001
 		App.activeDocument().Pocket.Length = 5.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch001")
-		Gui.activeDocument().hide("Pad")
-		Gui.ActiveDocument.Pocket.ShapeColor=Gui.ActiveDocument.Pad.ShapeColor
-		Gui.ActiveDocument.Pocket.LineColor=Gui.ActiveDocument.Pad.LineColor
-		Gui.ActiveDocument.Pocket.PointColor=Gui.ActiveDocument.Pad.PointColor
+		#.activeDocument().hide("Sketch001")
+		#.activeDocument().hide("Pad")
+		#.ActiveDocument.Pocket.ShapeColor=#.ActiveDocument.Pad.ShapeColor
+		#.ActiveDocument.Pocket.LineColor=#.ActiveDocument.Pad.LineColor
+		#.ActiveDocument.Pocket.PointColor=#.ActiveDocument.Pad.PointColor
 		App.ActiveDocument.Pocket.Length = 5.000000
 		App.ActiveDocument.Pocket.Type = 1
 		App.ActiveDocument.Pocket.UpToFace = None
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().resetEdit()
+		#.activeDocument().resetEdit()
 
 
 		#cut Right clamp hole
@@ -196,7 +196,7 @@ class ZEndstop(object):
 														  gv.zRodDiaL/2+gv.zEndstopBodyThickness-gv.clampGap/2, 0)
 		App.activeDocument().recompute()
 		App.activeDocument().recompute()
-#		Gui.activeDocument().setEdit('Sketch002')
+#		#.activeDocument().setEdit('Sketch002')
 		App.ActiveDocument.Sketch002.addExternal("Pocket",uf.getEdge(App.ActiveDocument.Pocket, 
 														  gv.zEndstopSupportWidth/2,0,
 														  gv.zEndStopClampLength/2,0,
@@ -210,7 +210,7 @@ class ZEndstop(object):
 		App.ActiveDocument.recompute()
 #		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Radius',0,gv.printedToPrintedDia/2)) 
 		App.ActiveDocument.recompute()
-		Gui.getDocument(self.name).resetEdit()
+		#.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 		
 		#Cut clamp hole through all
@@ -218,30 +218,30 @@ class ZEndstop(object):
 		App.activeDocument().Pocket001.Sketch = App.activeDocument().Sketch002
 		App.activeDocument().Pocket001.Length = 5.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch002")
-		Gui.activeDocument().hide("Pocket")
-#		Gui.ActiveDocument.Pocket001.ShapeColor=Gui.ActiveDocument.Pocket.ShapeColor
-#		Gui.ActiveDocument.Pocket001.LineColor=Gui.ActiveDocument.Pocket.LineColor
-#		Gui.ActiveDocument.Pocket001.PointColor=Gui.ActiveDocument.Pocket.PointColor
+		#.activeDocument().hide("Sketch002")
+		#.activeDocument().hide("Pocket")
+#		#.ActiveDocument.Pocket001.ShapeColor=#.ActiveDocument.Pocket.ShapeColor
+#		#.ActiveDocument.Pocket001.LineColor=#.ActiveDocument.Pocket.LineColor
+#		#.ActiveDocument.Pocket001.PointColor=#.ActiveDocument.Pocket.PointColor
 		App.ActiveDocument.Pocket001.Length = 5.000000
 		App.ActiveDocument.Pocket001.Type = 1
 		App.ActiveDocument.Pocket001.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()			
+#		#.activeDocument().resetEdit()			
 		
 		#Mirror clamp hole
 		App.activeDocument().addObject("PartDesign::Mirrored","Mirrored")
 		App.ActiveDocument.recompute()
 		App.activeDocument().Mirrored.Originals = [App.activeDocument().Pocket001,]
 		App.activeDocument().Mirrored.MirrorPlane = (App.activeDocument().Sketch002, ["V_Axis"])
-		Gui.activeDocument().Pocket001.Visibility=False
-#		Gui.activeDocument().setEdit('Mirrored')
-#		Gui.ActiveDocument.Mirrored.ShapeColor=Gui.ActiveDocument.Pocket001.ShapeColor
-#		Gui.ActiveDocument.Mirrored.DisplayMode=Gui.ActiveDocument.Pocket001.DisplayMode
+		#.activeDocument().Pocket001.Visibility=False
+#		#.activeDocument().setEdit('Mirrored')
+#		#.ActiveDocument.Mirrored.ShapeColor=#.ActiveDocument.Pocket001.ShapeColor
+#		#.ActiveDocument.Mirrored.DisplayMode=#.ActiveDocument.Pocket001.DisplayMode
 		App.ActiveDocument.Mirrored.Originals = [App.ActiveDocument.Pocket001,]
 		App.ActiveDocument.Mirrored.MirrorPlane = (App.ActiveDocument.Sketch002,["V_Axis"])
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
+#		#.activeDocument().resetEdit()
 
 		#Make channel for contact
 		#Sketch Points
@@ -284,7 +284,7 @@ class ZEndstop(object):
 														  0, 0)
 		App.activeDocument().recompute()
 		App.activeDocument().recompute()
-#		Gui.activeDocument().setEdit('Sketch003')
+#		#.activeDocument().setEdit('Sketch003')
 		App.ActiveDocument.Sketch003.addExternal("Mirrored",uf.getEdge(App.ActiveDocument.Mirrored, 
 														  -gv.zEndstopSupportWidth/2,0,
 														  gv.zEndStopClampLength/2,0,
@@ -401,7 +401,7 @@ class ZEndstop(object):
 		App.ActiveDocument.Sketch003.addConstraint(Sketcher.Constraint('DistanceY',-1,1,2,2,-9.963388))
 		App.ActiveDocument.recompute()
 		
-		Gui.getDocument('zEndstop').resetEdit()
+		#.getDocument('zEndstop').resetEdit()
 		App.getDocument('zEndstop').recompute()
 		
 		#Cut top channel
@@ -409,17 +409,17 @@ class ZEndstop(object):
 		App.activeDocument().Pocket002.Sketch = App.activeDocument().Sketch003
 		App.activeDocument().Pocket002.Length = 5.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch003")
-		Gui.activeDocument().hide("Mirrored")
-		Gui.activeDocument().setEdit('Pocket002')
-		Gui.ActiveDocument.Pocket002.ShapeColor=Gui.ActiveDocument.Mirrored.ShapeColor
-		Gui.ActiveDocument.Pocket002.LineColor=Gui.ActiveDocument.Mirrored.LineColor
-		Gui.ActiveDocument.Pocket002.PointColor=Gui.ActiveDocument.Mirrored.PointColor
+		#.activeDocument().hide("Sketch003")
+		#.activeDocument().hide("Mirrored")
+		#.activeDocument().setEdit('Pocket002')
+		#.ActiveDocument.Pocket002.ShapeColor=#.ActiveDocument.Mirrored.ShapeColor
+		#.ActiveDocument.Pocket002.LineColor=#.ActiveDocument.Mirrored.LineColor
+		#.ActiveDocument.Pocket002.PointColor=#.ActiveDocument.Mirrored.PointColor
 		App.ActiveDocument.Pocket002.Length = 3.000000
 		App.ActiveDocument.Pocket002.Type = 0
 		App.ActiveDocument.Pocket002.UpToFace = None
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().resetEdit()
+		#.activeDocument().resetEdit()
 
 		#Use a linear pattern to add other channel
 		App.activeDocument().addObject("PartDesign::LinearPattern","LinearPattern")
@@ -428,19 +428,19 @@ class ZEndstop(object):
 		App.activeDocument().LinearPattern.Direction = (App.activeDocument().Sketch003, ["H_Axis"])
 		App.activeDocument().LinearPattern.Length = 100
 		App.activeDocument().LinearPattern.Occurrences = 2
-		Gui.activeDocument().Pocket002.Visibility=False
-		Gui.activeDocument().setEdit('LinearPattern')
-		Gui.ActiveDocument.LinearPattern.ShapeColor=Gui.ActiveDocument.Pocket002.ShapeColor
-		Gui.ActiveDocument.LinearPattern.DisplayMode=Gui.ActiveDocument.Pocket002.DisplayMode
+		#.activeDocument().Pocket002.Visibility=False
+		#.activeDocument().setEdit('LinearPattern')
+		#.ActiveDocument.LinearPattern.ShapeColor=#.ActiveDocument.Pocket002.ShapeColor
+		#.ActiveDocument.LinearPattern.DisplayMode=#.ActiveDocument.Pocket002.DisplayMode
 		App.ActiveDocument.LinearPattern.Originals = [App.ActiveDocument.Pocket002,]
 		App.ActiveDocument.LinearPattern.Direction = (App.ActiveDocument.Sketch003,["V_Axis"])
 		App.ActiveDocument.LinearPattern.Reversed = 1
 		App.ActiveDocument.LinearPattern.Length = 3.500000
 		App.ActiveDocument.LinearPattern.Occurrences = 2
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().resetEdit()
+		#.activeDocument().resetEdit()
 		
 
 		#Set view as axometric
-#		Gui.activeDocument().activeView().viewAxometric()		
+#		#.activeDocument().activeView().viewAxometric()		
 
