@@ -5,7 +5,6 @@ from itertools import product
 
 #import FreeCAD modules
 import FreeCAD as App
-#import FreeCAD# as #
 import Part
 import Sketcher
 import Draft
