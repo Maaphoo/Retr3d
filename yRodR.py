@@ -20,12 +20,10 @@ class YRodR(object):
 		App.ActiveDocument=App.getDocument(self.name)
 		shape = App.ActiveDocument.ActiveObject.Shape
 		App.ActiveDocument=App.getDocument("PrinterAssembly")
-		#.ActiveDocument=#.getDocument("PrinterAssembly")
 		App.ActiveDocument.addObject('Part::Feature',self.name).Shape= shape
 		
 		#Color Part
-		#.ActiveDocument.getObject(self.name).ShapeColor = (gv.printedR,gv.printedG,gv.printedB,gv.printedA)
-		
+
 		#Get the feature and move it into position
 		objs = App.ActiveDocument.getObjectsByLabel(self.name)
 		shape = objs[-1]		
@@ -48,13 +46,10 @@ class YRodR(object):
 
 	def draw(self):
 		try:
-			#.getDocument('yRodR')
-			#.getDocument('yRodR').resetEdit()
 			App.getDocument('yRodR').recompute()
 			App.closeDocument("yRodR")
 			App.setActiveDocument("")
 			App.ActiveDocument=None
-			#.ActiveDocument=None
 		except:
 			pass
 
@@ -62,20 +57,16 @@ class YRodR(object):
 		App.newDocument("yRodR")
 		App.setActiveDocument("yRodR")
 		App.ActiveDocument=App.getDocument("yRodR")
-		#.ActiveDocument=#.getDocument("yRodR")
 
 		#make sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch')
 		App.activeDocument().Sketch.Placement = App.Placement(App.Vector(0.000000,0.000000,0.000000),App.Rotation(-0.707107,0.000000,0.000000,-0.707107))
-		#.activeDocument().activeView().setCamera('#Inventor V2.1 ascii \n OrthographicCamera {\n viewportMapping ADJUST_CAMERA\n  position 87 0 0 \n  orientation 0.57735026 0.57735026 0.57735026  2.0943952 \n  nearDistance -112.887\n  farDistance 287.28699\n  aspectRatio 1\n  focalDistance 87\n  height 143.52005\n\n}')
-#		#.activeDocument().setEdit('Sketch')
 		App.ActiveDocument.Sketch.addGeometry(Part.Circle(App.Vector(0,0,0),App.Vector(0,0,1),gv.yRodDiaR/2))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch.addConstraint(Sketcher.Constraint('Coincident',0,3,-1,1)) 
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch.addConstraint(Sketcher.Constraint('Radius',0,gv.yRodDiaR/2)) 
 		App.ActiveDocument.recompute()
-#		#.getDocument('yRodR').resetEdit()
 		App.getDocument('yRodR').recompute()
 
 		#Pad sketch
@@ -83,7 +74,6 @@ class YRodR(object):
 		App.activeDocument().Pad.Sketch = App.activeDocument().Sketch
 		App.activeDocument().Pad.Length = 10.0
 		App.ActiveDocument.recompute()
-		#.activeDocument().hide("Sketch")
 		App.ActiveDocument.Pad.Length = gv.yRodLength
 		App.ActiveDocument.Pad.Reversed = 0
 		App.ActiveDocument.Pad.Midplane = 0
@@ -91,7 +81,5 @@ class YRodR(object):
 		App.ActiveDocument.Pad.Type = 0
 		App.ActiveDocument.Pad.UpToFace = None
 		App.ActiveDocument.recompute()
-#		#.activeDocument().resetEdit()
 
 		#set view as axiometric
-#		#.activeDocument().activeView().viewAxometric()

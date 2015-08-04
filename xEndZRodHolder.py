@@ -26,12 +26,10 @@ class XEndZRodHolder(object):
 		App.ActiveDocument=App.getDocument(self.name)
 		shape = App.ActiveDocument.ActiveObject.Shape
 		App.ActiveDocument=App.getDocument("PrinterAssembly")
-		#.ActiveDocument=#.getDocument("PrinterAssembly")
 		App.ActiveDocument.addObject('Part::Feature',self.name).Shape= shape
 		
 		#Color Part
-		#.ActiveDocument.getObject(self.name).ShapeColor = (gv.printedR,gv.printedG,gv.printedB,gv.printedA)
-		
+
 		#Rotate into correct orientation
 		objs = App.ActiveDocument.getObjectsByLabel(self.name)
 		shape = objs[-1]
@@ -95,20 +93,16 @@ class XEndZRodHolder(object):
 
 		#Create Document
 		try:
-			#.getDocument(self.name)
-			#.getDocument(self.name).resetEdit()
 			App.getDocument(self.name).recompute()
 			App.closeDocument(self.name)
 			App.setActiveDocument("")
 			App.ActiveDocument=None
-			#.ActiveDocument=None
 		except:
 			pass
 
 		App.newDocument(self.name)
 		App.setActiveDocument(self.name)
 		App.ActiveDocument=App.getDocument(self.name)
-		#.ActiveDocument=#.getDocument(self.name)
 
 		#Make base
 		#sketch Variables
@@ -125,8 +119,6 @@ class XEndZRodHolder(object):
 		#Make sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch')
 		App.activeDocument().Sketch.Placement = App.Placement(App.Vector(0.000000,0.000000,0.000000),App.Rotation(0.000000,0.000000,0.000000,1.000000))
-#		#.activeDocument().activeView().setCamera('#Inventor V2.1 ascii \n OrthographicCamera {\n viewportMapping ADJUST_CAMERA \n position 0 0 87 \n orientation 0 0 1  0 \n nearDistance -112.88701 \n farDistance 287.28702 \n aspectRatio 1 \n focalDistance 87 \n height 143.52005 }')
-#		#.activeDocument().setEdit('Sketch')
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p2x,p2y,0),App.Vector(p3x,p3y,0)))
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p3x,p3y,0),App.Vector(p4x,p4y,0)))
@@ -148,14 +140,12 @@ class XEndZRodHolder(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch.addConstraint(Sketcher.Constraint('DistanceX',3,-gv.xRodClampWidth)) 
 		App.ActiveDocument.recompute()
-#		#.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 		#extrude base
 		App.activeDocument().addObject("PartDesign::Pad","Pad")
 		App.activeDocument().Pad.Sketch = App.activeDocument().Sketch
 		App.activeDocument().Pad.Length = 10.0
 		App.ActiveDocument.recompute()
-		#.activeDocument().hide("Sketch")
 		App.ActiveDocument.Pad.Length = gv.xEndZRodHolderFaceThickness
 		App.ActiveDocument.Pad.Reversed = 0
 		App.ActiveDocument.Pad.Midplane = 0
@@ -163,7 +153,6 @@ class XEndZRodHolder(object):
 		App.ActiveDocument.Pad.Type = 0
 		App.ActiveDocument.Pad.UpToFace = None
 		App.ActiveDocument.recompute()
-#		#.activeDocument().resetEdit()
 
 		#Make holes for motor mount plate and idler
 		#Sketch Points
@@ -192,8 +181,7 @@ class XEndZRodHolder(object):
 															None, None, 
 															None, None, 
 															gv.xEndZRodHolderFaceThickness, 0)
-#		#.activeDocument().setEdit('Sketch001')
-		App.ActiveDocument.Sketch001.addExternal("Pad",uf.getEdge(App.ActiveDocument.Pad, 
+		App.ActiveDocument.Sketch001.addExternal("Pad",uf.getEdge(App.ActiveDocument.Pad,
 														  gv.xRodClampWidth/2,0,
 														  gv.xRodSpacing,0,
 														  gv.xEndZRodHolderFaceThickness,0))
@@ -201,7 +189,6 @@ class XEndZRodHolder(object):
 														  gv.xRodClampWidth,0,
 														  gv.xRodSpacing/2,0,
 														  gv.xEndZRodHolderFaceThickness,0))
-		#.getDocument(self.name).getObject("Pad").Visibility=False
 		App.ActiveDocument.Sketch001.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p6x,p6y,0)))
 		App.ActiveDocument.recompute()
 
@@ -296,7 +283,6 @@ class XEndZRodHolder(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch001.addConstraint(Sketcher.Constraint('DistanceY',3,-gv.xRodAxisToMountHoleDist)) 
 		App.ActiveDocument.recompute()
-#		#.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 
 		#Cut the holes
@@ -304,16 +290,10 @@ class XEndZRodHolder(object):
 		App.activeDocument().Pocket.Sketch = App.activeDocument().Sketch001
 		App.activeDocument().Pocket.Length = 5.0
 		App.ActiveDocument.recompute()
-		#.activeDocument().hide("Sketch001")
-		#.activeDocument().hide("Pad")
-#		#.ActiveDocument.Pocket.ShapeColor=#.ActiveDocument.Pad.ShapeColor
-#		#.ActiveDocument.Pocket.LineColor=#.ActiveDocument.Pad.LineColor
-#		#.ActiveDocument.Pocket.PointColor=#.ActiveDocument.Pad.PointColor
 		App.ActiveDocument.Pocket.Length = 5.000000
 		App.ActiveDocument.Pocket.Type = 1
 		App.ActiveDocument.Pocket.UpToFace = None
 		App.ActiveDocument.recompute()
-#		#.activeDocument().resetEdit()
 
 		#Make lower nut trap block
 		#Sketch variables
@@ -336,7 +316,6 @@ class XEndZRodHolder(object):
 
 		#Make Sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch002')
-#		#.activeDocument().setEdit('Sketch002')
 		App.activeDocument().Sketch002.Support = uf.getFace(App.ActiveDocument.Pocket,
 														  gv.xRodClampWidth/2,0,
 														  0,0,
@@ -415,17 +394,11 @@ class XEndZRodHolder(object):
 		App.ActiveDocument.recompute()
 
 		#extrude nut trap block
-#		#.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 		App.activeDocument().addObject("PartDesign::Pad","Pad001")
 		App.activeDocument().Pad001.Sketch = App.activeDocument().Sketch002
 		App.activeDocument().Pad001.Length = 10.0
 		App.ActiveDocument.recompute()
-		#.activeDocument().hide("Sketch002")
-		#.activeDocument().hide("Pocket")
-#		#.ActiveDocument.Pad001.ShapeColor=#.ActiveDocument.Pocket.ShapeColor
-#		#.ActiveDocument.Pad001.LineColor=#.ActiveDocument.Pocket.LineColor
-#		#.ActiveDocument.Pad001.PointColor=#.ActiveDocument.Pocket.PointColor
 		App.ActiveDocument.Pad001.Length = bushingNutTrapBlockThickness
 		App.ActiveDocument.Pad001.Reversed = 1
 		App.ActiveDocument.Pad001.Midplane = 0
@@ -433,17 +406,11 @@ class XEndZRodHolder(object):
 		App.ActiveDocument.Pad001.Type = 0
 		App.ActiveDocument.Pad001.UpToFace = None
 		App.ActiveDocument.recompute()
-#		#.activeDocument().resetEdit()
-#		#.activeDocument().activeView().viewAxometric()
 
 		#Refine shape
 		App.ActiveDocument.addObject('Part::Feature','Pad002').Shape=App.ActiveDocument.Pad001.Shape.removeSplitter()
 		App.ActiveDocument.ActiveObject.Label=App.ActiveDocument.Pad002.Label
-		#.ActiveDocument.Pad001.hide()
 
-#		#.ActiveDocument.ActiveObject.ShapeColor=#.ActiveDocument.Pad001.ShapeColor
-#		#.ActiveDocument.ActiveObject.LineColor=#.ActiveDocument.Pad001.LineColor
-#		#.ActiveDocument.ActiveObject.PointColor=#.ActiveDocument.Pad001.PointColor
 		App.ActiveDocument.recompute()
 
 		#add z Offset block
@@ -460,7 +427,6 @@ class XEndZRodHolder(object):
 		#make Sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch003')
 		App.activeDocument().recompute()
-#		#.activeDocument().setEdit('Sketch003')
 		App.ActiveDocument.recompute()
 		App.activeDocument().Sketch003.Support = uf.getFace(App.ActiveDocument.Pad002,
 														  gv.xRodClampWidth/2,0,
@@ -499,7 +465,6 @@ class XEndZRodHolder(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch003.addConstraint(Sketcher.Constraint('Distance',1,2,3,2*gv.bushingNutPadding+gv.zOffsetNutFaceToFace)) 
 		App.ActiveDocument.recompute()
-#		#.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 
 		#extrude z offset block
@@ -507,11 +472,6 @@ class XEndZRodHolder(object):
 		App.activeDocument().Pad003.Sketch = App.activeDocument().Sketch003
 		App.activeDocument().Pad003.Length = 10.0
 		App.ActiveDocument.recompute()
-		#.activeDocument().hide("Sketch003")
-		#.activeDocument().hide("Pad002")
-#		#.ActiveDocument.Pad003.ShapeColor=#.ActiveDocument.Pad001.ShapeColor
-#		#.ActiveDocument.Pad003.LineColor=#.ActiveDocument.Pad001.LineColor
-#		#.ActiveDocument.Pad003.PointColor=#.ActiveDocument.Pad001.PointColor
 		App.ActiveDocument.Pad003.Length = zOffsetNutTrapBlockThickness
 		App.ActiveDocument.Pad003.Reversed = 1
 		App.ActiveDocument.Pad003.Midplane = 0
@@ -519,16 +479,11 @@ class XEndZRodHolder(object):
 		App.ActiveDocument.Pad003.Type = 0
 		App.ActiveDocument.Pad003.UpToFace = None
 		App.ActiveDocument.recompute()
-#		#.activeDocument().resetEdit()
 
 		#Refine Shape
 		App.ActiveDocument.addObject('Part::Feature','Pad004').Shape=App.ActiveDocument.Pad003.Shape.removeSplitter()
 		App.ActiveDocument.ActiveObject.Label=App.ActiveDocument.Pad004.Label
-		#.ActiveDocument.Pad003.hide()
 
-#		#.ActiveDocument.ActiveObject.ShapeColor=#.ActiveDocument.Pad004.ShapeColor
-#		#.ActiveDocument.ActiveObject.LineColor=#.ActiveDocument.Pad004.LineColor
-#		#.ActiveDocument.ActiveObject.PointColor=#.ActiveDocument.Pad004.PointColor
 		App.ActiveDocument.recompute()
 		
 		#Make the top z bushing block
@@ -555,7 +510,6 @@ class XEndZRodHolder(object):
 														  gv.xRodClampWidth/2,0,
 														  gv.xRodSpacing,0,
 														  gv.xEndZRodHolderFaceThickness,0))
-#		#.activeDocument().setEdit('Sketch004')
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch004.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.recompute()
@@ -591,7 +545,6 @@ class XEndZRodHolder(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch004.addConstraint(Sketcher.Constraint('DistanceY',2,-faceToZRodDist)) 
 		App.ActiveDocument.recompute()
-#		#.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 
 		#extrude the top z bushing block
@@ -599,11 +552,6 @@ class XEndZRodHolder(object):
 		App.activeDocument().Pad005.Sketch = App.activeDocument().Sketch004
 		App.activeDocument().Pad005.Length = 10.0
 		App.ActiveDocument.recompute()
-		#.activeDocument().hide("Sketch004")
-		#.activeDocument().hide("Pad004")
-#		#.ActiveDocument.Pad005.ShapeColor=#.ActiveDocument.Pad004.ShapeColor
-#		#.ActiveDocument.Pad005.LineColor=#.ActiveDocument.Pad004.LineColor
-#		#.ActiveDocument.Pad005.PointColor=#.ActiveDocument.Pad004.PointColor
 		App.ActiveDocument.Pad005.Length = bushingNutTrapBlockThickness
 		App.ActiveDocument.Pad005.Reversed = 1
 		App.ActiveDocument.Pad005.Midplane = 0
@@ -611,16 +559,11 @@ class XEndZRodHolder(object):
 		App.ActiveDocument.Pad005.Type = 0
 		App.ActiveDocument.Pad005.UpToFace = None
 		App.ActiveDocument.recompute()
-#		#.activeDocument().resetEdit()
 
 		#Refine Shape
 		App.ActiveDocument.addObject('Part::Feature','Pad006').Shape=App.ActiveDocument.Pad005.Shape.removeSplitter()
 		App.ActiveDocument.ActiveObject.Label=App.ActiveDocument.Pad006.Label
-		#.ActiveDocument.Pad005.hide()
 
-		#.ActiveDocument.ActiveObject.ShapeColor=#.ActiveDocument.Pad005.ShapeColor
-		#.ActiveDocument.ActiveObject.LineColor=#.ActiveDocument.Pad005.LineColor
-		#.ActiveDocument.ActiveObject.PointColor=#.ActiveDocument.Pad005.PointColor
 		App.ActiveDocument.recompute()
 		
 		#Cut rod and lead screw holes
@@ -648,7 +591,6 @@ class XEndZRodHolder(object):
 														  None,None,
 														  radius = nutTrapOuterRadius))
 
-#		#.activeDocument().setEdit('Sketch005')
 
 		App.ActiveDocument.Sketch005.addGeometry(Part.Circle(App.Vector(p1x,p1y,0),App.Vector(0,0,1),self.rodDia/2+gv.bushingNutRodGap))
 		App.ActiveDocument.recompute()
@@ -664,7 +606,6 @@ class XEndZRodHolder(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch005.addConstraint(Sketcher.Constraint('Radius',1,gv.leadScrewDia/2+gv.bushingNutRodGap)) 
 		App.ActiveDocument.recompute()
-#		#.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 
 		#Cut holes
@@ -672,17 +613,10 @@ class XEndZRodHolder(object):
 		App.activeDocument().Pocket001.Sketch = App.activeDocument().Sketch005
 		App.activeDocument().Pocket001.Length = 5.0
 		App.ActiveDocument.recompute()
-		#.activeDocument().hide("Sketch005")
-		#.activeDocument().hide("Pad006")
-#		#.activeDocument().setEdit('Pocket001')
-#		#.ActiveDocument.Pocket001.ShapeColor=#.ActiveDocument.Pad005.ShapeColor
-#		#.ActiveDocument.Pocket001.LineColor=#.ActiveDocument.Pad005.LineColor
-#		#.ActiveDocument.Pocket001.PointColor=#.ActiveDocument.Pad005.PointColor
 		App.ActiveDocument.Pocket001.Length = 5.000000
 		App.ActiveDocument.Pocket001.Type = 1
 		App.ActiveDocument.Pocket001.UpToFace = None
 		App.ActiveDocument.recompute()
-#		#.activeDocument().resetEdit()
 
 
 		mat = uf.hexagonPoints(nutTrapOuterRadius,
@@ -712,7 +646,6 @@ class XEndZRodHolder(object):
 														  0,0,
 														  None, None)
 		App.ActiveDocument.recompute()
-#		#.activeDocument().setEdit('Sketch006')
 		App.ActiveDocument.Sketch006.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch006.addGeometry(Part.Line(App.Vector(p2x,p2y,0),App.Vector(p3x,p3y,0)))
@@ -764,7 +697,6 @@ class XEndZRodHolder(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch006.addConstraint(Sketcher.Constraint('Distance',0,2,4,self.bushingNutFaceToFace)) 
 		App.ActiveDocument.recompute()
-		#.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 
 		#cut nut trap out
@@ -772,16 +704,10 @@ class XEndZRodHolder(object):
 		App.activeDocument().Pocket002.Sketch = App.activeDocument().Sketch006
 		App.activeDocument().Pocket002.Length = 5.0
 		App.ActiveDocument.recompute()
-		#.activeDocument().hide("Sketch006")
-		#.activeDocument().hide("Pocket001")
-#		#.ActiveDocument.Pocket002.ShapeColor=#.ActiveDocument.Pocket001.ShapeColor
-#		#.ActiveDocument.Pocket002.LineColor=#.ActiveDocument.Pocket001.LineColor
-#		#.ActiveDocument.Pocket002.PointColor=#.ActiveDocument.Pocket001.PointColor
 		App.ActiveDocument.Pocket002.Length = self.bushingNutThickness
 		App.ActiveDocument.Pocket002.Type = 0
 		App.ActiveDocument.Pocket002.UpToFace = None
 		App.ActiveDocument.recompute()
-#		#.activeDocument().resetEdit()
 
 
 		#cut nut trap for lead screw
@@ -814,8 +740,7 @@ class XEndZRodHolder(object):
 														  0,0,
 														  None, None)
 		App.ActiveDocument.recompute()
-#		#.activeDocument().setEdit('Sketch007')
-		App.ActiveDocument.Sketch007.addExternal("Pocket002",uf.getEdge(App.ActiveDocument.Pocket002, 
+		App.ActiveDocument.Sketch007.addExternal("Pocket002",uf.getEdge(App.ActiveDocument.Pocket002,
 														  gv.xRodClampWidth/2,1,
 														  0,0,
 														  None,None,
@@ -866,7 +791,6 @@ class XEndZRodHolder(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch007.addConstraint(Sketcher.Constraint('Distance',0,2,4,gv.leadScrewNut[2])) 
 		App.ActiveDocument.recompute()
-#		#.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 
 		#cut nut trap out
@@ -874,16 +798,10 @@ class XEndZRodHolder(object):
 		App.activeDocument().Pocket003.Sketch = App.activeDocument().Sketch007
 		App.activeDocument().Pocket003.Length = 5.0
 		App.ActiveDocument.recompute()
-		#.activeDocument().hide("Sketch007")
-		#.activeDocument().hide("Pocket002")
-#		#.ActiveDocument.Pocket003.ShapeColor=#.ActiveDocument.Pocket002.ShapeColor
-#		#.ActiveDocument.Pocket003.LineColor=#.ActiveDocument.Pocket002.LineColor
-#		#.ActiveDocument.Pocket003.PointColor=#.ActiveDocument.Pocket002.PointColor
 		App.ActiveDocument.Pocket003.Length = gv.leadScrewNut[3]
 		App.ActiveDocument.Pocket003.Type = 0
 		App.ActiveDocument.Pocket003.UpToFace = None
 		App.ActiveDocument.recompute()
-#		#.activeDocument().resetEdit()
 
 		#Cut hole for z offset adjust
 		# sketch points
@@ -905,8 +823,7 @@ class XEndZRodHolder(object):
 														  0,0,
 														  None, None)
 		App.activeDocument().recompute()
-#		#.activeDocument().setEdit('Sketch008')
-		App.ActiveDocument.Sketch008.addExternal("Pocket003",uf.getEdge(App.ActiveDocument.Pocket003, 
+		App.ActiveDocument.Sketch008.addExternal("Pocket003",uf.getEdge(App.ActiveDocument.Pocket003,
 														  gv.xRodClampWidth/2,-1,
 														  0,0,
 														  None,None,
@@ -950,7 +867,6 @@ class XEndZRodHolder(object):
 		#Add dimensions
 		App.ActiveDocument.Sketch008.addConstraint(Sketcher.Constraint('Radius',2,gv.zOffsetHoleDia/2)) 
 		App.ActiveDocument.recompute()
-#		#.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 
 		#Cut hole though all
@@ -958,16 +874,10 @@ class XEndZRodHolder(object):
 		App.activeDocument().Pocket004.Sketch = App.activeDocument().Sketch008
 		App.activeDocument().Pocket004.Length = 5.0
 		App.ActiveDocument.recompute()
-		#.activeDocument().hide("Sketch008")
-		#.activeDocument().hide("Pocket003")
-#		#.ActiveDocument.Pocket004.ShapeColor=#.ActiveDocument.Pocket003.ShapeColor
-#		#.ActiveDocument.Pocket004.LineColor=#.ActiveDocument.Pocket003.LineColor
-#		#.ActiveDocument.Pocket004.PointColor=#.ActiveDocument.Pocket003.PointColor
 		App.ActiveDocument.Pocket004.Length = 5
 		App.ActiveDocument.Pocket004.Type = 1
 		App.ActiveDocument.Pocket004.UpToFace = None
 		App.ActiveDocument.recompute()
-#		#.activeDocument().resetEdit()
 
 		#Cut Nut trap for z offset
 		#sketch points
@@ -999,8 +909,7 @@ class XEndZRodHolder(object):
 														  0,0,
 														  None, None)
 		App.activeDocument().recompute()
-#		#.activeDocument().setEdit('Sketch009')
-		App.ActiveDocument.Sketch009.addExternal("Pocket004",uf.getEdge(App.ActiveDocument.Pocket004, 
+		App.ActiveDocument.Sketch009.addExternal("Pocket004",uf.getEdge(App.ActiveDocument.Pocket004,
 														  gv.xRodClampWidth/2,0,
 														  0,0,
 														  None,None,
@@ -1053,7 +962,6 @@ class XEndZRodHolder(object):
 		#Add dimensions
 		App.ActiveDocument.Sketch009.addConstraint(Sketcher.Constraint('Distance',0,2,4,gv.zOffsetNutFaceToFace)) 
 		App.ActiveDocument.recompute()
-#		#.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 
 		#Cut z Offset nut trap
@@ -1061,16 +969,10 @@ class XEndZRodHolder(object):
 		App.activeDocument().Pocket005.Sketch = App.activeDocument().Sketch009
 		App.activeDocument().Pocket005.Length = 5.0
 		App.ActiveDocument.recompute()
-		#.activeDocument().hide("Sketch009")
-		#.activeDocument().hide("Pocket004")
-#		#.ActiveDocument.Pocket005.ShapeColor=#.ActiveDocument.Pocket004.ShapeColor
-#		#.ActiveDocument.Pocket005.LineColor=#.ActiveDocument.Pocket004.LineColor
-#		#.ActiveDocument.Pocket005.PointColor=#.ActiveDocument.Pocket004.PointColor
 		App.ActiveDocument.Pocket005.Length = gv.zOffsetNutThickness
 		App.ActiveDocument.Pocket005.Type = 0
 		App.ActiveDocument.Pocket005.UpToFace = None
 		App.ActiveDocument.recompute()
-#		#.activeDocument().resetEdit()
 #
 		#Make nut trap for top Z rod bushing
 		#sketch points
@@ -1106,7 +1008,6 @@ class XEndZRodHolder(object):
 														  gv.xRodSpacing,0,
 														  None,None,
 														  radius = nutTrapOuterRadius))
-#		#.activeDocument().setEdit('Sketch010')
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch010.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.recompute()
@@ -1153,7 +1054,6 @@ class XEndZRodHolder(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch010.addConstraint(Sketcher.Constraint('Distance',0,2,4,self.bushingNutFaceToFace)) 
 		App.ActiveDocument.recompute()
-#		#.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 
 		#Cut top bushing nut trap
@@ -1161,24 +1061,14 @@ class XEndZRodHolder(object):
 		App.activeDocument().Pocket006.Sketch = App.activeDocument().Sketch010
 		App.activeDocument().Pocket006.Length = 5.0
 		App.ActiveDocument.recompute()
-		#.activeDocument().hide("Sketch010")
-		#.activeDocument().hide("Pocket005")
-#		#.ActiveDocument.Pocket006.ShapeColor=#.ActiveDocument.Pocket005.ShapeColor
-#		#.ActiveDocument.Pocket006.LineColor=#.ActiveDocument.Pocket005.LineColor
-#		#.ActiveDocument.Pocket006.PointColor=#.ActiveDocument.Pocket005.PointColor
 		App.ActiveDocument.Pocket006.Length = self.bushingNutThickness
 		App.ActiveDocument.Pocket006.Type = 0
 		App.ActiveDocument.Pocket006.UpToFace = None
 		App.ActiveDocument.recompute()
-#		#.activeDocument().resetEdit()
-		
+
 		#Refine Shape
 		App.ActiveDocument.addObject('Part::Feature','Pocket007').Shape=App.ActiveDocument.Pocket006.Shape.removeSplitter()
 		App.ActiveDocument.ActiveObject.Label=App.ActiveDocument.Pocket007.Label
-		#.ActiveDocument.Pocket006.hide()
-#		#.ActiveDocument.ActiveObject.ShapeColor=#.ActiveDocument.Pocket006.ShapeColor
-#		#.ActiveDocument.ActiveObject.LineColor=#.ActiveDocument.Pocket006.LineColor
-#		#.ActiveDocument.ActiveObject.PointColor=#.ActiveDocument.Pocket006.PointColor
 		App.ActiveDocument.recompute()
 	
 		if self.side == "Left":
@@ -1189,13 +1079,8 @@ class XEndZRodHolder(object):
 			__doc__.ActiveObject.Normal=(1,0,0)
 			__doc__.ActiveObject.Base=(0,0,0)
 			del __doc__
-	#		#.ActiveDocument.ActiveObject.ShapeColor=#.ActiveDocument.Pocket006.ShapeColor
-	#		#.ActiveDocument.ActiveObject.LineColor=#.ActiveDocument.Pocket006.LineColor
-	#		#.ActiveDocument.ActiveObject.PointColor=#.ActiveDocument.Pocket006.PointColor
-			#.getDocument(self.name).getObject("Pocket007").Visibility=False
-		
+
 
 		
 		#set view as axometric
-#		#.activeDocument().activeView().viewAxometric()
 

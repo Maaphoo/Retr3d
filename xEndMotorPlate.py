@@ -26,12 +26,10 @@ class XEndMotorPlate(object):
 		App.ActiveDocument=App.getDocument("xEndMotorPlate")
 		shape = App.ActiveDocument.ActiveObject.Shape
 		App.ActiveDocument=App.getDocument("PrinterAssembly")
-		#.ActiveDocument=#.getDocument("PrinterAssembly")
 		App.ActiveDocument.addObject('Part::Feature','xEndMotorPlate').Shape= shape
 		
 		#Color Part change colors to metal
-		##.ActiveDocument.getObject("xEndMotorPlate").ShapeColor = (gv.printedR,gv.printedG,gv.printedB,gv.printedA)
-		
+
 		#Rotate into correct orientation
 		rotateAngle = -90
 		rotateCenter = App.Vector(0,0,0)
@@ -71,20 +69,16 @@ class XEndMotorPlate(object):
 
 		#Create Document
 		try:
-			#.getDocument('xEndMotorPlate')
-			#.getDocument('xEndMotorPlate').resetEdit()
 			App.getDocument('xEndMotorPlate').recompute()
 			App.closeDocument("xEndMotorPlate")
 			App.setActiveDocument("")
 			App.ActiveDocument=None
-			#.ActiveDocument=None
 		except:
 			pass
 			
 		App.newDocument("xEndMotorPlate")
 		App.setActiveDocument("xEndMotorPlate")
 		App.ActiveDocument=App.getDocument("xEndMotorPlate")
-		#.ActiveDocument=#.getDocument("xEndMotorPlate")
 
 		#Make the plate
 		#Sketch points
@@ -101,8 +95,6 @@ class XEndMotorPlate(object):
 		#Make Sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch')
 		App.activeDocument().Sketch.Placement = App.Placement(App.Vector(0.000000,0.000000,0.000000),App.Rotation(0.000000,0.000000,0.000000,1.000000))
-#		#.activeDocument().activeView().setCamera('#Inventor V2.1 ascii \n OrthographicCamera {\n viewportMapping ADJUST_CAMERA \n position 0 0 87 \n orientation 0 0 1  0 \n nearDistance -112.88701 \n farDistance 287.28702 \n aspectRatio 1 \n focalDistance 87 \n height 143.52005 }')
-#		#.activeDocument().setEdit('Sketch')
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p2x,p2y,0),App.Vector(p3x,p3y,0)))
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p3x,p3y,0),App.Vector(p4x,p4y,0)))
@@ -128,7 +120,6 @@ class XEndMotorPlate(object):
 		App.ActiveDocument.Sketch.addConstraint(Sketcher.Constraint('DistanceY',2,-gv.xMotorMountPlateWidth)) 
 		App.ActiveDocument.recompute()
 
-#		#.getDocument('xEndMotorPlate').resetEdit()
 		App.getDocument('xEndMotorPlate').recompute()
 
 		#extrude x motor mount plate
@@ -136,7 +127,6 @@ class XEndMotorPlate(object):
 		App.activeDocument().Pad.Sketch = App.activeDocument().Sketch
 		App.activeDocument().Pad.Length = 10.0
 		App.ActiveDocument.recompute()
-		#.activeDocument().hide("Sketch")
 		App.ActiveDocument.Pad.Length = gv.xMotorMountPlateThickness
 		App.ActiveDocument.Pad.Reversed = 0
 		App.ActiveDocument.Pad.Midplane = 0
@@ -144,7 +134,6 @@ class XEndMotorPlate(object):
 		App.ActiveDocument.Pad.Type = 0
 		App.ActiveDocument.Pad.UpToFace = None
 		App.ActiveDocument.recompute()
-#		#.activeDocument().resetEdit()
 
 		#cut holes for xRodClamp
 		#Sketch Points
@@ -172,7 +161,6 @@ class XEndMotorPlate(object):
 															None, None, 
 															gv.xMotorMountPlateThickness, 0)#(App.ActiveDocument.Pad,["Face6"])
 		App.activeDocument().recompute()
-#		#.activeDocument().setEdit('Sketch001')
 
 		App.ActiveDocument.Sketch001.addExternal("Pad",uf.getEdge(App.ActiveDocument.Pad, 
 															  0,0,
@@ -258,7 +246,6 @@ class XEndMotorPlate(object):
 		App.ActiveDocument.recompute()
 
 		#exit sketch
-#		#.getDocument('xEndMotorPlate').resetEdit()
 		App.getDocument('xEndMotorPlate').recompute()
 
 		#Cut holes through all
@@ -266,16 +253,10 @@ class XEndMotorPlate(object):
 		App.activeDocument().Pocket.Sketch = App.activeDocument().Sketch001
 		App.activeDocument().Pocket.Length = 5.0
 		App.ActiveDocument.recompute()
-		#.activeDocument().hide("Sketch001")
-		#.activeDocument().hide("Pad")
-#		#.ActiveDocument.Pocket.ShapeColor=#.ActiveDocument.Pad.ShapeColor
-#		#.ActiveDocument.Pocket.LineColor=#.ActiveDocument.Pad.LineColor
-#		#.ActiveDocument.Pocket.PointColor=#.ActiveDocument.Pad.PointColor
 		App.ActiveDocument.Pocket.Length = 5.000000
 		App.ActiveDocument.Pocket.Type = 1
 		App.ActiveDocument.Pocket.UpToFace = None
 		App.ActiveDocument.recompute()
-#		#.activeDocument().resetEdit()
 
 
 		#Cut holes for motor
@@ -304,7 +285,6 @@ class XEndMotorPlate(object):
 															None, None, 
 															gv.xMotorMountPlateThickness, 0)#(App.ActiveDocument.Pocket,["Face5"])
 		App.activeDocument().recompute()
-#		#.activeDocument().setEdit('Sketch002')
 
 		App.ActiveDocument.Sketch002.addExternal("Pocket",uf.getEdge(App.ActiveDocument.Pocket, 
 															  0,0,
@@ -401,7 +381,6 @@ class XEndMotorPlate(object):
 
 
 		#exit Sketch
-#		#.getDocument('xEndMotorPlate').resetEdit()
 		App.getDocument('xEndMotorPlate').recompute()
 
 		#Cut holes
@@ -409,17 +388,9 @@ class XEndMotorPlate(object):
 		App.activeDocument().Pocket001.Sketch = App.activeDocument().Sketch002
 		App.activeDocument().Pocket001.Length = 5.0
 		App.ActiveDocument.recompute()
-		#.activeDocument().hide("Sketch002")
-		#.activeDocument().hide("Pocket")
-#		#.ActiveDocument.Pocket001.ShapeColor=#.ActiveDocument.Pocket.ShapeColor
-#		#.ActiveDocument.Pocket001.LineColor=#.ActiveDocument.Pocket.LineColor
-#		#.ActiveDocument.Pocket001.PointColor=#.ActiveDocument.Pocket.PointColor
 		App.ActiveDocument.Pocket001.Length = 5.000000
 		App.ActiveDocument.Pocket001.Type = 1
 		App.ActiveDocument.Pocket001.UpToFace = None
 		App.ActiveDocument.recompute()
-#		#.activeDocument().resetEdit()
-		
+
 		#set view as axiometric
-#		#.activeDocument().activeView().viewAxometric()
-		

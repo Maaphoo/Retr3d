@@ -22,12 +22,10 @@ class YBeltAnchor(object):
 		App.ActiveDocument=App.getDocument(self.name)
 		shape = App.ActiveDocument.ActiveObject.Shape
 		App.ActiveDocument=App.getDocument("PrinterAssembly")
-		#.ActiveDocument=#.getDocument("PrinterAssembly")
 		App.ActiveDocument.addObject('Part::Feature',self.name).Shape= shape
 		
 		#Color Part
-		#.ActiveDocument.getObject(self.name).ShapeColor = (gv.printedR,gv.printedG,gv.printedB,gv.printedA)
-		
+
 		#Get the feature and move it into position
 		objs = App.ActiveDocument.getObjectsByLabel(self.name)
 		shape = objs[-1]		
@@ -71,13 +69,10 @@ class YBeltAnchor(object):
 
 		#Make file and build part
 		try:
-			#.getDocument("yBeltAnchor")
-			#.getDocument("yBeltAnchor").resetEdit()
 			App.getDocument("yBeltAnchor").recompute()
 			App.closeDocument("yBeltAnchor")
 			App.setActiveDocument("")
 			App.ActiveDocument=None
-			#.ActiveDocument=None	
 		except:
 			pass
 
@@ -85,7 +80,6 @@ class YBeltAnchor(object):
 		App.newDocument("yBeltAnchor")
 		App.setActiveDocument("yBeltAnchor")
 		App.ActiveDocument=App.getDocument("yBeltAnchor")
-		#.ActiveDocument=#.getDocument("yBeltAnchor")
 
 		#Make base
 		#Sketch points
@@ -101,9 +95,7 @@ class YBeltAnchor(object):
 		#Make Sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch')
 		App.activeDocument().Sketch.Placement = App.Placement(App.Vector(0.000000,0.000000,0.000000),App.Rotation(0.000000,0.000000,0.000000,1.000000))
-		#.activeDocument().activeView().setCamera('#Inventor V2.1 ascii \n OrthographicCamera {\n viewportMapping ADJUST_CAMERA \n position 0 0 87 \n orientation 0 0 1  0 \n nearDistance -112.88701 \n farDistance 287.28702 \n aspectRatio 1 \n focalDistance 87 \n height 143.52005 }')
-#		#.activeDocument().setEdit('Sketch')
-		
+
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p4x,p4y,0)))
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p4x,p4y,0),App.Vector(p3x,p3y,0)))
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p3x,p3y,0),App.Vector(p2x,p2y,0)))
@@ -125,7 +117,6 @@ class YBeltAnchor(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch.addConstraint(Sketcher.Constraint('DistanceX',0,baseLength)) 
 		App.ActiveDocument.recompute()
-#		#.getDocument("yBeltAnchor").resetEdit()
 		App.getDocument("yBeltAnchor").recompute()
 		
 		#Pad base
@@ -133,7 +124,6 @@ class YBeltAnchor(object):
 		App.activeDocument().Pad.Sketch = App.activeDocument().Sketch
 		App.activeDocument().Pad.Length = 10.0
 		App.ActiveDocument.recompute()
-		#.activeDocument().hide("Sketch")
 		App.ActiveDocument.Pad.Length = gv.tabThickness
 		App.ActiveDocument.Pad.Reversed = 0
 		App.ActiveDocument.Pad.Midplane = 0
@@ -141,8 +131,7 @@ class YBeltAnchor(object):
 		App.ActiveDocument.Pad.Type = 0
 		App.ActiveDocument.Pad.UpToFace = None
 		App.ActiveDocument.recompute()
-#		#.activeDocument().resetEdit()
-		
+
 		#Cut hole on right side
 		#Sketch points
 		p1x = gv.yBeltAnchorLength/2+gv.mountToPrintedPadding+gv.printedToPrintedDia/2
@@ -155,7 +144,6 @@ class YBeltAnchor(object):
 														  0, 0,
 														  gv.tabThickness, 0)
 		App.activeDocument().recompute()
-#		#.activeDocument().setEdit('Sketch001')
 		App.ActiveDocument.Sketch001.addGeometry(Part.Circle(App.Vector(p1x,p1y,0),App.Vector(0,0,1),gv.printedToPrintedDia/2))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch001.addConstraint(Sketcher.Constraint('PointOnObject',0,3,-1)) 
@@ -164,7 +152,6 @@ class YBeltAnchor(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch001.addConstraint(Sketcher.Constraint('DistanceX',-1,1,0,3,p1x)) 
 		App.ActiveDocument.recompute()
-#		#.getDocument('yBeltAnchor').resetEdit()
 		App.getDocument('yBeltAnchor').recompute()
 		
 		#Cut hole through all
@@ -172,26 +159,17 @@ class YBeltAnchor(object):
 		App.activeDocument().Pocket.Sketch = App.activeDocument().Sketch001
 		App.activeDocument().Pocket.Length = 5.0
 		App.ActiveDocument.recompute()
-		#.activeDocument().hide("Sketch001")
-		#.activeDocument().hide("Pad")
-#		#.ActiveDocument.Pocket.ShapeColor=#.ActiveDocument.Pad.ShapeColor
-#		#.ActiveDocument.Pocket.LineColor=#.ActiveDocument.Pad.LineColor
-#		#.ActiveDocument.Pocket.PointColor=#.ActiveDocument.Pad.PointColor
 		App.ActiveDocument.Pocket.Length = 5.000000
 		App.ActiveDocument.Pocket.Type = 1
 		App.ActiveDocument.Pocket.UpToFace = None
 		App.ActiveDocument.recompute()
-#		#.activeDocument().resetEdit()
-		
+
 		#Mirror the hole
 		App.activeDocument().addObject("PartDesign::Mirrored","Mirrored")
 		App.ActiveDocument.recompute()
 		App.activeDocument().Mirrored.Originals = [App.activeDocument().Pocket,]
 		App.activeDocument().Mirrored.MirrorPlane = (App.activeDocument().Sketch001, ["V_Axis"])
-		#.activeDocument().Pocket.Visibility=False
-#		#.ActiveDocument.Mirrored.ShapeColor=#.ActiveDocument.Pocket.ShapeColor
-#		#.ActiveDocument.Mirrored.DisplayMode=#.ActiveDocument.Pocket.DisplayMode
-		
+
 		#Make the column
 		#Sketch points
 		p1x = -gv.yBeltAnchorWidth/2
@@ -211,7 +189,6 @@ class YBeltAnchor(object):
 														  gv.tabThickness, 0)
 		
 		App.activeDocument().recompute()
-#		#.activeDocument().setEdit('Sketch002')
 		App.ActiveDocument.Sketch002.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p4x,p4y,0)))
 		App.ActiveDocument.Sketch002.addGeometry(Part.Line(App.Vector(p4x,p4y,0),App.Vector(p3x,p3y,0)))
 		App.ActiveDocument.Sketch002.addGeometry(Part.Line(App.Vector(p3x,p3y,0),App.Vector(p2x,p2y,0)))
@@ -233,7 +210,6 @@ class YBeltAnchor(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('DistanceX',2,-gv.yBeltAnchorLength)) 
 		App.ActiveDocument.recompute()
-#		#.getDocument('yBeltAnchor').resetEdit()
 		App.getDocument('yBeltAnchor').recompute()
 		
 		#Extrude column
@@ -241,11 +217,6 @@ class YBeltAnchor(object):
 		App.activeDocument().Pad001.Sketch = App.activeDocument().Sketch002
 		App.activeDocument().Pad001.Length = 10.0
 		App.ActiveDocument.recompute()
-		#.activeDocument().hide("Sketch002")
-		#.activeDocument().hide("Mirrored")
-#		#.ActiveDocument.Pad001.ShapeColor=#.ActiveDocument.Mirrored.ShapeColor
-#		#.ActiveDocument.Pad001.LineColor=#.ActiveDocument.Mirrored.LineColor
-#		#.ActiveDocument.Pad001.PointColor=#.ActiveDocument.Mirrored.PointColor
 		App.ActiveDocument.Pad001.Length = gv.yBeltAnchorHeight-gv.tabThickness
 		App.ActiveDocument.Pad001.Reversed = 0
 		App.ActiveDocument.Pad001.Midplane = 0
@@ -253,8 +224,7 @@ class YBeltAnchor(object):
 		App.ActiveDocument.Pad001.Type = 0
 		App.ActiveDocument.Pad001.UpToFace = None
 		App.ActiveDocument.recompute()
-#		#.activeDocument().resetEdit()
-		
+
 		#Cut slot in column
 		#Sketch Points
 		p1x = -gv.yBeltAnchorSlotWidth/2
@@ -274,8 +244,7 @@ class YBeltAnchor(object):
 												  -gv.yBeltAnchorWidth/2, 0,
 												  None, None)
 		App.activeDocument().recompute()
-#		#.activeDocument().setEdit('Sketch003')
-		App.ActiveDocument.Sketch003.addExternal("Pad001",uf.getEdge(App.ActiveDocument.Pad001, 
+		App.ActiveDocument.Sketch003.addExternal("Pad001",uf.getEdge(App.ActiveDocument.Pad001,
 														  0,0,
 														  -gv.yBeltAnchorWidth/2, 0,
 														  gv.tabThickness,0))
@@ -303,7 +272,6 @@ class YBeltAnchor(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch003.addConstraint(Sketcher.Constraint('DistanceX',0,gv.yBeltAnchorSlotWidth)) 
 		App.ActiveDocument.recompute()
-#		#.getDocument('yBeltAnchor').resetEdit()
 		App.getDocument('yBeltAnchor').recompute()
 		
 		#Cut Slot through all
@@ -311,25 +279,14 @@ class YBeltAnchor(object):
 		App.activeDocument().Pocket001.Sketch = App.activeDocument().Sketch003
 		App.activeDocument().Pocket001.Length = 5.0
 		App.ActiveDocument.recompute()
-		#.activeDocument().hide("Sketch003")
-		#.activeDocument().hide("Pad001")
-#		#.ActiveDocument.Pocket001.ShapeColor=#.ActiveDocument.Pad001.ShapeColor
-#		#.ActiveDocument.Pocket001.LineColor=#.ActiveDocument.Pad001.LineColor
-#		#.ActiveDocument.Pocket001.PointColor=#.ActiveDocument.Pad001.PointColor
 		App.ActiveDocument.Pocket001.Length = 5.000000
 		App.ActiveDocument.Pocket001.Type = 1
 		App.ActiveDocument.Pocket001.UpToFace = None
 		App.ActiveDocument.recompute()
-#		#.activeDocument().resetEdit()
-		
+
 		#Refine Shape
 		App.ActiveDocument.addObject('Part::Feature','Pocket001').Shape=App.ActiveDocument.Pocket001.Shape.removeSplitter()
 		App.ActiveDocument.ActiveObject.Label=App.ActiveDocument.Pocket001.Label
-		#.ActiveDocument.Pocket001.hide()
-#		#.ActiveDocument.ActiveObject.ShapeColor=#.ActiveDocument.Pocket001.ShapeColor
-#		#.ActiveDocument.ActiveObject.LineColor=#.ActiveDocument.Pocket001.LineColor
-#		#.ActiveDocument.ActiveObject.PointColor=#.ActiveDocument.Pocket001.PointColor
 		App.ActiveDocument.recompute()
 
 		#Make view axiometric
-#		#.activeDocument().activeView().viewAxometric()

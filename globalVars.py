@@ -1,12 +1,12 @@
-from __future__ import division # allows floating point division from integersimport math
+from __future__ import division # allows floating point division from integers
 
 reloadClasses = False
 test = None
 
 #Change the following to the path to the directory that will hold your printer designs
 #Make sure to use forward slashes like this / and not back slashes like this \ 
-freecadDir = "/Path/To/FreeCAD/"
-printerDir = "/Path/To/Store/3D/Files/"
+freecadDir = "C:\\Program Files (x86)\\FreeCAD 0.15\\bin\\"
+printerDir = "C:\\Users\\Master\\Documents\\Printers\\"
  
 #Output Options
 level = 2

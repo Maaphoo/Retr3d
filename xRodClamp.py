@@ -25,12 +25,10 @@ class XRodClamp(object):
 		if self.side =="Left":
 			xRodClamp = App.ActiveDocument.Part__Mirroring.Shape		
 		App.ActiveDocument=App.getDocument("PrinterAssembly")
-		#.ActiveDocument=#.getDocument("PrinterAssembly")
 		App.ActiveDocument.addObject('Part::Feature',self.name).Shape=xRodClamp
 		#Color Part
 
-		#.ActiveDocument.getObject(self.name).ShapeColor = (gv.printedR,gv.printedG,gv.printedB,gv.printedA)
-		
+
 		objs = App.ActiveDocument.getObjectsByLabel(self.name)
 		shape = objs[-1]
 
@@ -78,13 +76,10 @@ class XRodClamp(object):
 
 		#Make file and build part
 		try:
-			#.getDocument(self.name)
-			#.getDocument(self.name).resetEdit()
 			App.getDocument(self.name).recompute()
 			App.closeDocument(self.name)
 			App.setActiveDocument("")
 			App.ActiveDocument=None
-			#.ActiveDocument=None
 		except:
 			pass
 
@@ -92,7 +87,6 @@ class XRodClamp(object):
 		App.newDocument(self.name)
 		App.setActiveDocument(self.name)
 		App.ActiveDocument=App.getDocument(self.name)
-		#.ActiveDocument=#.getDocument(self.name)
 
 		#Extrude body of xRodClamp
 		#sketch Points
@@ -112,8 +106,6 @@ class XRodClamp(object):
 		#Make Sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch')
 		App.activeDocument().Sketch.Placement = App.Placement(App.Vector(0.000000,0.000000,0.000000),App.Rotation(0.500000,0.500000,0.500000,0.500000))
-#		#.activeDocument().activeView().setCamera('#Inventor V2.1 ascii \n OrthographicCamera {\n viewportMapping ADJUST_CAMERA\n  position 87 0 0 \n  orientation 0.57735026 0.57735026 0.57735026  2.0943952 \n  nearDistance -112.887\n  farDistance 287.28699\n  aspectRatio 1\n  focalDistance 87\n  height 143.52005\n\n}')
-#		#.activeDocument().setEdit('Sketch')
 		App.ActiveDocument.Sketch.addGeometry(Part.ArcOfCircle(Part.Circle(App.Vector(p2x,p2y,0),App.Vector(0,0,1),gv.xRodClampOverallThickness/2),0.5*math.pi,1.5*math.pi))
 		App.ActiveDocument.Sketch.addConstraint(Sketcher.Constraint('PointOnObject',0,3,-2)) 
 		App.ActiveDocument.Sketch.addConstraint(Sketcher.Constraint('Coincident',0,2,-1,1)) 
@@ -133,7 +125,6 @@ class XRodClamp(object):
 		#add dimensions
 		App.ActiveDocument.Sketch.addConstraint(Sketcher.Constraint('Radius',2,gv.xRodClampOverallThickness/2)) 
 		App.ActiveDocument.Sketch.addConstraint(Sketcher.Constraint('DistanceX',3,-gv.xRodSpacing))
-#		#.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 
 		#Pad the xRodClamp body
@@ -141,7 +132,6 @@ class XRodClamp(object):
 		App.activeDocument().Pad.Sketch = App.activeDocument().Sketch
 		App.activeDocument().Pad.Length = 10.0
 		App.ActiveDocument.recompute()
-		#.activeDocument().hide("Sketch")
 		App.ActiveDocument.Pad.Length = gv.xRodClampWidth # xRodClamp gv.xRodClampWidth
 		App.ActiveDocument.Pad.Reversed = 0
 		App.ActiveDocument.Pad.Midplane = 0
@@ -149,7 +139,6 @@ class XRodClamp(object):
 		App.ActiveDocument.Pad.Type = 0
 		App.ActiveDocument.Pad.UpToFace = None
 		App.ActiveDocument.recompute()
-#		#.activeDocument().resetEdit()
 
 		#Make holes for x rods
 		#Sketch Points
@@ -165,8 +154,7 @@ class XRodClamp(object):
 															None, None, 
 															None, None)#(App.ActiveDocument.Pad,["Face6"])
 		App.activeDocument().recompute()
-#		#.activeDocument().setEdit('Sketch001')
-		App.ActiveDocument.Sketch001.addExternal("Pad",uf.getEdge(App.ActiveDocument.Pad, 
+		App.ActiveDocument.Sketch001.addExternal("Pad",uf.getEdge(App.ActiveDocument.Pad,
 														  gv.xRodClampWidth,0,
 														  0,-1,
 														  gv.xRodClampOverallThickness/2,0))
@@ -182,7 +170,6 @@ class XRodClamp(object):
 		#add Dimensions
 		App.ActiveDocument.Sketch001.addConstraint(Sketcher.Constraint('Radius',0,gv.xRodDiaBottom/2)) 
 		App.ActiveDocument.Sketch001.addConstraint(Sketcher.Constraint('Radius',1,gv.xRodDiaTop/2)) 
-#		#.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 
 		#extrude Cut to depth that Rods will be embeded in clamp
@@ -190,16 +177,10 @@ class XRodClamp(object):
 		App.activeDocument().Pocket.Sketch = App.activeDocument().Sketch001
 		App.activeDocument().Pocket.Length = 5.0
 		App.ActiveDocument.recompute()
-		#.activeDocument().hide("Sketch001")
-		#.activeDocument().hide("Pad")
-#		#.ActiveDocument.Pocket.ShapeColor=#.ActiveDocument.Pad.ShapeColor
-#		#.ActiveDocument.Pocket.LineColor=#.ActiveDocument.Pad.LineColor
-#		#.ActiveDocument.Pocket.PointColor=#.ActiveDocument.Pad.PointColor
 		App.ActiveDocument.Pocket.Length = gv.xRodClampPocketDepth+gv.xRodClampExtraPocketDepth # depth of the holes for the x rods
 		App.ActiveDocument.Pocket.Type = 0
 		App.ActiveDocument.Pocket.UpToFace = None
 		App.ActiveDocument.recompute()
-#		#.activeDocument().resetEdit()
 
 		#Make holes for motor mount plate and idler
 		#Sketch Points
@@ -229,8 +210,7 @@ class XRodClamp(object):
 															None, None, 
 															gv.xRodClampOverallThickness, 0)#(App.ActiveDocument.Pocket,["Face2"])
 		App.activeDocument().recompute()
-#		#.activeDocument().setEdit('Sketch002')
-		App.ActiveDocument.Sketch002.addExternal("Pocket",uf.getEdge(App.ActiveDocument.Pocket, 
+		App.ActiveDocument.Sketch002.addExternal("Pocket",uf.getEdge(App.ActiveDocument.Pocket,
 														  gv.xRodClampWidth,0,
 														  gv.xRodSpacing/2,0,
 														  gv.xRodClampOverallThickness,0))
@@ -299,7 +279,6 @@ class XRodClamp(object):
 		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('DistanceY',1,mountHoleInsetHoriz)) #distance between edge of part and mounting hole edge
 		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Radius',9,gv.printedToPrintedDia/2)) #mount hole radius
 		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Radius',12,gv.xRodClampIdlerHoleDia/2))#idler hole radius
-#		#.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 
 		#Cut holes through all
@@ -307,16 +286,10 @@ class XRodClamp(object):
 		App.activeDocument().Pocket001.Sketch = App.activeDocument().Sketch002
 		App.activeDocument().Pocket001.Length = 5.0
 		App.ActiveDocument.recompute()
-		#.activeDocument().hide("Sketch002")
-		#.activeDocument().hide("Pocket")
-#		#.ActiveDocument.Pocket001.ShapeColor=#.ActiveDocument.Pocket.ShapeColor
-#		#.ActiveDocument.Pocket001.LineColor=#.ActiveDocument.Pocket.LineColor
-#		#.ActiveDocument.Pocket001.PointColor=#.ActiveDocument.Pocket.PointColor
 		App.ActiveDocument.Pocket001.Length = 5.000000
 		App.ActiveDocument.Pocket001.Type = 1
 		App.ActiveDocument.Pocket001.UpToFace = None
 		App.ActiveDocument.recompute()
-#		#.activeDocument().resetEdit()
 
 		#Cut away material to make belt channel
 		#sketch points
@@ -336,7 +309,6 @@ class XRodClamp(object):
 															None, None, 
 															gv.xRodClampOverallThickness, 0)#(App.ActiveDocument.Pocket001,["Face2"])
 		App.activeDocument().recompute()
-#		#.activeDocument().setEdit('Sketch003')
 
 		App.ActiveDocument.Sketch003.addExternal("Pocket001",uf.getEdge(App.ActiveDocument.Pocket001, 
 														  gv.xRodClampWidth,0,
@@ -377,7 +349,6 @@ class XRodClamp(object):
 		#Add dimensions
 		App.ActiveDocument.Sketch003.addConstraint(Sketcher.Constraint('DistanceX',-1,1,1,2,p3x))
 		App.ActiveDocument.recompute()
-#		#.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 		
 		#Cut material away
@@ -385,16 +356,10 @@ class XRodClamp(object):
 		App.activeDocument().Pocket002.Sketch = App.activeDocument().Sketch003
 		App.activeDocument().Pocket002.Length = 5.0
 		App.ActiveDocument.recompute()
-		#.activeDocument().hide("Sketch003")
-		#.activeDocument().hide("Pocket001")
-#		#.ActiveDocument.Pocket002.ShapeColor=#.ActiveDocument.Pocket001.ShapeColor
-#		#.ActiveDocument.Pocket002.LineColor=#.ActiveDocument.Pocket001.LineColor
-#		#.ActiveDocument.Pocket002.PointColor=#.ActiveDocument.Pocket001.PointColor
 		App.ActiveDocument.Pocket002.Length = beltChannelDepth
 		App.ActiveDocument.Pocket002.Type = 0
 		App.ActiveDocument.Pocket002.UpToFace = None
 		App.ActiveDocument.recompute()
-#		#.activeDocument().resetEdit()
 
 		if self.side == "Left":
 			__doc__=App.getDocument(self.name)
@@ -404,12 +369,7 @@ class XRodClamp(object):
 			__doc__.ActiveObject.Normal=(1,0,0)
 			__doc__.ActiveObject.Base=(0,0,0)
 			del __doc__
-	#		#.ActiveDocument.ActiveObject.ShapeColor=#.ActiveDocument.Pocket002.ShapeColor
-	#		#.ActiveDocument.ActiveObject.LineColor=#.ActiveDocument.Pocket002.LineColor
-	#		#.ActiveDocument.ActiveObject.PointColor=#.ActiveDocument.Pocket002.PointColor
-			#.getDocument(self.name).getObject("Pocket002").Visibility=False
-	
+
 		#Make view axiometric
-#		#.activeDocument().activeView().viewAxometric()
 
 

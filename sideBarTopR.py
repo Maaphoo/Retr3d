@@ -22,12 +22,10 @@ class SideBarTopR(object):
 		App.ActiveDocument=App.getDocument(self.name)
 		shape = App.ActiveDocument.ActiveObject.Shape
 		App.ActiveDocument=App.getDocument("PrinterAssembly")
-		#.ActiveDocument=#.getDocument("PrinterAssembly")
 		App.ActiveDocument.addObject('Part::Feature',self.name).Shape= shape
 		
 		#Color Part
-		#.ActiveDocument.getObject(self.name).ShapeColor = (gv.frameR,gv.frameG,gv.frameB,gv.frameA)
-		
+
 		#Get the feature and move it into position
 		objs = App.ActiveDocument.getObjectsByLabel(self.name)
 		shape = objs[-1]		
@@ -50,13 +48,10 @@ class SideBarTopR(object):
 
 	def draw(self):
 		try:
-			#.getDocument(self.name)
-			#.getDocument(self.name).resetEdit()
 			App.getDocument(self.name).recompute()
 			App.closeDocument(self.name)
 			App.setActiveDocument("")
 			App.ActiveDocument=None
-			#.ActiveDocument=None	
 		except:
 			pass
 
@@ -64,8 +59,7 @@ class SideBarTopR(object):
 		App.newDocument(self.name)
 		App.setActiveDocument(self.name)
 		App.ActiveDocument=App.getDocument(self.name)
-		#.ActiveDocument=#.getDocument(self.name)
-		
+
 		#extrude side bar
 		uf.extrudeFrameMember(self.name, gv.sideBarLength)
 
@@ -88,7 +82,6 @@ class SideBarTopR(object):
 														 None, None,
 														 gv.frameHeight/2, 0)
 		App.activeDocument().recompute()
-#		#.activeDocument().setEdit('Sketch001')
 		App.ActiveDocument.Sketch001.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.Sketch001.addConstraint(Sketcher.Constraint('Coincident',-1,1,0,1)) 
 		App.ActiveDocument.recompute()
@@ -122,7 +115,6 @@ class SideBarTopR(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch001.addConstraint(Sketcher.Constraint('DistanceY',0,p3y)) 
 		App.ActiveDocument.recompute()
-#		#.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 		
 		#Cut holes through Bar
@@ -130,14 +122,8 @@ class SideBarTopR(object):
 		App.activeDocument().Pocket.Sketch = App.activeDocument().Sketch001
 		App.activeDocument().Pocket.Length = 5.0
 		App.ActiveDocument.recompute()
-		#.activeDocument().hide("Sketch001")
-		#.activeDocument().hide("Pad")
-		#.ActiveDocument.Pocket.ShapeColor=#.ActiveDocument.Pad.ShapeColor
-		#.ActiveDocument.Pocket.LineColor=#.ActiveDocument.Pad.LineColor
-		#.ActiveDocument.Pocket.PointColor=#.ActiveDocument.Pad.PointColor
 		App.ActiveDocument.Pocket.Length = 5.000000
 		App.ActiveDocument.Pocket.Type = 1
 		App.ActiveDocument.Pocket.UpToFace = None
 		App.ActiveDocument.recompute()
-#		#.activeDocument().resetEdit()
-		
+
