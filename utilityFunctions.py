@@ -7,10 +7,9 @@ from itertools import product
 import os
 import datetime
 import sys
-sys.path.append('C:\\Users\\micha\\Documents\\Git\\retr3d\\')
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import logging
-sys.path.append('C:\\Users\\micha\\Documents\\Git\\retr3d\\')
-logging.info('')
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import platform
 import __main__
 
