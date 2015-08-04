@@ -408,8 +408,8 @@ platerDelta = 2 #sets the spacing of the brute forcing (see below), default 2mm
 platerRotation = 90 #sets the angle of the brute forcing, default 90                                                     
 
 #Slic3r Variables                                                                                                                                                         
-slic3r = False #Slice or nah?                                                                                                                                             
-sli3erVars = ""                                                                                                                                                           
+slic3r = True #Slice or nah?                                                                                                                                             
+slic3rVars = " "                                                                                                                                                           
                                                                                                                                                          
 #Zip Variables                                                                                                                                            
 zipName = "Printer_Files" #Name of zip file                                                                                  
