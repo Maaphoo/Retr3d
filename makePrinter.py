@@ -44,7 +44,6 @@ def makePrinter():
     uf.bold("Version: 0.1.0 ", False)
     uf.bold("If you encounter any issues, please let us know at https://github.com/maaphoo/retr3d/issues", False)
     print ""
-
     # import FreeCAD modules
     try:
         import FreeCAD as App

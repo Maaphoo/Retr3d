@@ -10,7 +10,6 @@ import sys
 sys.path.append('C:\\Users\\micha\\Documents\\Git\\retr3d\\')
 import logging
 sys.path.append('C:\\Users\\micha\\Documents\\Git\\retr3d\\')
-logging.info('')
 import platform
 import __main__
 
@@ -19,7 +18,9 @@ import globalVars as gv
 
 if not os.path.exists(os.path.dirname(os.path.abspath(__file__)) + '/logs/'):
     os.makedirs(os.path.dirname(os.path.abspath(__file__)) + '/logs/')
-LOG_FILENAME = os.path.dirname(os.path.abspath(__file__)) + '/logs/retr3d.log'
+
+q = os.path.join(os.path.dirname(os.path.abspath(__file__)), "logs")
+LOG_FILENAME = os.path.join(q, "retr3d.log")
 logging.basicConfig(filename=LOG_FILENAME, level=logging.DEBUG, filemode='w')
 
 logging.info('Retr3d Log File')
@@ -42,6 +43,10 @@ def bold(msg, log):
         logging.info(msg)
     if not platform.system() == 'Windows' and os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
         print '\033[1m' + msg + '\x1b[0m'
+    elif os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
+        attr = []
+        attr.append('1')
+        print '\x1b[%sm%s\x1b[0m' % (';'.join(attr), msg)
     else:
         if os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
             print msg
@@ -68,6 +73,11 @@ def header(msg, log):
         logging.info(msg)
     if not platform.system() == 'Windows' and os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
         print '\033[95m' + msg + '\x1b[0m'
+    elif os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
+        attr = []
+        attr.append('35')
+        attr.append('1')
+        print '\x1b[%sm%s\x1b[0m' % (';'.join(attr), msg)
     else:
         if os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
             print msg
@@ -81,14 +91,22 @@ def critical(msg, log, level, source):
     if level <= 5:
         if not platform.system() == 'Windows' and os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
             print '\033[1m\033[31m' + msg + '\x1b[0m'
+        elif platform.system() == 'Windows' and os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
+            attr = []
+            attr.append('1')
+            attr.append('31')
+            print '\x1b[%sm%s\x1b[0m' % (';'.join(attr), msg)
         else:
             if os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
                 print msg
             else:
                 setStatus()
                 App.Console.PrintError(msg + '\n')
-                from PySide import Qt#
-                Qt#.QMessageBox.critical(None, "Retr3d: Error", msg)
+                try:
+                    from PySide import QtGui
+                    QtGui.QMessageBox.critical(None, "Retr3d: Error", msg)
+                except:
+                    pass
 
 
 def error(msg, log, level, source):
@@ -96,6 +114,10 @@ def error(msg, log, level, source):
     if level <= 4:
         if not platform.system() == 'Windows' and os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
             print '\033[91m' + msg + '\x1b[0m'
+        elif os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
+            attr = []
+            attr.append('31')
+            print '\x1b[%sm%s\x1b[0m' % (';'.join(attr), msg)
         else:
             if os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
                 print msg
@@ -109,6 +131,10 @@ def warning(msg, log, level, source):
     if level <= 3:
         if not platform.system() == 'Windows' and os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
             print '\033[93m' + msg + '\x1b[0m'
+        elif os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
+            attr = []
+            attr.append('33')
+            print '\x1b[%sm%s\x1b[0m' % (';'.join(attr), msg)
         else:
             if os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
                 print msg
@@ -122,6 +148,10 @@ def info(msg, log, level, source):
     if level <= 2:
         if not platform.system() == 'Windows' and os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
             print '\033[92m' + msg + '\x1b[0m'
+        elif os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
+            attr = []
+            attr.append('32')
+            print '\x1b[%sm%s\x1b[0m' % (';'.join(attr), msg)
         else:
             if os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
                 print msg
@@ -135,12 +165,16 @@ def debug(msg, log, level, source):
     if level <= 1:
         if not platform.system() == 'Windows' and os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
             print '\033[94m' + msg + '\x1b[0m'
-    else:
-        if os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
-            print msg
+        elif os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
+            attr = []
+            attr.append('34')
+            print '\x1b[%sm%s\x1b[0m' % (';'.join(attr), msg)
         else:
-            setStatus()
-            App.Console.PrintLog(msg + '\n')
+            if os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
+                print msg
+            else:
+                setStatus()
+                App.Console.PrintLog(msg + '\n')
 
 
 # FreeCAD related
