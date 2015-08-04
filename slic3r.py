@@ -15,6 +15,8 @@ def slic3(local_path):
     # Make dateString and add it to the directory string
     date = datetime.date.today().strftime("%m_%d_%Y")
     printerdir = gv.printerDir + "Printer_" + date + "/"
+    slic3rVars = gv.slic3rVars.split()
+
 
     # Remove files that might have been left over by plater
     for filename in os.listdir(printerdir + 'STL_Files/'):
@@ -30,13 +32,16 @@ def slic3(local_path):
         for filename in os.listdir(printerdir + 'STL_Files/'):
             command = [local_path + '/Slic3r/slic3r-console.exe', '--output', printerdir + 'GCode/',
                        printerdir + 'STL_Files/' + filename]
+            command[1:1] = slic3rVars
             for line in run(command):
                 print line.rstrip()
 
     if platform.system() == 'Darwin':  # OSX
         for filename in os.listdir(printerdir + 'STL_Files/'):
-            command = [local_path + '/Slic3r/Slic3r-Mac.app/Contents/MacOS/slic3r', '--output', printerdir + 'GCode/',
+            command = [local_path + '/Slic3r/Slic3r-Mac.app/Contents/MacOS/slic3r',
+                       '--output', printerdir + 'GCode/',
                        printerdir + 'STL_Files/' + filename]
+            command[1:1] = slic3rVars
             for line in run(command):
                 print line.rstrip()
 
@@ -44,13 +49,17 @@ def slic3(local_path):
         for filename in os.listdir(printerdir + 'STL_Files/'):
             command = [local_path + '/Slic3r/bin/slic3r', '--output', printerdir + 'GCode/',
                        printerdir + 'STL_Files/' + filename]
+            command[1:1] = slic3rVars
             for line in run(command):
                 print line.rstrip()
 
 
 def slic3r():
     local_path = os.path.dirname(os.path.abspath(__file__))
-    threads = []
-    t = threading.Thread(target=slic3, args=(local_path,))
-    threads.append(t)
-    t.start()
+    if platform.system() == 'Darwin':
+        slic3(local_path)
+    else: 
+        threads = []
+        t = threading.Thread(target=slic3, args=(local_path,))
+        threads.append(t)
+        t.start()
