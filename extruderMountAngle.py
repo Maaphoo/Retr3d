@@ -5,7 +5,7 @@ from itertools import product
 
 #import FreeCAD modules
 import FreeCAD as App
-import FreeCADGui as Gui
+import FreeCAD# as #
 import Part
 import Sketcher
 import Draft
@@ -22,12 +22,10 @@ class ExtruderMountAngle(object):
 		App.ActiveDocument=App.getDocument(self.name)
 		shape = App.ActiveDocument.ActiveObject.Shape
 		App.ActiveDocument=App.getDocument("PrinterAssembly")
-		Gui.ActiveDocument=Gui.getDocument("PrinterAssembly")
 		App.ActiveDocument.addObject('Part::Feature',self.name).Shape= shape
 		
 		#Color Part
-#		Gui.ActiveDocument.getObject(self.name).ShapeColor = (gv.printedR,gv.printedG,gv.printedB,gv.printedA)
-		
+
 		#Get the feature and move it into position
 		objs = App.ActiveDocument.getObjectsByLabel(self.name)
 		shape = objs[-1]		
@@ -58,13 +56,10 @@ class ExtruderMountAngle(object):
 	
 	
 		try:
-			Gui.getDocument(self.name)
-			Gui.getDocument(self.name).resetEdit()
 			App.getDocument(self.name).recompute()
 			App.closeDocument(self.name)
 			App.setActiveDocument("")
 			App.ActiveDocument=None
-			Gui.ActiveDocument=None	
 		except:
 			pass
 
@@ -72,8 +67,7 @@ class ExtruderMountAngle(object):
 		App.newDocument(self.name)
 		App.setActiveDocument(self.name)
 		App.ActiveDocument=App.getDocument(self.name)
-		Gui.ActiveDocument=Gui.getDocument(self.name)
-		
+
 		#Make profile of angle and extrude it
 		p1x = 0
 		p1y = 0
@@ -91,8 +85,6 @@ class ExtruderMountAngle(object):
 		#Make Sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch')
 		App.activeDocument().Sketch.Placement = App.Placement(App.Vector(0.000000,0.000000,0.000000),App.Rotation(0.500000,0.500000,0.500000,0.500000))
-#		Gui.activeDocument().activeView().setCamera('#Inventor V2.1 ascii \n OrthographicCamera {\n viewportMapping ADJUST_CAMERA\n  position 87 0 0 \n  orientation 0.57735026 0.57735026 0.57735026  2.0943952 \n  nearDistance -112.887\n  farDistance 287.28699\n  aspectRatio 1\n  focalDistance 87\n  height 143.52005\n\n}')
-#		Gui.activeDocument().setEdit('Sketch')
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.Sketch.addConstraint(Sketcher.Constraint('Coincident',-1,1,0,1)) 
 		App.ActiveDocument.recompute()
@@ -140,7 +132,6 @@ class ExtruderMountAngle(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch.addConstraint(Sketcher.Constraint('DistanceY',2,-gv.extruderMountAngleThickness)) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument('extruderMountAngle').resetEdit()
 		App.getDocument('extruderMountAngle').recompute()
 		
 		#Extrude the extruder mount angle
@@ -148,7 +139,6 @@ class ExtruderMountAngle(object):
 		App.activeDocument().Pad.Sketch = App.activeDocument().Sketch
 		App.activeDocument().Pad.Length = 10.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch")
 		App.ActiveDocument.Pad.Length = gv.xCarriageWidth
 		App.ActiveDocument.Pad.Reversed = 0
 		App.ActiveDocument.Pad.Midplane = 0
@@ -156,8 +146,7 @@ class ExtruderMountAngle(object):
 		App.ActiveDocument.Pad.Type = 0
 		App.ActiveDocument.Pad.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
-		
+
 		#Cut holes for mounting to xCarriage
 		#Sketch Points
 		p1x = (gv.extruderMountAngleWidth-gv.extruderMountAngleThickness)/2
@@ -176,7 +165,6 @@ class ExtruderMountAngle(object):
 															gv.extruderMountAngleThickness,0, 
 															None, None)#(App.ActiveDocument.Pad,["Face5"])
 		App.activeDocument().recompute()
-#		Gui.activeDocument().setEdit('Sketch001')
 #		App.ActiveDocument.Sketch001.addExternal("Pad","Edge16")
 		App.ActiveDocument.Sketch001.addExternal("Pad",uf.getEdge(App.ActiveDocument.Pad, 
  																  gv.xCarriageWidth,0,
@@ -228,7 +216,6 @@ class ExtruderMountAngle(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch001.addConstraint(Sketcher.Constraint('DistanceY',0,-gv.xCarriageMountHoleHorizOffset)) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 		
 		#Cut mounting holes through all
@@ -236,17 +223,11 @@ class ExtruderMountAngle(object):
 		App.activeDocument().Pocket.Sketch = App.activeDocument().Sketch001
 		App.activeDocument().Pocket.Length = 5.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch001")
-		Gui.activeDocument().hide("Pad")
-#		Gui.ActiveDocument.Pocket.ShapeColor=Gui.ActiveDocument.Pad.ShapeColor
-#		Gui.ActiveDocument.Pocket.LineColor=Gui.ActiveDocument.Pad.LineColor
-#		Gui.ActiveDocument.Pocket.PointColor=Gui.ActiveDocument.Pad.PointColor
 		App.ActiveDocument.Pocket.Length = 5.000000
 		App.ActiveDocument.Pocket.Type = 1
 		App.ActiveDocument.Pocket.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
-		
+
 		#Make mounting holes for extruderMountPlate
 		#SketchPoints
 		p1x = (gv.extruderMountAngleWidth+gv.extruderMountAngleThickness)/2
@@ -265,8 +246,7 @@ class ExtruderMountAngle(object):
 															None, None, 
 															gv.extruderMountAngleWidth-gv.extruderMountAngleThickness, 0)#(App.ActiveDocument.Pocket,["Face10"])
 		App.activeDocument().recompute()
-#		Gui.activeDocument().setEdit('Sketch002')
-		App.ActiveDocument.Sketch002.addExternal("Pocket",uf.getEdge(App.ActiveDocument.Pocket, 
+		App.ActiveDocument.Sketch002.addExternal("Pocket",uf.getEdge(App.ActiveDocument.Pocket,
  																  gv.xCarriageWidth,0,
  																  (gv.extruderMountAngleWidth+gv.extruderMountAngleThickness)/2, 0,
  																  (gv.extruderMountAngleWidth-gv.extruderMountAngleThickness),0))
@@ -320,7 +300,6 @@ class ExtruderMountAngle(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('DistanceY',0,-gv.xCarriageMountHoleHorizOffset)) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 		
 		#Cut mounting holes through all
@@ -328,15 +307,9 @@ class ExtruderMountAngle(object):
 		App.activeDocument().Pocket001.Sketch = App.activeDocument().Sketch002
 		App.activeDocument().Pocket001.Length = 5.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch002")
-		Gui.activeDocument().hide("Pocket")
-#		Gui.ActiveDocument.Pocket001.ShapeColor=Gui.ActiveDocument.Pocket.ShapeColor
-#		Gui.ActiveDocument.Pocket001.LineColor=Gui.ActiveDocument.Pocket.LineColor
-#		Gui.ActiveDocument.Pocket001.PointColor=Gui.ActiveDocument.Pocket.PointColor
 		App.ActiveDocument.Pocket001.Length = 5.000000
 		App.ActiveDocument.Pocket001.Type = 1
 		App.ActiveDocument.Pocket001.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
-		
+
 		

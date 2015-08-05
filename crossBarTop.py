@@ -5,7 +5,7 @@ from itertools import product
 
 #import FreeCAD modules
 import FreeCAD as App
-import FreeCADGui as Gui
+import FreeCAD# as #
 import Part
 import Sketcher
 import Draft
@@ -22,12 +22,10 @@ class CrossBarTop(object):
 		App.ActiveDocument=App.getDocument(self.name)
 		shape = App.ActiveDocument.ActiveObject.Shape
 		App.ActiveDocument=App.getDocument("PrinterAssembly")
-		Gui.ActiveDocument=Gui.getDocument("PrinterAssembly")
 		App.ActiveDocument.addObject('Part::Feature',self.name).Shape= shape
 		
 		#Color Part
-		Gui.ActiveDocument.getObject(self.name).ShapeColor = (gv.frameR,gv.frameG,gv.frameB,gv.frameA)
-		
+
 		#Get the feature and move it into position
 		objs = App.ActiveDocument.getObjectsByLabel(self.name)
 		shape = objs[-1]		
@@ -52,13 +50,10 @@ class CrossBarTop(object):
 
 	def draw(self):
 		try:
-			Gui.getDocument(self.name)
-			Gui.getDocument(self.name).resetEdit()
 			App.getDocument(self.name).recompute()
 			App.closeDocument(self.name)
 			App.setActiveDocument("")
 			App.ActiveDocument=None
-			Gui.ActiveDocument=None	
 		except:
 			pass
 
@@ -66,8 +61,7 @@ class CrossBarTop(object):
 		App.newDocument(self.name)
 		App.setActiveDocument(self.name)
 		App.ActiveDocument=App.getDocument(self.name)
-		Gui.ActiveDocument=Gui.getDocument(self.name)
-		
+
 		#extrude crossBarTop
 		uf.extrudeFrameMember(self.name, gv.crossBarLength)
 
@@ -93,7 +87,6 @@ class CrossBarTop(object):
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch001')
 		App.activeDocument().Sketch001.Support = (App.ActiveDocument.Pad,["Face2"])
 		App.activeDocument().recompute()
-#		Gui.activeDocument().setEdit('Sketch001')
 		App.ActiveDocument.Sketch001.addExternal("Pad","Edge7")
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch001.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
@@ -166,7 +159,6 @@ class CrossBarTop(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch001.addConstraint(Sketcher.Constraint('DistanceY',4,p2y)) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 		
 		#Cut holes through All
@@ -174,13 +166,7 @@ class CrossBarTop(object):
 		App.activeDocument().Pocket.Sketch = App.activeDocument().Sketch001
 		App.activeDocument().Pocket.Length = 5.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch001")
-		Gui.activeDocument().hide("Pad")
-#		Gui.ActiveDocument.Pocket.ShapeColor=Gui.ActiveDocument.Pad.ShapeColor
-#		Gui.ActiveDocument.Pocket.LineColor=Gui.ActiveDocument.Pad.LineColor
-#		Gui.ActiveDocument.Pocket.PointColor=Gui.ActiveDocument.Pad.PointColor
 		App.ActiveDocument.Pocket.Length = 5.000000
 		App.ActiveDocument.Pocket.Type = 1
 		App.ActiveDocument.Pocket.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()

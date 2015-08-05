@@ -1,7 +1,7 @@
 import sys
 import FreeCAD, Part, Drawing
 import FreeCAD as App
-import FreeCADGui as Gui
+import FreeCAD# as #
 import globalVars as gv
 import datetime
 import os

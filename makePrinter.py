@@ -44,7 +44,6 @@ def makePrinter():
     uf.bold("Version: 0.1.0 ", False)
     uf.bold("If you encounter any issues, please let us know at https://github.com/maaphoo/retr3d/issues", False)
     print ""
-
     # import FreeCAD modules
     try:
         import FreeCAD as App
@@ -52,13 +51,12 @@ def makePrinter():
         uf.critical("Failure to import FreeCAD, check your configuration file.", 'Failure to import FreeCAD: ' + str(e),
                     gv.level, source)
 
-    import FreeCADGui as Gui
+    import FreeCAD# as #
 
     if platform.system() == 'Windows':
         if (App.Version()[1] > '14'):
             try:
-                import FreeCADGui
-                FreeCADGui.showMainWindow()
+                import FreeCAD#
             except AttributeError:
                 pass
             finally:
@@ -68,8 +66,8 @@ def makePrinter():
     if platform.system() == 'Darwin':  # OSX
         if (App.Version()[1] == '14'):
             try:
-                import FreeCADGui
-                FreeCADGui.showMainWindow()
+                import FreeCAD#
+                FreeCAD#.showMainWindow()
             except AttributeError:
                 pass
             finally:
@@ -106,8 +104,8 @@ def makePrinter():
             raise versionError
         if (App.Version()[1] == '16'):
             try:
-                import FreeCADGui
-                FreeCADGui.showMainWindow()
+                import FreeCAD#
+                FreeCAD#.showMainWindow()
             except AttributeError:
                 pass
             finally:
@@ -907,7 +905,7 @@ def makePrinter():
     draw.setup("xEndIdlerPlate", 'Pocket')
     draw.setup("xEndMotorPlate", 'Pocket001')
     App.ActiveDocument = App.getDocument("PrinterAssembly")
-    Gui.ActiveDocument = Gui.getDocument("PrinterAssembly")
+    #.ActiveDocument = #.getDocument("PrinterAssembly")
 
     uf.saveAssembly()
 
@@ -927,6 +925,6 @@ def makePrinter():
 
 try:
     makePrinter()
-except StandardError:
+except KeyboardInterrupt:
     print "Exiting..."
     pass
