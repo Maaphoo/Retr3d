@@ -30,7 +30,7 @@ def slic3(local_path):
     # Run Slic3r
     if platform.system() == 'Windows':
         for filename in os.listdir(printerdir + 'STL_Files/'):
-            command = [local_path + '/Slic3r/slic3r-console.exe', '--output', printerdir + 'GCode/',
+            command = [local_path + '/Slic3r/Slic3r-Windows/slic3r-console.exe', '--output', printerdir + 'GCode/',
                        printerdir + 'STL_Files/' + filename]
             command[1:1] = slic3rVars
             for line in run(command):
