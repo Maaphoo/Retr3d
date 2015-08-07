@@ -1,16 +1,15 @@
-from __future__ import division # allows floating point division from integers
+from __future__ import division # allows floating point division from integersimport math
 
 reloadClasses = False
 test = None
 
 #Change the following to the path to the directory that will hold your printer designs
 #Make sure to use forward slashes like this / and not back slashes like this \ 
-freecadDir = "C:\\Program Files (x86)\\FreeCAD 0.15\\bin\\"
-printerDir = "C:\\Users\\Master\\Documents\\Printers\\"
+freecadDir = "/Path/To/FreeCAD/"
+printerDir = "/Path/To/Store/3D/Files/"
  
 #Output Options
 level = 2
-
 #make test hole pattern. True if you would like the test hole pattern to be included in your stl files
 printTestHolePattern = True
  
@@ -400,7 +399,6 @@ zAxisParts = []
 
 #Plater Variables                                                                                                                                                          
 plate = False #To Plate or not to Plate, that is the Question                                                                                                               
-platerName = "plater" #Name of actual Plater file, eg "plater" "plater.exe" "plater.app"                                                                               
 platerWidth = 150 #width, width of the plate, in mm (default 150)                                                                                                          
 platerHeight = 150 #height of the plate, in mm (default 150)                                                                                                               
 platerPrecision = 0.5 #precision, in mm (default 0.5)                                                                                                                      
@@ -409,9 +407,14 @@ platerDelta = 2 #sets the spacing of the brute forcing (see below), default 2mm
 platerRotation = 90 #sets the angle of the brute forcing, default 90                                                     
 
 #Slic3r Variables                                                                                                                                                         
-slic3r = False #Slice or nah?                                                                                                                                             
-sli3erName = "slic3r" #Name of actual Slic3r file, eg "slic3r" "slic3r.exe" "slic3r.app"                                                                                  
-sli3erVars = ""                                                                                                                                                           
+slic3r = True #Slice or nah?                                                                                                                                             
+slic3rVars = " "
+
+#Heated Bed Variables
+gauge = 28 #Gauge of wire to be used as heating wire on the build plate
+amperage = 10 #ADVANCED Only change this if you know what you are doing, this is a very easy way to turn your electronics in to fuel
+voltage = 12 #ADVANCED Only change this if you know what you are doing
+
                                                                                                                                                          
 #Zip Variables                                                                                                                                            
 zipName = "Printer_Files" #Name of zip file                                                                                  

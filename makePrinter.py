@@ -159,6 +159,7 @@ def makePrinter():
     import zipup
     import draw
     import checklist
+    import heatedbed
 
     # If any of the parameters have been changed, the includes must be reloaded
     # Normally, this would just be globalVariables because that is what would be changed,
@@ -209,6 +210,7 @@ def makePrinter():
         reload(zipup)
         reload(draw)
         reload(checklist)
+        reload(heatedbed)
 
     gv.reloadClasses = True
 
@@ -631,12 +633,11 @@ def makePrinter():
     del gv.xAxisParts[:]
     del gv.yAxisParts[:]
     del gv.zAxisParts[:]
-
     # Make file for assembly
     uf.makeAssemblyFile()
     uf.info("Starting to draw parts...", "Assembly file made", gv.level, source)
 
-
+    heatedbed.design()
     # Make components for x-Axis, add to assembly, save and close
     xRodBottom.draw()
     uf.info("Done drawing xRodBottom", "Finished xRodBottom.draw()", gv.level, source)
@@ -919,6 +920,7 @@ def makePrinter():
         slic3r.slic3r()
         uf.info("Finished slicing.", "Finished slicing", gv.level, source)
 
+    heatedbed.design()
     checklist.create()
     zipup.zipup()
 
