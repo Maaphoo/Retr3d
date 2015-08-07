@@ -22,7 +22,7 @@ from itertools import product
 
 #import FreeCAD modules
 import FreeCAD as App
-import FreeCADGui as Gui
+import FreeCAD# as #
 import Part
 import Sketcher
 import Draft
@@ -45,7 +45,6 @@ class ZRodSupport(object):
 		support = App.ActiveDocument.ActiveObject.Shape
 #		shape = App.ActiveDocument.ActiveObject.Shape
 		App.ActiveDocument=App.getDocument("PrinterAssembly")
-		Gui.ActiveDocument=Gui.getDocument("PrinterAssembly")
 		App.ActiveDocument.addObject('Part::Feature',self.name+"Bottom").Shape= support
 
 		App.ActiveDocument=App.getDocument(self.name+"Clamp")
@@ -53,13 +52,10 @@ class ZRodSupport(object):
 
 #		shape = App.ActiveDocument.ActiveObject.Shape
 		App.ActiveDocument=App.getDocument("PrinterAssembly")
-		Gui.ActiveDocument=Gui.getDocument("PrinterAssembly")
 		App.ActiveDocument.addObject('Part::Feature',self.name+"ClampBottom").Shape= clamp
 			
 		#Color Part
-		Gui.ActiveDocument.getObject(self.name+"Bottom").ShapeColor = (gv.printedR,gv.printedG,gv.printedB,gv.printedA)
-		Gui.ActiveDocument.getObject(self.name+"ClampBottom").ShapeColor = (gv.printedR,gv.printedG,gv.printedB,gv.printedA)
-		
+
 		#move into position relative to eachother
 		objs = App.ActiveDocument.getObjectsByLabel(self.name+"ClampBottom")
 		clamp = objs[-1]
@@ -109,9 +105,7 @@ class ZRodSupport(object):
 		App.ActiveDocument.addObject('Part::Feature',self.name+"ClampTop").Shape= supportClampBottom[1].Shape		
 		
 		#Color Parts
-		Gui.ActiveDocument.getObject(self.name+"Top").ShapeColor = (gv.printedR,gv.printedG,gv.printedB,gv.printedA)
-		Gui.ActiveDocument.getObject(self.name+"ClampTop").ShapeColor = (gv.printedR,gv.printedG,gv.printedB,gv.printedA)
-		
+
 		supportClampTop = App.ActiveDocument.getObjectsByLabel(self.name+"Top")
 		supportClampTop.append(App.ActiveDocument.getObjectsByLabel(self.name+"ClampTop")[-1])
 		xShift = 0
@@ -147,13 +141,10 @@ class ZRodSupport(object):
 		totalLength = 2*tabLength + gv.zRodSupportLength
 
 		try:
-			Gui.getDocument(self.name)
-			Gui.getDocument(self.name).resetEdit()
 			App.getDocument(self.name).recompute()
 			App.closeDocument(self.name)
 			App.setActiveDocument("")
 			App.ActiveDocument=None
-			Gui.ActiveDocument=None	
 		except:
 			pass
 
@@ -161,7 +152,6 @@ class ZRodSupport(object):
 		App.newDocument(self.name)
 		App.setActiveDocument(self.name)
 		App.ActiveDocument=App.getDocument(self.name)
-		Gui.ActiveDocument=Gui.getDocument(self.name)
 		App.ActiveDocument=App.getDocument(self.name)
 		
 		#Create tabs
@@ -178,8 +168,6 @@ class ZRodSupport(object):
 		#MakeSketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch')
 		App.activeDocument().Sketch.Placement = App.Placement(App.Vector(0.000000,0.000000,0.000000),App.Rotation(0.000000,0.000000,0.000000,1.000000))
-		Gui.activeDocument().activeView().setCamera('#Inventor V2.1 ascii \n OrthographicCamera {\n viewportMapping ADJUST_CAMERA \n position 0 0 87 \n orientation 0 0 1  0 \n nearDistance -112.88701 \n farDistance 287.28702 \n aspectRatio 1 \n focalDistance 87 \n height 143.52005 }')
-#		Gui.activeDocument().setEdit('Sketch')
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p2x,p2y,0),App.Vector(p3x,p3y,0)))
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p3x,p3y,0),App.Vector(p4x,p4y,0)))
@@ -201,7 +189,6 @@ class ZRodSupport(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch.addConstraint(Sketcher.Constraint('DistanceX',2,-tabWidth)) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 		
 		#Pad Sketch
@@ -209,7 +196,6 @@ class ZRodSupport(object):
 		App.activeDocument().Pad.Sketch = App.activeDocument().Sketch
 		App.activeDocument().Pad.Length = 10.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch")
 		App.ActiveDocument.Pad.Length = gv.tabThickness
 		App.ActiveDocument.Pad.Reversed = 0
 		App.ActiveDocument.Pad.Midplane = 0
@@ -217,8 +203,7 @@ class ZRodSupport(object):
 		App.ActiveDocument.Pad.Type = 0
 		App.ActiveDocument.Pad.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
-		
+
 		#Cut top slot
 		#Sketch Points
 		p1x = -gv.slotWidth/2
@@ -238,7 +223,6 @@ class ZRodSupport(object):
 		
 		#make Sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch001')
-#		Gui.activeDocument().setEdit('Sketch001')
 		App.activeDocument().Sketch001.Support = uf.getFace(App.ActiveDocument.Pad,
 														  None,None,
 														  None, None,
@@ -278,7 +262,6 @@ class ZRodSupport(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch001.addConstraint(Sketcher.Constraint('Distance',0,1,-3,gv.slotPadding)) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 		
 		#Cut slot through all
@@ -286,30 +269,20 @@ class ZRodSupport(object):
 		App.activeDocument().Pocket.Sketch = App.activeDocument().Sketch001
 		App.activeDocument().Pocket.Length = 5.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch001")
-		Gui.activeDocument().hide("Pad")
-#		Gui.ActiveDocument.Pocket.ShapeColor=Gui.ActiveDocument.Pad.ShapeColor
-#		Gui.ActiveDocument.Pocket.LineColor=Gui.ActiveDocument.Pad.LineColor
-#		Gui.ActiveDocument.Pocket.PointColor=Gui.ActiveDocument.Pad.PointColor
 		App.ActiveDocument.Pocket.Length = 5.000000
 		App.ActiveDocument.Pocket.Type = 1
 		App.ActiveDocument.Pocket.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
-		
+
 		#Mirror slot along horizotal axis
 		App.activeDocument().addObject("PartDesign::Mirrored","Mirrored")
 		App.ActiveDocument.recompute()
 		App.activeDocument().Mirrored.Originals = [App.activeDocument().Pocket,]
 		App.activeDocument().Mirrored.MirrorPlane = (App.activeDocument().Sketch001, ["V_Axis"])
-		Gui.activeDocument().Pocket.Visibility=False
-#		Gui.ActiveDocument.Mirrored.ShapeColor=Gui.ActiveDocument.Pocket.ShapeColor
-#		Gui.ActiveDocument.Mirrored.DisplayMode=Gui.ActiveDocument.Pocket.DisplayMode
 		App.ActiveDocument.Mirrored.Originals = [App.ActiveDocument.Pocket,]
 		App.ActiveDocument.Mirrored.MirrorPlane = (App.ActiveDocument.Sketch001,["H_Axis"])
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
-		
+
 		#Make rod support column
 		#Sketch points
 		p1x = -supportWidth/2
@@ -328,7 +301,6 @@ class ZRodSupport(object):
 														  None, None,
 														  0, 0)
 		App.activeDocument().recompute()
-#		Gui.activeDocument().setEdit('Sketch002')
 		App.ActiveDocument.Sketch002.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p4x,p4y,0)))
 		App.ActiveDocument.Sketch002.addGeometry(Part.Line(App.Vector(p4x,p4y,0),App.Vector(p3x,p3y,0)))
 		App.ActiveDocument.Sketch002.addGeometry(Part.Line(App.Vector(p3x,p3y,0),App.Vector(p2x,p2y,0)))
@@ -350,7 +322,6 @@ class ZRodSupport(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('DistanceX',2,-supportWidth)) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 		
 		#pad rod support
@@ -358,11 +329,6 @@ class ZRodSupport(object):
 		App.activeDocument().Pad001.Sketch = App.activeDocument().Sketch002
 		App.activeDocument().Pad001.Length = 10.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch002")
-		Gui.activeDocument().hide("Mirrored")
-#		Gui.ActiveDocument.Pad001.ShapeColor=Gui.ActiveDocument.Mirrored.ShapeColor
-#		Gui.ActiveDocument.Pad001.LineColor=Gui.ActiveDocument.Mirrored.LineColor
-#		Gui.ActiveDocument.Pad001.PointColor=Gui.ActiveDocument.Mirrored.PointColor
 		App.ActiveDocument.Pad001.Length = gv.zRodStandoff-gv.clampGap/2
 		App.ActiveDocument.Pad001.Reversed = 1
 		App.ActiveDocument.Pad001.Midplane = 0
@@ -370,8 +336,7 @@ class ZRodSupport(object):
 		App.ActiveDocument.Pad001.Type = 0
 		App.ActiveDocument.Pad001.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
-		
+
 		#Make cut out for z rod
 		#Sketch points
 		p1x = 0
@@ -383,7 +348,6 @@ class ZRodSupport(object):
 		
 		#make sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch003')
-#		Gui.activeDocument().setEdit('Sketch003')
 		App.activeDocument().Sketch003.Support = uf.getFace(App.ActiveDocument.Pad001,
 														  0,0,
 														  -gv.zRodSupportLength/2,0,
@@ -412,7 +376,6 @@ class ZRodSupport(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch003.addConstraint(Sketcher.Constraint('Radius',0,self.rodDia/2)) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 		
 		#Cut through all
@@ -420,17 +383,11 @@ class ZRodSupport(object):
 		App.activeDocument().Pocket001.Sketch = App.activeDocument().Sketch003
 		App.activeDocument().Pocket001.Length = 5.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch003")
-		Gui.activeDocument().hide("Pad001")
-#		Gui.ActiveDocument.Pocket001.ShapeColor=Gui.ActiveDocument.Pad001.ShapeColor
-#		Gui.ActiveDocument.Pocket001.LineColor=Gui.ActiveDocument.Pad001.LineColor
-#		Gui.ActiveDocument.Pocket001.PointColor=Gui.ActiveDocument.Pad001.PointColor
 		App.ActiveDocument.Pocket001.Length = 5.000000
 		App.ActiveDocument.Pocket001.Type = 1
 		App.ActiveDocument.Pocket001.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
-		
+
 		#cut Right clamp hole
 		#Sketch points
 		p1x = self.rodDia/2+gv.printedToPrintedDia/2
@@ -443,7 +400,6 @@ class ZRodSupport(object):
 														  0,0,
 														  gv.zRodStandoff-gv.clampGap/2,0)
 		App.activeDocument().recompute()
-#		Gui.activeDocument().setEdit('Sketch004')
 		App.ActiveDocument.Sketch004.addGeometry(Part.Circle(App.Vector(p1x,p1y,0),App.Vector(0,0,1),gv.printedToPrintedDia/2))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch004.addConstraint(Sketcher.Constraint('PointOnObject',0,3,-1)) 
@@ -455,7 +411,6 @@ class ZRodSupport(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch004.addConstraint(Sketcher.Constraint('Distance',-1,1,0,3,self.rodDia/2+gv.printedToPrintedDia/2)) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 		
 		#Cut clamp hole through all
@@ -463,34 +418,23 @@ class ZRodSupport(object):
 		App.activeDocument().Pocket002.Sketch = App.activeDocument().Sketch004
 		App.activeDocument().Pocket002.Length = 5.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch004")
-		Gui.activeDocument().hide("Pocket001")
-#		Gui.ActiveDocument.Pocket002.ShapeColor=Gui.ActiveDocument.Pocket001.ShapeColor
-#		Gui.ActiveDocument.Pocket002.LineColor=Gui.ActiveDocument.Pocket001.LineColor
-#		Gui.ActiveDocument.Pocket002.PointColor=Gui.ActiveDocument.Pocket001.PointColor
 		App.ActiveDocument.Pocket002.Length = 5.000000
 		App.ActiveDocument.Pocket002.Type = 1
 		App.ActiveDocument.Pocket002.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
-		
+
 		#Reflect clamp hole accross verticle axis
 		App.activeDocument().addObject("PartDesign::Mirrored","Mirrored001")
 		App.ActiveDocument.recompute()
 		App.activeDocument().Mirrored001.Originals = [App.activeDocument().Pocket002,]
 		App.activeDocument().Mirrored001.MirrorPlane = (App.activeDocument().Sketch004, ["V_Axis"])
-		Gui.activeDocument().Pocket002.Visibility=False
-#		Gui.ActiveDocument.Mirrored001.ShapeColor=Gui.ActiveDocument.Pocket002.ShapeColor
-#		Gui.ActiveDocument.Mirrored001.DisplayMode=Gui.ActiveDocument.Pocket002.DisplayMode
 		App.ActiveDocument.Mirrored001.Originals = [App.ActiveDocument.Pocket002,]
 		App.ActiveDocument.Mirrored001.MirrorPlane = (App.ActiveDocument.Sketch004,["V_Axis"])
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
-		
+
 		#refine shape
 		App.activeDocument().addObject("Part::Feature","Refined").Shape = App.ActiveDocument.Mirrored001.Shape.removeSplitter()
-		Gui.activeDocument().hide("Mirrored001")
-		
+
 		#Add Nut trap to right side
 		#Sketch Points
 		mat = uf.hexagonPoints(self.rodDia/2+gv.printedToPrintedDia/2,
@@ -516,7 +460,6 @@ class ZRodSupport(object):
 
 		#make sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch005')
-#		Gui.activeDocument().setEdit('Sketch005')
 		App.activeDocument().Sketch005.Support = uf.getFace(App.ActiveDocument.Refined,
 														  0,0,
 														  0,0,
@@ -573,7 +516,6 @@ class ZRodSupport(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch005.addConstraint(Sketcher.Constraint('Distance',0,2,4,gv.clampNutFaceToFace)) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 
 		#cut nut trap out
@@ -581,43 +523,29 @@ class ZRodSupport(object):
 		App.activeDocument().Pocket003.Sketch = App.activeDocument().Sketch005
 		App.activeDocument().Pocket003.Length = 5.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch005")
-		Gui.activeDocument().hide("Refined")
-#		Gui.ActiveDocument.Pocket003.ShapeColor=Gui.ActiveDocument.Pocket002.ShapeColor
-#		Gui.ActiveDocument.Pocket003.LineColor=Gui.ActiveDocument.Pocket002.LineColor
-#		Gui.ActiveDocument.Pocket003.PointColor=Gui.ActiveDocument.Pocket002.PointColor
 		App.ActiveDocument.Pocket003.Length = gv.rodSupportNutTrapDepthMin
 		App.ActiveDocument.Pocket003.Type = 0
 		App.ActiveDocument.Pocket003.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
-		
+
 		#Mirror nut trap
 		App.activeDocument().addObject("PartDesign::Mirrored","Mirrored002")
 		App.ActiveDocument.recompute()
 		App.activeDocument().Mirrored002.Originals = [App.activeDocument().Pocket003,]
 		App.activeDocument().Mirrored002.MirrorPlane = (App.activeDocument().Sketch005, ["V_Axis"])
-		Gui.activeDocument().Pocket003.Visibility=False
-#		Gui.ActiveDocument.Mirrored002.ShapeColor=Gui.ActiveDocument.Pocket003.ShapeColor
-#		Gui.ActiveDocument.Mirrored002.DisplayMode=Gui.ActiveDocument.Pocket003.DisplayMode
 		App.ActiveDocument.Mirrored002.Originals = [App.ActiveDocument.Pocket003,]
 		App.ActiveDocument.Mirrored002.MirrorPlane = (App.ActiveDocument.Sketch005,["V_Axis"])
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
 
 
 		#Set view as axometric
-#		Gui.activeDocument().activeView().viewAxometric()
-		
+
 		#Make the coresponding xRodClamp
 		try:
-	#		Gui.getDocument(self.name+"Clamp")
-	#		Gui.getDocument(self.name+"Clamp").resetEdit()
 			App.getDocument(self.name+"Clamp").recompute()
 			App.closeDocument(self.name+"Clamp")
 			App.setActiveDocument("")
 			App.ActiveDocument=None
-	#		Gui.ActiveDocument=None	
 		except:
 			pass
 
@@ -625,7 +553,6 @@ class ZRodSupport(object):
 		App.newDocument(self.name+"Clamp")
 		App.setActiveDocument(self.name+"Clamp")
 		App.ActiveDocument=App.getDocument(self.name+"Clamp")
-#		Gui.ActiveDocument=Gui.getDocument(self.name+"Clamp")
 		App.ActiveDocument=App.getDocument(self.name+"Clamp")
 		
 		#Make clamp body
@@ -642,8 +569,6 @@ class ZRodSupport(object):
 		#Make Sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch')
 		App.activeDocument().Sketch.Placement = App.Placement(App.Vector(0.000000,0.000000,0.000000),App.Rotation(0.000000,0.000000,0.000000,1.000000))
-#		Gui.activeDocument().activeView().setCamera('#Inventor V2.1 ascii \n OrthographicCamera {\n viewportMapping ADJUST_CAMERA \n position 0 0 87 \n orientation 0 0 1  0 \n nearDistance -112.88701 \n farDistance 287.28702 \n aspectRatio 1 \n focalDistance 87 \n height 143.52005 }')
-#		Gui.activeDocument().setEdit('Sketch')
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p4x,p4y,0)))
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p4x,p4y,0),App.Vector(p3x,p3y,0)))
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p3x,p3y,0),App.Vector(p2x,p2y,0)))
@@ -665,7 +590,6 @@ class ZRodSupport(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch.addConstraint(Sketcher.Constraint('DistanceX',2,-supportWidth)) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument(self.name+"Clamp").resetEdit()
 		App.getDocument(self.name+"Clamp").recompute()
 		
 		#pad rod support
@@ -673,7 +597,6 @@ class ZRodSupport(object):
 		App.activeDocument().Pad.Sketch = App.activeDocument().Sketch
 		App.activeDocument().Pad.Length = 10.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch")
 		App.ActiveDocument.Pad.Length = self.rodDia/2+gv.clampThickness-gv.clampGap/2
 		App.ActiveDocument.Pad.Reversed = 0
 		App.ActiveDocument.Pad.Midplane = 0
@@ -681,8 +604,7 @@ class ZRodSupport(object):
 		App.ActiveDocument.Pad.Type = 0
 		App.ActiveDocument.Pad.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
-		
+
 		#make cut out for rod
 		#sketch points
 		p1x = 0
@@ -704,7 +626,6 @@ class ZRodSupport(object):
  														  0,0,
  														  -gv.zRodSupportLength/2, 0,
  														  self.rodDia/2+gv.clampThickness-gv.clampGap/2, 0))
-#		Gui.activeDocument().setEdit('Sketch001')		
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch001.addGeometry(Part.ArcOfCircle(Part.Circle(App.Vector(p1x,p1y,0),App.Vector(0,0,1),self.rodDia/2),math.pi,2*math.pi))
 		App.ActiveDocument.recompute()
@@ -725,7 +646,6 @@ class ZRodSupport(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch001.addConstraint(Sketcher.Constraint('Radius',0,self.rodDia/2)) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument(self.name+"Clamp").resetEdit()
 		App.getDocument(self.name+"Clamp").recompute()
 		
 		#Cut through all
@@ -733,16 +653,10 @@ class ZRodSupport(object):
 		App.activeDocument().Pocket.Sketch = App.activeDocument().Sketch001
 		App.activeDocument().Pocket.Length = 5.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch001")
-		Gui.activeDocument().hide("Pad")
-#		Gui.ActiveDocument.Pocket.ShapeColor=Gui.ActiveDocument.Pad.ShapeColor
-#		Gui.ActiveDocument.Pocket.LineColor=Gui.ActiveDocument.Pad.LineColor
-#		Gui.ActiveDocument.Pocket.PointColor=Gui.ActiveDocument.Pad.PointColor
 		App.ActiveDocument.Pocket.Length = 5.000000
 		App.ActiveDocument.Pocket.Type = 1
 		App.ActiveDocument.Pocket.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
 
 
 		#cut Right clamp hole
@@ -757,7 +671,6 @@ class ZRodSupport(object):
 														  0, 0,
 														  self.rodDia/2+gv.clampThickness-gv.clampGap/2,0)
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().setEdit('Sketch002')
 		App.ActiveDocument.Sketch002.addGeometry(Part.Circle(App.Vector(p1x,p1y,0),App.Vector(0,0,1),gv.printedToPrintedDia/2))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('PointOnObject',0,3,-1)) 
@@ -769,7 +682,6 @@ class ZRodSupport(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Distance',-1,1,0,3,self.rodDia/2+gv.printedToPrintedDia/2)) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument(self.name+"Clamp").resetEdit()
 		App.getDocument(self.name+"Clamp").recompute()
 		
 		#Cut clamp hole through all
@@ -777,33 +689,21 @@ class ZRodSupport(object):
 		App.activeDocument().Pocket001.Sketch = App.activeDocument().Sketch002
 		App.activeDocument().Pocket001.Length = 5.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch002")
-		Gui.activeDocument().hide("Pocket")
-#		Gui.ActiveDocument.Pocket001.ShapeColor=Gui.ActiveDocument.Pocket.ShapeColor
-#		Gui.ActiveDocument.Pocket001.LineColor=Gui.ActiveDocument.Pocket.LineColor
-#		Gui.ActiveDocument.Pocket001.PointColor=Gui.ActiveDocument.Pocket.PointColor
 		App.ActiveDocument.Pocket001.Length = 5.000000
 		App.ActiveDocument.Pocket001.Type = 1
 		App.ActiveDocument.Pocket001.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
-		
+
 		#Mirror clamp hole
 		App.activeDocument().addObject("PartDesign::Mirrored","Mirrored")
 		App.ActiveDocument.recompute()
 		App.activeDocument().Mirrored.Originals = [App.activeDocument().Pocket001,]
 		App.activeDocument().Mirrored.MirrorPlane = (App.activeDocument().Sketch002, ["V_Axis"])
-		Gui.activeDocument().Pocket001.Visibility=False
-#		Gui.activeDocument().setEdit('Mirrored')
-#		Gui.ActiveDocument.Mirrored.ShapeColor=Gui.ActiveDocument.Pocket001.ShapeColor
-#		Gui.ActiveDocument.Mirrored.DisplayMode=Gui.ActiveDocument.Pocket001.DisplayMode
 		App.ActiveDocument.Mirrored.Originals = [App.ActiveDocument.Pocket001,]
 		App.ActiveDocument.Mirrored.MirrorPlane = (App.ActiveDocument.Sketch002,["V_Axis"])
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
 
 		#Set view as axometric
-#		Gui.activeDocument().activeView().viewAxometric()		
 
 
 

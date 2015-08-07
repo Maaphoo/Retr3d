@@ -22,7 +22,7 @@ from itertools import product
 
 #import FreeCAD modules
 import FreeCAD as App
-import FreeCADGui as Gui
+import FreeCAD# as #
 import Part
 import Sketcher
 import Draft
@@ -40,12 +40,10 @@ class ExtruderMountPlate(object):
 		App.ActiveDocument=App.getDocument(self.name)
 		shape = App.ActiveDocument.ActiveObject.Shape
 		App.ActiveDocument=App.getDocument("PrinterAssembly")
-		Gui.ActiveDocument=Gui.getDocument("PrinterAssembly")
 		App.ActiveDocument.addObject('Part::Feature',self.name).Shape= shape
 		
 		#Color Part
-		Gui.ActiveDocument.getObject(self.name).ShapeColor = (gv.printedR,gv.printedG,gv.printedB,gv.printedA)
-		
+
 		#Get the feature and move it into position
 		objs = App.ActiveDocument.getObjectsByLabel(self.name)
 		shape = objs[-1]		
@@ -76,13 +74,10 @@ class ExtruderMountPlate(object):
 	
 	
 		try:
-			Gui.getDocument(self.name)
-			Gui.getDocument(self.name).resetEdit()
 			App.getDocument(self.name).recompute()
 			App.closeDocument(self.name)
 			App.setActiveDocument("")
 			App.ActiveDocument=None
-			Gui.ActiveDocument=None	
 		except:
 			pass
 
@@ -90,8 +85,7 @@ class ExtruderMountPlate(object):
 		App.newDocument(self.name)
 		App.setActiveDocument(self.name)
 		App.ActiveDocument=App.getDocument(self.name)
-		Gui.ActiveDocument=Gui.getDocument(self.name)
-		
+
 		#Make profile of angle and extrude it
 		p1x = -gv.extruderMountPlateWidth/2
 		p1y = 0
@@ -105,8 +99,6 @@ class ExtruderMountPlate(object):
 		#Make Sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch')
 		App.activeDocument().Sketch.Placement = App.Placement(App.Vector(0.000000,0.000000,0.000000),App.Rotation(0.000000,0.000000,0.000000,1.000000))
-		Gui.activeDocument().activeView().setCamera('#Inventor V2.1 ascii \n OrthographicCamera {\n viewportMapping ADJUST_CAMERA \n position 0 0 87 \n orientation 0 0 1  0 \n nearDistance -112.88701 \n farDistance 287.28702 \n aspectRatio 1 \n focalDistance 87 \n height 143.52005 }')
-#		Gui.activeDocument().setEdit('Sketch')
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p4x,p4y,0)))
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p4x,p4y,0),App.Vector(p3x,p3y,0)))
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p3x,p3y,0),App.Vector(p2x,p2y,0)))
@@ -131,7 +123,6 @@ class ExtruderMountPlate(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch.addConstraint(Sketcher.Constraint('DistanceX',0,gv.extruderMountPlateWidth)) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 		
 		#Pad extruderMountPlate
@@ -139,7 +130,6 @@ class ExtruderMountPlate(object):
 		App.activeDocument().Pad.Sketch = App.activeDocument().Sketch
 		App.activeDocument().Pad.Length = 10.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch")
 		App.ActiveDocument.Pad.Length = gv.extruderMountPlateThickness
 		App.ActiveDocument.Pad.Reversed = 0
 		App.ActiveDocument.Pad.Midplane = 0
@@ -147,8 +137,7 @@ class ExtruderMountPlate(object):
 		App.ActiveDocument.Pad.Type = 0
 		App.ActiveDocument.Pad.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
-		
+
 		#Make holes for mounting plate to angle
 		#Sketch Points
 		p1x = gv.extruderMountPlateWidth
@@ -166,7 +155,6 @@ class ExtruderMountPlate(object):
 															None, None, 
 															gv.extruderMountPlateThickness, 0)#(App.ActiveDocument.Pad,["Face6"])
 		App.activeDocument().recompute()
-#		Gui.activeDocument().setEdit('Sketch001')
 #		App.ActiveDocument.Sketch001.addExternal("Pad","Edge12")
 		App.ActiveDocument.Sketch001.addExternal("Pad",uf.getEdge(App.ActiveDocument.Pad ,
  																  -gv.extruderMountPlateWidth/2,0,
@@ -222,7 +210,6 @@ class ExtruderMountPlate(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch001.addConstraint(Sketcher.Constraint('DistanceY',-1,1,0,2,(gv.extruderMountAngleWidth+gv.extruderMountAngleThickness)/2)) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 		
 		#Cut the holes
@@ -230,18 +217,11 @@ class ExtruderMountPlate(object):
 		App.activeDocument().Pocket.Sketch = App.activeDocument().Sketch001
 		App.activeDocument().Pocket.Length = 5.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch001")
-		Gui.activeDocument().hide("Pad")
-#		Gui.activeDocument().setEdit('Pocket')
-#		Gui.ActiveDocument.Pocket.ShapeColor=Gui.ActiveDocument.Pad.ShapeColor
-#		Gui.ActiveDocument.Pocket.LineColor=Gui.ActiveDocument.Pad.LineColor
-#		Gui.ActiveDocument.Pocket.PointColor=Gui.ActiveDocument.Pad.PointColor
 		App.ActiveDocument.Pocket.Length = 5.000000
 		App.ActiveDocument.Pocket.Type = 1
 		App.ActiveDocument.Pocket.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
-		
+
 		#make holes for mounting the extruder
 		#Sketch Points
 		p1x = -gv.extruderMountPlateWidth/2 
@@ -262,7 +242,6 @@ class ExtruderMountPlate(object):
 															None, None, 
 															gv.extruderMountPlateThickness, 0)#(App.ActiveDocument.Pocket,["Face5"])
 		App.activeDocument().recompute()
-#		Gui.activeDocument().setEdit('Sketch002')
 
 		App.ActiveDocument.Sketch002.addExternal("Pocket",uf.getEdge(App.ActiveDocument.Pocket ,
  																  -gv.extruderMountPlateWidth/2,0,
@@ -334,7 +313,6 @@ class ExtruderMountPlate(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Radius',6,gv.extruderFilamentHoleDia/2)) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 		
 		#Cut holes through all
@@ -342,18 +320,11 @@ class ExtruderMountPlate(object):
 		App.activeDocument().Pocket001.Sketch = App.activeDocument().Sketch002
 		App.activeDocument().Pocket001.Length = 5.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch002")
-		Gui.activeDocument().hide("Pocket")
-#		Gui.ActiveDocument.Pocket001.ShapeColor=Gui.ActiveDocument.Pocket.ShapeColor
-#		Gui.ActiveDocument.Pocket001.LineColor=Gui.ActiveDocument.Pocket.LineColor
-#		Gui.ActiveDocument.Pocket001.PointColor=Gui.ActiveDocument.Pocket.PointColor
 		App.ActiveDocument.Pocket001.Length = 5.000000
 		App.ActiveDocument.Pocket001.Type = 1
 		App.ActiveDocument.Pocket001.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
-		
-		#Cut holes for hot end mount if needed.
+
 		if self.hotEndMountHoles:
 			#Sketch Points
 			p1x = -gv.hotEndMountHoleSpacing/2
@@ -368,7 +339,6 @@ class ExtruderMountPlate(object):
 															None, None, 
 															gv.extruderMountPlateThickness, 0)#(App.ActiveDocument.Pocket001,["Face5"])
 			App.activeDocument().recompute()
-	#		Gui.activeDocument().setEdit('Sketch003')
 			App.ActiveDocument.Sketch003.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 			App.ActiveDocument.recompute()
 			App.ActiveDocument.Sketch003.addConstraint(Sketcher.Constraint('Horizontal',0)) 
@@ -392,7 +362,6 @@ class ExtruderMountPlate(object):
 			App.ActiveDocument.recompute()
 			App.ActiveDocument.Sketch003.addConstraint(Sketcher.Constraint('Distance',-1,1,0,p1y))
 			
-	#		Gui.getDocument(self.name).resetEdit()
 			App.getDocument(self.name).recompute()
 			
 			#Cut hole Through All
@@ -400,16 +369,9 @@ class ExtruderMountPlate(object):
 			App.activeDocument().Pocket002.Sketch = App.activeDocument().Sketch003
 			App.activeDocument().Pocket002.Length = 5.0
 			App.ActiveDocument.recompute()
-			Gui.activeDocument().hide("Sketch003")
-			Gui.activeDocument().hide("Pocket001")
-	#		Gui.ActiveDocument.Pocket002.ShapeColor=Gui.ActiveDocument.Pocket001.ShapeColor
-	#		Gui.ActiveDocument.Pocket002.LineColor=Gui.ActiveDocument.Pocket001.LineColor
-	#		Gui.ActiveDocument.Pocket002.PointColor=Gui.ActiveDocument.Pocket001.PointColor
 			App.ActiveDocument.Pocket002.Length = 5.000000
 			App.ActiveDocument.Pocket002.Type = 1
 			App.ActiveDocument.Pocket002.UpToFace = None
 			App.ActiveDocument.recompute()
-	#		Gui.activeDocument().resetEdit()
 
 		#set View as axometric
-	#	Gui.activeDocument().activeView().viewAxometric()

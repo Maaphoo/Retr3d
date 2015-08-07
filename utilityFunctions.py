@@ -35,7 +35,9 @@ import globalVars as gv
 
 if not os.path.exists(os.path.dirname(os.path.abspath(__file__)) + '/logs/'):
     os.makedirs(os.path.dirname(os.path.abspath(__file__)) + '/logs/')
-LOG_FILENAME = os.path.dirname(os.path.abspath(__file__)) + '/logs/retr3d.log'
+
+q = os.path.join(os.path.dirname(os.path.abspath(__file__)), "logs")
+LOG_FILENAME = os.path.join(q, "retr3d.log")
 logging.basicConfig(filename=LOG_FILENAME, level=logging.DEBUG, filemode='w')
 
 logging.info('Retr3d Log File')
@@ -58,6 +60,10 @@ def bold(msg, log):
         logging.info(msg)
     if not platform.system() == 'Windows' and os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
         print '\033[1m' + msg + '\x1b[0m'
+    elif os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
+        attr = []
+        attr.append('1')
+        print '\x1b[%sm%s\x1b[0m' % (';'.join(attr), msg)
     else:
         if os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
             print msg
@@ -84,6 +90,11 @@ def header(msg, log):
         logging.info(msg)
     if not platform.system() == 'Windows' and os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
         print '\033[95m' + msg + '\x1b[0m'
+    elif os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
+        attr = []
+        attr.append('35')
+        attr.append('1')
+        print '\x1b[%sm%s\x1b[0m' % (';'.join(attr), msg)
     else:
         if os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
             print msg
@@ -97,14 +108,22 @@ def critical(msg, log, level, source):
     if level <= 5:
         if not platform.system() == 'Windows' and os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
             print '\033[1m\033[31m' + msg + '\x1b[0m'
+        elif platform.system() == 'Windows' and os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
+            attr = []
+            attr.append('1')
+            attr.append('31')
+            print '\x1b[%sm%s\x1b[0m' % (';'.join(attr), msg)
         else:
             if os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
                 print msg
             else:
                 setStatus()
                 App.Console.PrintError(msg + '\n')
-                from PySide import QtGui
-                QtGui.QMessageBox.critical(None, "Retr3d: Error", msg)
+                try:
+                    from PySide import QtGui
+                    QtGui.QMessageBox.critical(None, "Retr3d: Error", msg)
+                except:
+                    pass
 
 
 def error(msg, log, level, source):
@@ -112,6 +131,10 @@ def error(msg, log, level, source):
     if level <= 4:
         if not platform.system() == 'Windows' and os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
             print '\033[91m' + msg + '\x1b[0m'
+        elif os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
+            attr = []
+            attr.append('31')
+            print '\x1b[%sm%s\x1b[0m' % (';'.join(attr), msg)
         else:
             if os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
                 print msg
@@ -125,6 +148,10 @@ def warning(msg, log, level, source):
     if level <= 3:
         if not platform.system() == 'Windows' and os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
             print '\033[93m' + msg + '\x1b[0m'
+        elif os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
+            attr = []
+            attr.append('33')
+            print '\x1b[%sm%s\x1b[0m' % (';'.join(attr), msg)
         else:
             if os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
                 print msg
@@ -138,6 +165,10 @@ def info(msg, log, level, source):
     if level <= 2:
         if not platform.system() == 'Windows' and os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
             print '\033[92m' + msg + '\x1b[0m'
+        elif os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
+            attr = []
+            attr.append('32')
+            print '\x1b[%sm%s\x1b[0m' % (';'.join(attr), msg)
         else:
             if os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
                 print msg
@@ -151,12 +182,16 @@ def debug(msg, log, level, source):
     if level <= 1:
         if not platform.system() == 'Windows' and os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
             print '\033[94m' + msg + '\x1b[0m'
-    else:
-        if os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
-            print msg
+        elif os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
+            attr = []
+            attr.append('34')
+            print '\x1b[%sm%s\x1b[0m' % (';'.join(attr), msg)
         else:
-            setStatus()
-            App.Console.PrintLog(msg + '\n')
+            if os.getcwd() == os.path.dirname(os.path.abspath(__file__)):
+                print msg
+            else:
+                setStatus()
+                App.Console.PrintLog(msg + '\n')
 
 
 # FreeCAD related
@@ -166,7 +201,7 @@ except ImportError:
     critical("Failure to import FreeCAD, check your configuration file.", "", gv.level, os.path.basename(__file__))
     raise StandardError
 
-import FreeCADGui as Gui
+import FreeCAD# as #
 import Draft
 import Part
 import Sketcher
@@ -377,7 +412,6 @@ def getEdge(feature,
 
 def positionXAxis():
     App.ActiveDocument = App.getDocument("PrinterAssembly")
-    Gui.ActiveDocument = Gui.getDocument("PrinterAssembly")
     xShift = 0
     yShift = 0
     zShift = (gv.vertBarDistBelowZRod
@@ -393,7 +427,6 @@ def positionXAxis():
 
 def positionZAxis():
     App.ActiveDocument = App.getDocument("PrinterAssembly")
-    Gui.ActiveDocument = Gui.getDocument("PrinterAssembly")
     xShift = 0
     yShift = 0
     zShift = gv.vertBarDistBelowZRod - gv.yRodStandoff
@@ -464,13 +497,10 @@ def saveAndClose(name, saveSTL):
 
 def makeAssemblyFile():
     try:
-        Gui.getDocument('PrinterAssembly')
-        Gui.getDocument('PrinterAssembly').resetEdit()
         App.getDocument('PrinterAssembly').recompute()
         App.closeDocument("PrinterAssembly")
         App.setActiveDocument("")
         App.ActiveDocument = None
-        Gui.ActiveDocument = None
     except:
         pass
 
@@ -479,10 +509,6 @@ def makeAssemblyFile():
     App.newDocument("PrinterAssembly")
     App.setActiveDocument("PrinterAssembly")
     App.ActiveDocument = App.getDocument("PrinterAssembly")
-    Gui.ActiveDocument = Gui.getDocument("PrinterAssembly")
-    Gui.activeDocument().activeView().setCamera(
-        '#Inventor V2.1 ascii \n OrthographicCamera {\n viewportMapping ADJUST_CAMERA \n position 0 0 87 \n orientation 0 0 1  0 \n nearDistance -112.88701 \n farDistance 287.28702 \n aspectRatio 1 \n focalDistance 87 \n height 143.52005 }')
-    Gui.activeDocument().activeView().viewAxometric()
 
 
 def assemble(part):
@@ -498,13 +524,11 @@ def assemble(part):
     assemblyPart = listOfParts[-1]
 
     # Rotate and move part into position
-    Gui.ActiveDocument = Gui.getDocument("PrinterAssembly")
     App.ActiveDocument = App.getDocument("PrinterAssembly")
     if part.rotateAngle:
         Draft.rotate([assemblyPart], part.rotateAngle, part.rotateCenter, part.rotateAxis, copy=False)
     Draft.move([assemblyPart], App.Vector(part.xShift, part.yShift, part.zShift), copy=False)
     App.ActiveDocument.recompute()
-    Gui.ActiveDocument = Gui.getDocument("PrinterAssembly")
 
 
 def adjustHole(desiredDia):
@@ -625,13 +649,9 @@ def drawHexagon(x, y, faceToFace, theta):
 # function to extrude frame member length
 def extrudeFrameMember(name, length):
     App.ActiveDocument = App.getDocument(name)
-    Gui.ActiveDocument = Gui.getDocument(name)
     App.activeDocument().addObject('Sketcher::SketchObject', 'Sketch')
     App.activeDocument().Sketch.Placement = App.Placement(App.Vector(0.000000, 0.000000, 0.000000),
                                                           App.Rotation(0.500000, 0.500000, 0.500000, 0.500000))
-    Gui.activeDocument().activeView().setCamera(
-        '#Inventor V2.1 ascii \n OrthographicCamera {\n viewportMapping ADJUST_CAMERA\n  position 87 0 0 \n  orientation 0.57735026 0.57735026 0.57735026  2.0943952 \n  nearDistance -112.887\n  farDistance 287.28699\n  aspectRatio 1\n  focalDistance 87\n  height 143.52005\n\n}')
-    #	Gui.activeDocument().setEdit('Sketch')
 
     # Sketch Points
 
@@ -726,7 +746,6 @@ def extrudeFrameMember(name, length):
         App.ActiveDocument.Sketch.addConstraint(Sketcher.Constraint('DistanceY', 8, -gv.frameThickness))
         App.ActiveDocument.recompute()
 
-    #	Gui.getDocument(name).resetEdit()
     App.getDocument(name).recompute()
 
     # Extrude frame member
@@ -734,7 +753,6 @@ def extrudeFrameMember(name, length):
     App.activeDocument().Pad.Sketch = App.activeDocument().Sketch
     App.activeDocument().Pad.Length = 10.0
     App.ActiveDocument.recompute()
-    Gui.activeDocument().hide("Sketch")
     App.ActiveDocument.Pad.Length = length
     App.ActiveDocument.Pad.Reversed = 0
     App.ActiveDocument.Pad.Midplane = 0
@@ -744,7 +762,6 @@ def extrudeFrameMember(name, length):
     App.ActiveDocument.recompute()
 
 
-#	Gui.activeDocument().resetEdit()
 
 def pickBushingNut(rodDia):
     for i in reversed(range(len(gv.bushingNutTable))):
@@ -753,7 +770,14 @@ def pickBushingNut(rodDia):
             return gv.bushingNutTable[i]
 
     # Throw exception here because no proper bushing nut was found
-    raise Exception("A bushing nut with the proper size was not found")
+    try:
+        raise Exception("A bushing nut with the proper size was not found")
+    except Exception as e:
+        import traceback
+        critical("A bushing nut with the proper size was not found",
+                    'Part error: A bushing nut with the proper size was not found: \n\n' + str(
+                        e) + '\n' + traceback.format_exc(limit=1), gv.level, os.path.basename(__file__))
+        raise StandardError
 
 
 def pickLeadScrewNut(rodDia):
@@ -768,4 +792,11 @@ def pickLeadScrewNut(rodDia):
             return gv.metricNuts[i]
 
     # Throw exception here because no proper bushing nut was found
-    raise Exception("A lead screw nut with the proper size was not found")
+    try:
+        raise Exception("A lead screw nut with the proper size was not found")
+    except Exception as e:
+        import traceback
+        critical("A lead screw nut with the proper size was not found",
+                    'Part error: A lead screw nut with the proper size was not found: \n\n' + str(
+                        e) + '\n' + traceback.format_exc(limit=1), gv.level, os.path.basename(__file__))
+        raise StandardError

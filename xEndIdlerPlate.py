@@ -22,7 +22,6 @@ from itertools import product
 
 #import FreeCAD modules
 import FreeCAD as App
-import FreeCADGui as Gui
 import Part
 import Sketcher
 import Draft
@@ -43,12 +42,10 @@ class XEndIdlerPlate(object):
 		App.ActiveDocument=App.getDocument("xEndIdlerPlate")
 		shape = App.ActiveDocument.ActiveObject.Shape
 		App.ActiveDocument=App.getDocument("PrinterAssembly")
-		Gui.ActiveDocument=Gui.getDocument("PrinterAssembly")
 		App.ActiveDocument.addObject('Part::Feature','xEndIdlerPlate').Shape= shape
 		
 		#Color Part change colors to metal
-		#Gui.ActiveDocument.getObject("xEndIdlerPlate").ShapeColor = (gv.printedR,gv.printedG,gv.printedB,gv.printedA)
-		
+
 		#Rotate into correct orientation
 		rotateAngle = -90
 		rotateCenter = App.Vector(0,0,0)
@@ -85,20 +82,16 @@ class XEndIdlerPlate(object):
 
 		#Make file and build part
 		try:
-			Gui.getDocument('xEndIdlerPlate')
-			Gui.getDocument('xEndIdlerPlate').resetEdit()
 			App.getDocument('xEndIdlerPlate').recompute()
 			App.closeDocument("xEndIdlerPlate")
 			App.setActiveDocument("")
 			App.ActiveDocument=None
-			Gui.ActiveDocument=None	
 		except:
 			pass
 
 		App.newDocument("xEndIdlerPlate")
 		App.setActiveDocument("xEndIdlerPlate")
 		App.ActiveDocument=App.getDocument("xEndIdlerPlate")
-		Gui.ActiveDocument=Gui.getDocument("xEndIdlerPlate")
 
 		#Make the plate
 		#Sketch points
@@ -115,8 +108,6 @@ class XEndIdlerPlate(object):
 		#Make Sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch')
 		App.activeDocument().Sketch.Placement = App.Placement(App.Vector(0.000000,0.000000,0.000000),App.Rotation(0.000000,0.000000,0.000000,1.000000))
-#		Gui.activeDocument().activeView().setCamera('#Inventor V2.1 ascii \n OrthographicCamera {\n viewportMapping ADJUST_CAMERA \n position 0 0 87 \n orientation 0 0 1  0 \n nearDistance -112.88701 \n farDistance 287.28702 \n aspectRatio 1 \n focalDistance 87 \n height 143.52005 }')
-#		Gui.activeDocument().setEdit('Sketch')
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p2x,p2y,0),App.Vector(p3x,p3y,0)))
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p3x,p3y,0),App.Vector(p4x,p4y,0)))
@@ -142,7 +133,6 @@ class XEndIdlerPlate(object):
 		App.ActiveDocument.Sketch.addConstraint(Sketcher.Constraint('DistanceY',2,-gv.xMotorMountPlateWidth)) 
 		App.ActiveDocument.recompute()
 
-#		Gui.getDocument('xEndIdlerPlate').resetEdit()
 		App.getDocument('xEndIdlerPlate').recompute()
 
 		#extrude x motor mount plate
@@ -150,7 +140,6 @@ class XEndIdlerPlate(object):
 		App.activeDocument().Pad.Sketch = App.activeDocument().Sketch
 		App.activeDocument().Pad.Length = 10.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch")
 		App.ActiveDocument.Pad.Length = gv.xMotorMountPlateThickness
 		App.ActiveDocument.Pad.Reversed = 0
 		App.ActiveDocument.Pad.Midplane = 0
@@ -158,7 +147,6 @@ class XEndIdlerPlate(object):
 		App.ActiveDocument.Pad.Type = 0
 		App.ActiveDocument.Pad.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
 
 		#cut holes for xRodClamp
 		#Sketch Points
@@ -186,7 +174,6 @@ class XEndIdlerPlate(object):
 															None, None, 
 															gv.xMotorMountPlateThickness, 0)#(App.ActiveDocument.Pad,["Face6"])
 		App.activeDocument().recompute()
-#		Gui.activeDocument().setEdit('Sketch001')
 
 		App.ActiveDocument.Sketch001.addExternal("Pad",uf.getEdge(App.ActiveDocument.Pad, 
 															  0,0,
@@ -273,7 +260,6 @@ class XEndIdlerPlate(object):
 		App.ActiveDocument.recompute()
 
 		#exit sketch
-#		Gui.getDocument('xEndIdlerPlate').resetEdit()
 		App.getDocument('xEndIdlerPlate').recompute()
 
 		#Cut holes through all
@@ -281,16 +267,9 @@ class XEndIdlerPlate(object):
 		App.activeDocument().Pocket.Sketch = App.activeDocument().Sketch001
 		App.activeDocument().Pocket.Length = 5.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch001")
-		Gui.activeDocument().hide("Pad")
-#		Gui.ActiveDocument.Pocket.ShapeColor=Gui.ActiveDocument.Pad.ShapeColor
-#		Gui.ActiveDocument.Pocket.LineColor=Gui.ActiveDocument.Pad.LineColor
-#		Gui.ActiveDocument.Pocket.PointColor=Gui.ActiveDocument.Pad.PointColor
 		App.ActiveDocument.Pocket.Length = 5.000000
 		App.ActiveDocument.Pocket.Type = 1
 		App.ActiveDocument.Pocket.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
 
 		#set view as axiometric
-#		Gui.activeDocument().activeView().viewAxometric()

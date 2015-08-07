@@ -61,7 +61,6 @@ def makePrinter():
     uf.bold("Version: 0.1.0 ", False)
     uf.bold("If you encounter any issues, please let us know at https://github.com/maaphoo/retr3d/issues", False)
     print ""
-
     # import FreeCAD modules
     try:
         import FreeCAD as App
@@ -69,13 +68,12 @@ def makePrinter():
         uf.critical("Failure to import FreeCAD, check your configuration file.", 'Failure to import FreeCAD: ' + str(e),
                     gv.level, source)
 
-    import FreeCADGui as Gui
+    import FreeCAD# as #
 
     if platform.system() == 'Windows':
         if (App.Version()[1] > '14'):
             try:
-                import FreeCADGui
-                FreeCADGui.showMainWindow()
+                import FreeCAD#
             except AttributeError:
                 pass
             finally:
@@ -85,8 +83,8 @@ def makePrinter():
     if platform.system() == 'Darwin':  # OSX
         if (App.Version()[1] >= '14'):
             try:
-                import FreeCADGui
-                FreeCADGui.showMainWindow()
+                import FreeCAD#
+                FreeCAD#.showMainWindow()
             except AttributeError:
                 pass
             finally:
@@ -117,8 +115,8 @@ def makePrinter():
             raise versionError
         if (App.Version()[1] == '16'):
             try:
-                import FreeCADGui
-                FreeCADGui.showMainWindow()
+                import FreeCAD#
+                FreeCAD#.showMainWindow()
             except AttributeError:
                 pass
             finally:
@@ -172,6 +170,7 @@ def makePrinter():
     import zipup
     import draw
     import checklist
+    import heatedbed
 
     # If any of the parameters have been changed, the includes must be reloaded
     # Normally, this would just be globalVariables because that is what would be changed,
@@ -222,6 +221,7 @@ def makePrinter():
         reload(zipup)
         reload(draw)
         reload(checklist)
+        reload(heatedbed)
 
     gv.reloadClasses = True
 
@@ -644,12 +644,11 @@ def makePrinter():
     del gv.xAxisParts[:]
     del gv.yAxisParts[:]
     del gv.zAxisParts[:]
-
     # Make file for assembly
     uf.makeAssemblyFile()
     uf.info("Starting to draw parts...", "Assembly file made", gv.level, source)
 
-
+    heatedbed.design()
     # Make components for x-Axis, add to assembly, save and close
     xRodBottom.draw()
     uf.info("Done drawing xRodBottom", "Finished xRodBottom.draw()", gv.level, source)
@@ -918,7 +917,7 @@ def makePrinter():
     draw.setup("xEndIdlerPlate", 'Pocket')
     draw.setup("xEndMotorPlate", 'Pocket001')
     App.ActiveDocument = App.getDocument("PrinterAssembly")
-    Gui.ActiveDocument = Gui.getDocument("PrinterAssembly")
+    #.ActiveDocument = #.getDocument("PrinterAssembly")
 
     uf.saveAssembly()
 
@@ -932,12 +931,13 @@ def makePrinter():
         slic3r.slic3r()
         uf.info("Finished slicing.", "Finished slicing", gv.level, source)
 
+    heatedbed.design()
     checklist.create()
     zipup.zipup()
 
 
 try:
     makePrinter()
-except StandardError:
+except KeyboardInterrupt:
     print "Exiting..."
     pass

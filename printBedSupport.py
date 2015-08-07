@@ -22,7 +22,7 @@ from itertools import product
 
 #import FreeCAD modules
 import FreeCAD as App
-import FreeCADGui as Gui
+import FreeCAD# as #
 import Part
 import Sketcher
 import Draft
@@ -39,12 +39,10 @@ class PrintBedSupport(object):
 		App.ActiveDocument=App.getDocument(self.name)
 		shape = App.ActiveDocument.ActiveObject.Shape
 		App.ActiveDocument=App.getDocument("PrinterAssembly")
-		Gui.ActiveDocument=Gui.getDocument("PrinterAssembly")
 		App.ActiveDocument.addObject('Part::Feature',self.name).Shape= shape
 		
 		#Color Part
-#		Gui.ActiveDocument.getObject(self.name).ShapeColor = (gv.printedR,gv.printedG,gv.printedB,gv.printedA)
-		
+
 		#Get the feature and move it into position
 		objs = App.ActiveDocument.getObjectsByLabel(self.name)
 		shape = objs[-1]		
@@ -76,13 +74,10 @@ class PrintBedSupport(object):
 		
 		#Make file and build part
 		try:
-			Gui.getDocument("printBedSupport")
-			Gui.getDocument("printBedSupport").resetEdit()
 			App.getDocument("printBedSupport").recompute()
 			App.closeDocument("printBedSupport")
 			App.setActiveDocument("")
 			App.ActiveDocument=None
-			Gui.ActiveDocument=None	
 		except:
 			pass
 
@@ -90,8 +85,7 @@ class PrintBedSupport(object):
 		App.newDocument("printBedSupport")
 		App.setActiveDocument("printBedSupport")
 		App.ActiveDocument=App.getDocument("printBedSupport")
-		Gui.ActiveDocument=Gui.getDocument("printBedSupport")
-		
+
 		#make plate
 		#Sketch points
 		p1x = -width/2
@@ -117,8 +111,6 @@ class PrintBedSupport(object):
 		
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch')
 		App.activeDocument().Sketch.Placement = App.Placement(App.Vector(0.000000,0.000000,0.000000),App.Rotation(0.000000,0.000000,0.000000,1.000000))
-		Gui.activeDocument().activeView().setCamera('#Inventor V2.1 ascii \n OrthographicCamera {\n viewportMapping ADJUST_CAMERA \n position 0 0 87 \n orientation 0 0 1  0 \n nearDistance -112.88701 \n farDistance 287.28702 \n aspectRatio 1 \n focalDistance 87 \n height 143.52005 }')
-#		Gui.activeDocument().setEdit('Sketch')
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p4x,p4y,0)))
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p4x,p4y,0),App.Vector(p3x,p3y,0)))
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p3x,p3y,0),App.Vector(p2x,p2y,0)))
@@ -207,13 +199,11 @@ class PrintBedSupport(object):
 		App.ActiveDocument.Sketch.movePoint(4,1,App.Vector(-37.291931,-32.210766,0),0)
 		App.ActiveDocument.recompute()
 
-#		Gui.getDocument('printBedSupport').resetEdit()
 		App.getDocument('printBedSupport').recompute()
 		App.activeDocument().addObject("PartDesign::Pad","Pad")
 		App.activeDocument().Pad.Sketch = App.activeDocument().Sketch
 		App.activeDocument().Pad.Length = 10.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch")
 		App.ActiveDocument.Pad.Length = gv.printBedSupportThickness
 		App.ActiveDocument.Pad.Reversed = 0
 		App.ActiveDocument.Pad.Midplane = 0
@@ -221,8 +211,7 @@ class PrintBedSupport(object):
 		App.ActiveDocument.Pad.Type = 0
 		App.ActiveDocument.Pad.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
-		
+
 		#Make holes for y bushing mounts
 		#Sketch Points
 		p1x = -gv.yRodSpacing/2
@@ -265,8 +254,7 @@ class PrintBedSupport(object):
 														  None, None,
 														  gv.printBedSupportThickness, 0)
 		App.activeDocument().recompute()
-#		Gui.activeDocument().setEdit('Sketch001')
-		App.ActiveDocument.Sketch001.addExternal("Pad",uf.getEdge(App.ActiveDocument.Pad, 
+		App.ActiveDocument.Sketch001.addExternal("Pad",uf.getEdge(App.ActiveDocument.Pad,
 														  0,0,
 														  length/2, 0,
 														  gv.printBedSupportThickness, 0))
@@ -386,17 +374,10 @@ class PrintBedSupport(object):
 		App.activeDocument().Pocket.Sketch = App.activeDocument().Sketch001
 		App.activeDocument().Pocket.Length = 5.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch001")
-		Gui.activeDocument().hide("Pad")
-#		Gui.activeDocument().setEdit('Pocket')
-#		Gui.ActiveDocument.Pocket.ShapeColor=Gui.ActiveDocument.Pad.ShapeColor
-#		Gui.ActiveDocument.Pocket.LineColor=Gui.ActiveDocument.Pad.LineColor
-#		Gui.ActiveDocument.Pocket.PointColor=Gui.ActiveDocument.Pad.PointColor
 		App.ActiveDocument.Pocket.Length = 5.000000
 		App.ActiveDocument.Pocket.Type = 1
 		App.ActiveDocument.Pocket.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
 
 		#Make holes for y belt anchor
 		#Sketch points
@@ -412,7 +393,6 @@ class PrintBedSupport(object):
 														  None, None,
 														  gv.printBedSupportThickness, 0)
 		App.activeDocument().recompute()
-#		Gui.activeDocument().setEdit('Sketch002')
 		App.ActiveDocument.Sketch002.addGeometry(Part.Circle(App.Vector(p1x,p1y,0),App.Vector(0,0,1),gv.mountToPrintedDia/2))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch002.addGeometry(Part.Circle(App.Vector(p2x,p2y,0),App.Vector(0,0,1),gv.mountToPrintedDia/2))
@@ -429,7 +409,6 @@ class PrintBedSupport(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Distance',0,3,1,3,gv.yBeltAnchorHoleSpacing)) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument('printBedSupport').resetEdit()
 		App.getDocument('printBedSupport').recompute()
 		
 		#Cut holes
@@ -437,17 +416,9 @@ class PrintBedSupport(object):
 		App.activeDocument().Pocket001.Sketch = App.activeDocument().Sketch002
 		App.activeDocument().Pocket001.Length = 5.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch002")
-		Gui.activeDocument().hide("Pocket")
-#		Gui.ActiveDocument.Pocket001.ShapeColor=Gui.ActiveDocument.Pocket.ShapeColor
-#		Gui.ActiveDocument.Pocket001.LineColor=Gui.ActiveDocument.Pocket.LineColor
-#		Gui.ActiveDocument.Pocket001.PointColor=Gui.ActiveDocument.Pocket.PointColor
 		App.ActiveDocument.Pocket001.Length = 5.000000
 		App.ActiveDocument.Pocket001.Type = 1
 		App.ActiveDocument.Pocket001.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
 
 		#Make view axiometric
-#		Gui.activeDocument().activeView().viewAxometric()
-		

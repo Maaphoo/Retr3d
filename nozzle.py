@@ -23,7 +23,7 @@ import time
 
 #import FreeCAD modules
 import FreeCAD as App
-import FreeCADGui as Gui
+import FreeCAD# as #
 import Part
 import Sketcher
 import Draft
@@ -40,12 +40,10 @@ class Nozzle(object):
 		App.ActiveDocument=App.getDocument(self.name)
 		shape = App.ActiveDocument.ActiveObject.Shape
 		App.ActiveDocument=App.getDocument("PrinterAssembly")
-		Gui.ActiveDocument=Gui.getDocument("PrinterAssembly")
 		App.ActiveDocument.addObject('Part::Feature',self.name).Shape= shape
 		
 		#Color Part
-#		Gui.ActiveDocument.getObject(self.name).ShapeColor = (gv.frameR,gv.frameG,gv.frameB,gv.frameA)
-		
+
 		#Get the feature and move it into position
 		objs = App.ActiveDocument.getObjectsByLabel(self.name)
 		shape = objs[-1]		
@@ -76,13 +74,10 @@ class Nozzle(object):
 
 	def draw(self):
 		try:
-			Gui.getDocument(self.name)
-			Gui.getDocument(self.name).resetEdit()
 			App.getDocument(self.name).recompute()
 			App.closeDocument(self.name)
 			App.setActiveDocument("")
 			App.ActiveDocument=None
-			Gui.ActiveDocument=None	
 		except:
 			pass
 
@@ -90,8 +85,7 @@ class Nozzle(object):
 		App.newDocument(self.name)
 		App.setActiveDocument(self.name)
 		App.ActiveDocument=App.getDocument(self.name)
-		Gui.ActiveDocument=Gui.getDocument(self.name)
-		
+
 		#Revolve tip of nozzle
 		#Sketch Points
 		p1x = gv.nozzleDia/2
@@ -116,8 +110,6 @@ class Nozzle(object):
 		#Make Sketch
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch')
 		App.activeDocument().Sketch.Placement = App.Placement(App.Vector(0.000000,0.000000,0.000000),App.Rotation(-0.707107,0.000000,0.000000,-0.707107))
-		Gui.activeDocument().activeView().setCamera('#Inventor V2.1 ascii \n OrthographicCamera {\n viewportMapping ADJUST_CAMERA\n  position 0 -87 0 \n  orientation -1 0 0  4.712389\n  nearDistance -112.88701\n  farDistance 287.28702\n  aspectRatio 1\n  focalDistance 87\n  height 143.52005\n\n}')
-#		Gui.activeDocument().setEdit('Sketch')
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch.addConstraint(Sketcher.Constraint('PointOnObject',0,1,-1)) 
@@ -199,7 +191,6 @@ class Nozzle(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch.addConstraint(Sketcher.Constraint('DistanceX',-1,1,3,2,gv.extruderBarrelLinerDia/2)) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 		
 		#Revolve Sketch
@@ -209,13 +200,11 @@ class Nozzle(object):
 		App.activeDocument().Revolution.Angle = 360.0
 		App.activeDocument().Revolution.Reversed = 1
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch")
 		App.ActiveDocument.Revolution.Angle = 360.000000
 		App.ActiveDocument.Revolution.ReferenceAxis = (App.ActiveDocument.Sketch,['V_Axis'])
 		App.ActiveDocument.Revolution.Midplane = 0
 		App.ActiveDocument.Revolution.Reversed = 1
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
 
 		#make heater block
 		#Sketch Points
@@ -236,7 +225,6 @@ class Nozzle(object):
 															None,None, 
 															gv.nozzleLength,0)
 		App.activeDocument().recompute()
-#		Gui.activeDocument().setEdit('Sketch001')
 #		App.ActiveDocument.Sketch001.addExternal("Revolution","Edge7")
 
 		App.ActiveDocument.Sketch001.addExternal("Revolution",uf.getEdge(App.ActiveDocument.Revolution,
@@ -293,7 +281,6 @@ class Nozzle(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch001.addConstraint(Sketcher.Constraint('DistanceY',1,gv.nozzleBodyDepth)) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument(self.name).resetEdit()
 #		App.getDocument(self.name).recompute()
 		
 		#Extrude Block
@@ -302,22 +289,11 @@ class Nozzle(object):
 		App.ActiveDocument.Pad.Reversed = 1
 		App.ActiveDocument.Pad.Length = gv.nozzleBodyHeight
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch001")
-		Gui.activeDocument().hide("Revolution")
-#		Gui.ActiveDocument.Pad.ShapeColor=Gui.ActiveDocument.Revolution.ShapeColor
-#		Gui.ActiveDocument.Pad.LineColor=Gui.ActiveDocument.Revolution.LineColor
-#		Gui.ActiveDocument.Pad.PointColor=Gui.ActiveDocument.Revolution.PointColor
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
-		
+
 		#Refine Shape
 		App.ActiveDocument.addObject('Part::Feature','Pad').Shape=App.ActiveDocument.Pad.Shape.removeSplitter()
 		App.ActiveDocument.ActiveObject.Label=App.ActiveDocument.Pad.Label
-#		Gui.ActiveDocument.Pad.hide()
-		Gui.ActiveDocument.Pad.Visibility = False
-#		Gui.ActiveDocument.ActiveObject.ShapeColor=Gui.ActiveDocument.Pad.ShapeColor
-#		Gui.ActiveDocument.ActiveObject.LineColor=Gui.ActiveDocument.Pad.LineColor
-#		Gui.ActiveDocument.ActiveObject.PointColor=Gui.ActiveDocument.Pad.PointColor
 		App.ActiveDocument.recompute()
 
 		#Make Resistor Hole
@@ -334,7 +310,6 @@ class Nozzle(object):
 															-gv.nozzleBodyDepth/2,0, 
 															None, None)
 		App.activeDocument().recompute()
-#		Gui.activeDocument().setEdit('Sketch002')
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch002.addExternal("Pad001",uf.getEdge(App.ActiveDocument.Pad001,
 															-gv.nozzleBodyWidth+gv.nozzleBodyDepth/2, 0,
@@ -358,7 +333,6 @@ class Nozzle(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Radius',1,gv.nozzleResistorDia/2)) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 		
 		#Cut resistor hole through all
@@ -366,17 +340,11 @@ class Nozzle(object):
 		App.activeDocument().Pocket.Sketch = App.activeDocument().Sketch002
 		App.activeDocument().Pocket.Length = 5.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch002")
-		Gui.activeDocument().hide("Pad001")
-#		Gui.ActiveDocument.Pocket.ShapeColor=Gui.ActiveDocument.Pad001.ShapeColor
-#		Gui.ActiveDocument.Pocket.LineColor=Gui.ActiveDocument.Pad001.LineColor
-#		Gui.ActiveDocument.Pocket.PointColor=Gui.ActiveDocument.Pad001.PointColor
 		App.ActiveDocument.Pocket.Length = 5.000000
 		App.ActiveDocument.Pocket.Type = 1
 		App.ActiveDocument.Pocket.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
-		
+
 		#Make hole for thermistor
 		#Sketch Points
 		p1x = 0
@@ -392,7 +360,6 @@ class Nozzle(object):
 															None, None, 
 															None, None)
 		App.activeDocument().recompute()
-#		Gui.activeDocument().setEdit('Sketch003')
 		App.ActiveDocument.Sketch003.addExternal("Pocket",uf.getEdge(App.ActiveDocument.Pocket,
 															gv.nozzleBodyDepth/2,0,
 															0, 0,	 
@@ -416,7 +383,6 @@ class Nozzle(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch003.addConstraint(Sketcher.Constraint('Radius',1,gv.nozzleThermistorDia/2)) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 		
 		#Cut hole
@@ -424,17 +390,11 @@ class Nozzle(object):
 		App.activeDocument().Pocket001.Sketch = App.activeDocument().Sketch003
 		App.activeDocument().Pocket001.Length = 5.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch003")
-		Gui.activeDocument().hide("Pocket")
-#		Gui.ActiveDocument.Pocket001.ShapeColor=Gui.ActiveDocument.Pocket.ShapeColor
-#		Gui.ActiveDocument.Pocket001.LineColor=Gui.ActiveDocument.Pocket.LineColor
-#		Gui.ActiveDocument.Pocket001.PointColor=Gui.ActiveDocument.Pocket.PointColor
 		App.ActiveDocument.Pocket001.Length = gv.nozzleThermistorDepth
 		App.ActiveDocument.Pocket001.Type = 0
 		App.ActiveDocument.Pocket001.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()	
-		
+
 		#Make Thermistor retainer hole
 		#Sketch Points
 		p1x = -gv.nozzleBodyWidth/2
@@ -449,7 +409,6 @@ class Nozzle(object):
 															None, None, 
 															None, None)
 		App.activeDocument().recompute()
-#		Gui.activeDocument().setEdit('Sketch004')
 		App.ActiveDocument.Sketch004.addExternal("Pocket001",uf.getEdge(App.ActiveDocument.Pocket001,
 															gv.nozzleBodyDepth/2,0,
 															-gv.nozzleBodyDepth/2,0,	 
@@ -475,7 +434,6 @@ class Nozzle(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch004.addConstraint(Sketcher.Constraint('Radius',1,gv.nozzleThermistorRetainerDia/2)) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 		
 		#Cut Hole
@@ -483,15 +441,8 @@ class Nozzle(object):
 		App.activeDocument().Pocket002.Sketch = App.activeDocument().Sketch004
 		App.activeDocument().Pocket002.Length = 5.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch004")
-		Gui.activeDocument().hide("Pocket001")
-#		Gui.ActiveDocument.Pocket002.ShapeColor=Gui.ActiveDocument.Pocket001.ShapeColor
-#		Gui.ActiveDocument.Pocket002.LineColor=Gui.ActiveDocument.Pocket001.LineColor
-#		Gui.ActiveDocument.Pocket002.PointColor=Gui.ActiveDocument.Pocket001.PointColor
 		App.ActiveDocument.Pocket002.Length = gv.nozzleThermistorRetainerDepth
 		App.ActiveDocument.Pocket002.Type = 0
 		App.ActiveDocument.Pocket002.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
 		#Set View
-#		Gui.activeDocument().activeView().viewAxometric()
