@@ -5,7 +5,7 @@ from itertools import product
 
 #import FreeCAD modules
 import FreeCAD as App
-import FreeCADGui as Gui
+import FreeCAD# as #
 import Part
 import Sketcher
 import Draft
@@ -22,12 +22,10 @@ class PrintBed(object):
 		App.ActiveDocument=App.getDocument(self.name)
 		shape = App.ActiveDocument.ActiveObject.Shape
 		App.ActiveDocument=App.getDocument("PrinterAssembly")
-		Gui.ActiveDocument=Gui.getDocument("PrinterAssembly")
 		App.ActiveDocument.addObject('Part::Feature',self.name).Shape= shape
 		
 		#Color Part
-#		Gui.ActiveDocument.getObject(self.name).ShapeColor = (gv.printedR,gv.printedG,gv.printedB,gv.printedA)
-		
+
 		#Get the feature and move it into position
 		objs = App.ActiveDocument.getObjectsByLabel(self.name)
 		shape = objs[-1]		
@@ -58,13 +56,10 @@ class PrintBed(object):
 		
 		#Make file and build part
 		try:
-			Gui.getDocument("printBed")
-			Gui.getDocument("printBed").resetEdit()
 			App.getDocument("printBed").recompute()
 			App.closeDocument("printBed")
 			App.setActiveDocument("")
 			App.ActiveDocument=None
-			Gui.ActiveDocument=None	
 		except:
 			pass
 
@@ -72,8 +67,7 @@ class PrintBed(object):
 		App.newDocument("printBed")
 		App.setActiveDocument("printBed")
 		App.ActiveDocument=App.getDocument("printBed")
-		Gui.ActiveDocument=Gui.getDocument("printBed")
-		
+
 		#make plate
 		#Sketch points
 		p1x = -width/2
@@ -99,8 +93,6 @@ class PrintBed(object):
 		
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch')
 		App.activeDocument().Sketch.Placement = App.Placement(App.Vector(0.000000,0.000000,0.000000),App.Rotation(0.000000,0.000000,0.000000,1.000000))
-		Gui.activeDocument().activeView().setCamera('#Inventor V2.1 ascii \n OrthographicCamera {\n viewportMapping ADJUST_CAMERA \n position 0 0 87 \n orientation 0 0 1  0 \n nearDistance -112.88701 \n farDistance 287.28702 \n aspectRatio 1 \n focalDistance 87 \n height 143.52005 }')
-#		Gui.activeDocument().setEdit('Sketch')
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p1x,p1y,0),App.Vector(p4x,p4y,0)))
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p4x,p4y,0),App.Vector(p3x,p3y,0)))
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p3x,p3y,0),App.Vector(p2x,p2y,0)))
@@ -190,13 +182,11 @@ class PrintBed(object):
 		App.ActiveDocument.Sketch.movePoint(4,1,App.Vector(-37.291931,-32.210766,0),0)
 		App.ActiveDocument.recompute()
 
-#		Gui.getDocument('printBed').resetEdit()
 		App.getDocument('printBed').recompute()
 		App.activeDocument().addObject("PartDesign::Pad","Pad")
 		App.activeDocument().Pad.Sketch = App.activeDocument().Sketch
 		App.activeDocument().Pad.Length = 10.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch")
 		App.ActiveDocument.Pad.Length = gv.printBedThickness
 		App.ActiveDocument.Pad.Reversed = 0
 		App.ActiveDocument.Pad.Midplane = 0
@@ -204,8 +194,5 @@ class PrintBed(object):
 		App.ActiveDocument.Pad.Type = 0
 		App.ActiveDocument.Pad.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
-		
+
 		#Make view axiometric
-#		Gui.activeDocument().activeView().viewAxometric()
-		
