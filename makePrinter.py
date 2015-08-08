@@ -167,6 +167,7 @@ def makePrinter():
     import nozzle
     import xEndstop
     import zEndstop
+    import feet
     import plate
     import slic3r
     import zipup
@@ -217,6 +218,7 @@ def makePrinter():
         reload(nozzle)
         reload(xEndstop)
         reload(zEndstop)
+        reload(feet)
         reload(plate)
         reload(slic3r)
         reload(zipup)
@@ -267,6 +269,7 @@ def makePrinter():
     nozzle = nozzle.Nozzle()
     xEndstop = xEndstop.XEndstop()
     zEndstop = zEndstop.ZEndstop()
+    feet = feet.Feet()
 
 
     # convert standard nut sizes to mm
@@ -284,6 +287,7 @@ def makePrinter():
 
     # Determine printed mounting hole diameters
     gv.printedToFrameDia = uf.adjustHole(gv.mountToFrameDia)
+    gv.printedToFrameHeadDia = uf.adjustHole(gv.mountToFrameHeadDia)
     gv.printedToPrintedDia = uf.adjustHole(gv.mountToPrintedDia)
 
     # Select Bushing and Lead Screw nuts
@@ -648,270 +652,278 @@ def makePrinter():
     # Make file for assembly
     uf.makeAssemblyFile()
     uf.info("Starting to draw parts...", "Assembly file made", gv.level, source)
-
-
+  
+  
     # Make components for x-Axis, add to assembly, save and close
     xRodBottom.draw()
     uf.info("Done drawing xRodBottom", "Finished xRodBottom.draw()", gv.level, source)
     xRodBottom.assemble()
     uf.info("Done assembling xRodBottom", "Finished xRodBottom.assemble()", gv.level, source)
     uf.saveAndClose("xRodBottom", False)
-
+  
     xRodTop.draw()
     uf.info("Done drawing xRodTop", "Finished xRodTop.draw()", gv.level, source)
     xRodTop.assemble()
     uf.info("Done assembling xRodTop", "Finished xRodTop.assemble()", gv.level, source)
     uf.saveAndClose("xRodTop", False)
-
+  
     xCarriage.draw()
     uf.info("Done drawing xCarriage", "Finished xCarriage.draw()", gv.level, source)
     xCarriage.assemble()
     uf.info("Done assembling xCarriage", "Finished xCarriage.assemble()", gv.level, source)
     uf.saveAndClose("xCarriage", True)
-
+  
     extruderMountAngle.draw()
     uf.info("Done drawing extruderMountAngle", "Finished extruderMountAngle.draw()", gv.level, source)
     extruderMountAngle.assemble()
     uf.info("Done assembling extruderMountAngle", "Finished extruderMountAngle.assemble()", gv.level, source)
     uf.saveAndClose("extruderMountAngle", False)
-
+  
     extruderMountPlate.draw()
     uf.info("Done drawing extruderMountPlate", "Finished extruderMountPlate.draw()", gv.level, source)
     extruderMountPlate.assemble()
     uf.info("Done assembling extruderMountPlate", "Finished extruderMountPlate.assemble()", gv.level, source)
     uf.saveAndClose("extruderMountPlate", False)
-
+  
     xRodClampL.draw()
     uf.info("Done drawing xRodClampL", "Finished xRodClampL.draw()", gv.level, source)
     xRodClampL.assemble()
     uf.info("Done assembling xRodClampL", "Finished xRodClampL.assemble()", gv.level, source)
     uf.saveAndClose("xRodClampL", True)
-
+  
     xRodClampR.draw()
     uf.info("Done drawing xRodClampR", "Finished xRodClampR.draw()", gv.level, source)
     xRodClampR.assemble()
     uf.info("Done assembling xRodClampR", "Finished xRodClampR.assemble()", gv.level, source)
     uf.saveAndClose("xRodClampR", True)
-
+  
     xEndMotorPlate.draw()
     uf.info("Done drawing xEndMotorPlate", "Finished xEndMotorPlate.draw()", gv.level, source)
     xEndMotorPlate.assemble()
     uf.info("Done assembling xEndMotorPlate", "Finished xEndMotorPlate.assemble()", gv.level, source)
     uf.saveAndClose("xEndMotorPlate", False)
-
+  
     xEndIdlerPlate.draw()
     uf.info("Done drawing xEndIdlerPlate", "Finished xEndIdlerPlate.draw()", gv.level, source)
     xEndIdlerPlate.assemble()
     uf.info("Done assembling xEndIdlerPlate", "Finished xEndIdlerPlate.assemble()", gv.level, source)
     uf.saveAndClose("xEndIdlerPlate", False)
-
+  
     extruderBarrel.draw()
     uf.info("Done drawing extruderBarrel", "Finished extruderBarrel.draw()", gv.level, source)
     extruderBarrel.assemble()
     uf.info("Done assembling extruderBarrel", "Finished extruderBarrel.assemble()", gv.level, source)
     uf.saveAndClose("extruderBarrel", False)
-
+  
     nozzle.draw()
     uf.info("Done drawing nozzle", "Finished nozzle.draw()", gv.level, source)
     nozzle.assemble()
     uf.info("Done assembling nozzle", "Finished nozzle.assemble()", gv.level, source)
     uf.saveAndClose("nozzle", False)
-
+  
     xEndZRodHolderL.draw()
     uf.info("Done drawing xEndZRodHolderL", "Finished xEndZRodHolderL.draw()", gv.level, source)
     xEndZRodHolderL.assemble()
     uf.info("Done assembling xEndZRodHolderL", "Finished xEndZRodHolderL.assemble()", gv.level, source)
     uf.saveAndClose("xEndZRodHolderL", True)
-
+  
     xEndZRodHolderR.draw()
     uf.info("Done drawing xEndZRodHolderR", "Finished xEndZRodHolderR.draw()", gv.level, source)
     xEndZRodHolderR.assemble()
     uf.info("Done assembling xEndZRodHolderR", "Finished xEndZRodHolderR.assemble()", gv.level, source)
     uf.saveAndClose("xEndZRodHolderR", True)
-
+  
     xEndstop.draw()
     xEndstop.assemble()
     uf.info("Done assembling xEndstop", "Finished xEndstop.assemble()", gv.level, source)
     uf.saveAndClose("xEndstop", True)
     uf.saveAndClose("xEndstopCap", True)
-
+  
     uf.positionXAxis()
-
+  
     # Make components for ZAxis, add to assembly, save and close#
-
+  
     zRodL.draw()
     uf.info("Done drawing zRodL", "Finished zRodL.draw()", gv.level, source)
     zRodL.assemble()
     uf.info("Done assembling zRodL", "Finished zRodL.assemble()", gv.level, source)
     uf.saveAndClose("zRodL", False)
-
+  
     zRodR.draw()
     uf.info("Done drawing zRodR", "Finished zRodR.draw()", gv.level, source)
     zRodR.assemble()
     uf.info("Done assembling zRodR", "Finished zRodR.assemble()", gv.level, source)
     uf.saveAndClose("zRodR", False)
-
+  
     zRodSupportR.draw()
     uf.info("Done drawing zRodSupportR", "Finished zRodSupportR.draw()", gv.level, source)
     zRodSupportR.assemble()
     uf.info("Done assembling zRodSupportR", "Finished zRodSupportR.assemble()", gv.level, source)
     uf.saveAndClose("zRodSupportR", True)
     uf.saveAndClose("zRodSupportRClamp", True)
-
+  
     zRodSupportL.draw()
     uf.info("Done drawing zRodSupportL", "Finished zRodSupportL.draw()", gv.level, source)
     zRodSupportL.assemble()
     uf.info("Done assembling zRodSupportL", "Finished zRodSupportL.assemble()", gv.level, source)
     uf.saveAndClose("zRodSupportL", True)
     uf.saveAndClose("zRodSupportLClamp", True)
-
+  
     zMotorMount.draw()
     uf.info("Done drawing zMotorMount", "Finished zMotorMount.draw()", gv.level, source)
     zMotorMount.assemble()
     uf.info("Done assembling zMotorMount", "Finished zMotorMount.assemble()", gv.level, source)
     uf.saveAndClose("zMotorMount", True)
-
+  
     zEndstop.draw()
     uf.info("Done drawing zEndstop", "Finished zEndstop.draw()", gv.level, source)
     zEndstop.assemble()
     uf.info("Done assembling zEndstop", "Finished zEndstop.assemble()", gv.level, source)
     uf.saveAndClose("zEndstop", False)
-
+  
     uf.positionZAxis()
-
-
+  
+  
     # Make components for yAxis, add to assembly, save and close#
-
+  
     yRodL.draw()
     uf.info("Done drawing yRodL", "Finished yRodL.draw()", gv.level, source)
     yRodL.assemble()
     uf.info("Done assembling yRodL", "Finished yRodL.assemble()", gv.level, source)
     uf.saveAndClose("yRodL", False)
-
+  
     yRodR.draw()
     uf.info("Done drawing yRodR", "Finished yRodR.draw()", gv.level, source)
     yRodR.assemble()
     uf.info("Done assembling yRodR", "Finished yRodR.assemble()", gv.level, source)
     uf.saveAndClose("yRodR", False)
-
+  
     PBBHR.draw()
     uf.info("Done drawing Print Bed Bushing Holder Right", "Finished PBBHR.draw()", gv.level, source)
     PBBHR.assemble()
     uf.info("Done assembling Print Bed Bushing Holder Right", "Finished PBBHR.assemble()", gv.level, source)
     uf.saveAndClose("printBedBushingHolderR", True)
-
+  
     PBBHL.draw()
     uf.info("Done drawing Print Bed Bushing Holder Left", "Finished PBBHL.draw()", gv.level, source)
     PBBHL.assemble()
     uf.info("Done assembling Print Bed Bushing Holder Left", "Finished PBBHL.assemble()", gv.level, source)
     uf.saveAndClose("printBedBushingHolderL", True)
-
+  
     yBeltAnchor.draw()
     uf.info("Done drawing yBeltAnchor", "Finished yBeltAnchor.draw()", gv.level, source)
     yBeltAnchor.assemble()
     uf.info("Done assembling yBeltAnchor", "Finished yBeltAnchor.assemble()", gv.level, source)
     uf.saveAndClose("yBeltAnchor", True)
-
+  
     printBedSupport.draw()
     uf.info("Done drawing printBedSupport", "Finished printBedSupport.draw()", gv.level, source)
     printBedSupport.assemble()
     uf.info("Done assembling printBedSupport", "Finished printBedSupport.assemble()", gv.level, source)
     uf.saveAndClose("printBedSupport", False)
-
+  
     printBed.draw()
     uf.info("Done drawing printBed", "Finished printBed.draw()", gv.level, source)
     printBed.assemble()
     uf.info("Done assembling printBed", "Finished printBed.assemble()", gv.level, source)
     uf.saveAndClose("printBed", False)
-
+  
     yMotorMount.draw()
     uf.info("Done drawing yMotorMount", "Finished yMotorMount.draw()", gv.level, source)
     yMotorMount.assemble()
     uf.info("Done assembling yMotorMount", "Finished yMotorMount.assemble()", gv.level, source)
     uf.saveAndClose("yMotorMount", True)
-
+  
     yRodSupportR.draw()
     uf.info("Done drawing yRodSupportR", "Finished yRodSupportR.draw()", gv.level, source)
     yRodSupportR.assemble()
     uf.info("Done assembling yRodSupportR", "Finished yRodSupportR.assemble()", gv.level, source)
     uf.saveAndClose("yRodSupportR", True)
     uf.saveAndClose("yRodSupportRClamp", True)
-
+  
     yRodSupportL.draw()
     uf.info("Done drawing yRodSupportL", "Finished yRodSupportL.draw()", gv.level, source)
     yRodSupportL.assemble()
     uf.info("Done assembling yRodSupportL", "Finished yRodSupportL.assemble()", gv.level, source)
     uf.saveAndClose("yRodSupportL", True)
     uf.saveAndClose("yRodSupportLClamp", True)
-
-
-
+  
+  
+  
     # Make components for frame, add to assembly, save and close
     verticalBars.draw()
     uf.info("Done drawing verticalBars", "Finished verticalBars.draw()", gv.level, source)
     verticalBars.assemble()
     uf.info("Done assembling verticalBars", "Finished verticalBars.assemble()", gv.level, source)
     uf.saveAndClose("verticalBars", False)
-
+  
     crossBarTop.draw()
     uf.info("Done drawing crossBarTop", "Finished crossBarTop.draw()", gv.level, source)
     crossBarTop.assemble()
     uf.info("Done assembling crossBarTop", "Finished crossBarTop.assemble()", gv.level, source)
     uf.saveAndClose("crossBarTop", False)
-
+  
     crossBarFrontTop.draw()
     uf.info("Done drawing crossBarFrontTop", "Finished crossBarFrontTop.draw()", gv.level, source)
     crossBarFrontTop.assemble()
     uf.info("Done assembling crossBarFrontTop", "Finished crossBarFrontTop.assemble()", gv.level, source)
     uf.saveAndClose("crossBarFrontTop", False)
-
+  
     crossBarFrontBottom.draw()
     uf.info("Done drawing crossBarFrontBottom", "Finished crossBarFrontBottom.draw()", gv.level, source)
     crossBarFrontBottom.assemble()
     uf.info("Done assembling crossBarFrontBottom", "Finished crossBarFrontBottom.assemble()", gv.level, source)
     uf.saveAndClose("crossBarFrontBottom", False)
-
+  
     crossBarBackTop.draw()
     uf.info("Done drawing crossBarBackTop", "Finished crossBarBackTop.draw()", gv.level, source)
     crossBarBackTop.assemble()
     uf.info("Done assembling crossBarBackTop", "Finished crossBarBackTop.assemble()", gv.level, source)
     uf.saveAndClose("crossBarBackTop", False)
-
+  
     crossBarBackBottom.draw()
     uf.info("Done drawing rossBarBackBottom", "Finished crossBarBackBottom.draw()", gv.level, source)
     crossBarBackBottom.assemble()
     uf.info("Done assembling rossBarBackBottom", "Finished crossBarBackBottom.assemble()", gv.level, source)
     uf.saveAndClose("crossBarBackBottom", False)
-
+  
     sideBarTopL.draw()
     uf.info("Done drawing sideBarTopL", "Finished sideBarTopL.draw()", gv.level, source)
     sideBarTopL.assemble()
     uf.info("Done assembling sideBarTopL", "Finished sideBarTopL.assemble()", gv.level, source)
     uf.saveAndClose("sideBarTopL", False)
-
+  
     sideBarBottomL.draw()
     uf.info("Done drawing sideBarBottomL", "Finished sideBarBottomL.draw()", gv.level, source)
     sideBarBottomL.assemble()
     uf.info("Done assembling sideBarBottomL", "Finished sideBarBottomL.assemble()", gv.level, source)
     uf.saveAndClose("sideBarBottomL", False)
-
+  
     sideBarBottomR.draw()
     uf.info("Done drawing sideBarBottomR", "Finished sideBarBottomR.draw()", gv.level, source)
     sideBarBottomR.assemble()
     uf.info("Done assembling sideBarBottomR", "Finished sideBarBottomR.assemble()", gv.level, source)
     uf.saveAndClose("sideBarBottomR", False)
-
+  
     sideBarTopR.draw()
     uf.info("Done drawing sideBarTopR", "Finished sideBarTopR.draw()", gv.level, source)
     sideBarTopR.assemble()
     uf.info("Done assembling sideBarTopR", "Finished sideBarTopR.assemble()", gv.level, source)
     uf.saveAndClose("sideBarTopR", False)
-
+  
     frameSpacers.draw()
     uf.info("Done drawing frameSpacers", "Finished frameSpacers.draw()", gv.level, source)
     frameSpacers.assemble()
     uf.info("Done assembling frameSpacers", "Finished frameSpacers.assemble()", gv.level, source)
     uf.saveAndClose("frameSpacers", False)
+ 
+    feet.draw()
+    uf.info("Done drawing Feet", "Finished feet.draw()", gv.level, source)
+    feet.assemble()
+    uf.info("Done assembling feet", "Finished feet.assemble()", gv.level, source)
+    uf.saveAndClose("feet", True)
+     
+     
 
     draw.setup("printBedSupport", 'Pocket001')
     draw.setup("extruderMountPlate", 'Pocket002')
@@ -919,21 +931,21 @@ def makePrinter():
     draw.setup("xEndMotorPlate", 'Pocket001')
     App.ActiveDocument = App.getDocument("PrinterAssembly")
     Gui.ActiveDocument = Gui.getDocument("PrinterAssembly")
-
-    uf.saveAssembly()
-
-    if (gv.plate):
-        uf.info("Building the print plates...", "Started building print plates", gv.level, source)
-        plate.plate()
-        uf.info("Finished building the print plates.", "Finished building print plates", gv.level, source)
-
-    if (gv.slic3r):
-        uf.info("Slicing with Slic3er...", "Started slicing.", gv.level, source)
-        slic3r.slic3r()
-        uf.info("Finished slicing.", "Finished slicing", gv.level, source)
-
-    checklist.create()
-    zipup.zipup()
+# 
+#     uf.saveAssembly()
+# 
+#     if (gv.plate):
+#         uf.info("Building the print plates...", "Started building print plates", gv.level, source)
+#         plate.plate()
+#         uf.info("Finished building the print plates.", "Finished building print plates", gv.level, source)
+# 
+#     if (gv.slic3r):
+#         uf.info("Slicing with Slic3er...", "Started slicing.", gv.level, source)
+#         slic3r.slic3r()
+#         uf.info("Finished slicing.", "Finished slicing", gv.level, source)
+# 
+#     checklist.create()
+#     zipup.zipup()
 
 
 try:

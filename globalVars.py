@@ -68,11 +68,14 @@ frameJointPadding = 10 #ADVANCED Required distance at frame joints for welds whi
                                                                                                                                                                            
                                                                                                                                                                            
 #Mounting nut and bolt info                                                                                                                                                
-mountToPrintedDia = 3 #Actual diameter of holes that are used to mount items to printed parts. IE other printed parts or sheet metal.                                      
-mountToFrameDia = 4.12 #Actual diameter of holes that are used to mount items to the frame. Printed parts to frame or sheet metal to frame.                                
-mountToPrintedPadding = 3	#ADVANCED the minimum distance between the edge of a hole and the edge of the part                                                          
-printedToFrameDia = None 	#CALCULATED The adjusted diameter for printed parts that will be mounted to the frame.                                                      
-printedToPrintedDia = None 	#CALCULATED The adjusted diameter for printed parts mounted to other printed parts or to non frame parts                                    
+mountToPrintedDia = 3           #Actual diameter of holes that are used to mount items to printed parts. IE other printed parts or sheet metal.                                      
+mountToFrameDia = 4.12          #Actual diameter of holes that are used to mount items to the frame. Printed parts to frame or sheet metal to frame.                                
+mountToFrameHeadDia = 6         #Actual head diameter of bolts used to mount items to the frame.
+mountToFrameHeadThickness = 3   #Actual head Thickness of bolts used to mount items to the frame.
+mountToPrintedPadding = 3	    #ADVANCED the minimum distance between the edge of a hole and the edge of the part                                                          
+printedToFrameDia = None 	    #CALCULATED The adjusted diameter for printed parts that will be mounted to the frame.                                                      
+printedToFrameHeadDia = None    #CALCULATED The adjusted diameter for printed parts that will be mounted to the frame.                                                      
+printedToPrintedDia = None 	    #CALCULATED The adjusted diameter for printed parts mounted to other printed parts or to non frame parts                                    
                                                                                                                                                                            
                                                                                                                                                                            
 #rodClamps - much of this should be combined with mounting bolt info above                                                                                                 
@@ -318,7 +321,14 @@ zEndstopJogWidth = 2 #The width of the jog used to trap the contacts
 zEndstopSupportWidth = None		#CALCULATED The width of the zEndstop                                                                                               
 zEndStopClampLength = None		#CALCULATED The length along the z axis of the zEndStop clamp                                                                       
 zEndstopBodyThickness = None 	#CALCULATED The thickness of the zEndstop between the zRod and the zEndStopCap                                                              
-                                                                                                                                                                           
+
+#feet vars
+feetOffset = 2                  #ADVANCED The distance between the edge of the frame and the foot
+feetBaseThickness = 3           #ADVANCED The thickness of plastic clamped by the mounting bolt
+feetBoltHeadClearanceVert = 3   #ADVANCED The distance between the top of the bolt head and the bottom of the foot 
+feetBoltHeadClearanceHor = 0.5  #ADVANCED The gap between the bolt head and the wall of the pocket
+feetDraftAngle = 5              #ADVANCED The angle of draft on the feet. This makes the feet taper.
+
 #LeadScrewCoupler vars                                                                                                                                                     
 leadScrewCouplerLength = 25 #The length (vertical axis) of the leadScrewCouplers                                                                                           
 leadScrewCouplerGap = 5 #The space above and below the leadScrewCoupler. For keeping the coupler from  crashing into zMotor mount plate or xCarriage                       
@@ -416,7 +426,7 @@ yAxisParts = []
 zAxisParts = []                                                                                                                                                            
 
 #Plater Variables                                                                                                                                                          
-plate = False #To Plate or not to Plate, that is the Question                                                                                                               
+plate = True #To Plate or not to Plate, that is the Question                                                                                                               
 platerWidth = 150 #width, width of the plate, in mm (default 150)                                                                                                          
 platerHeight = 150 #height of the plate, in mm (default 150)                                                                                                               
 platerPrecision = 0.5 #precision, in mm (default 0.5)                                                                                                                      
@@ -426,7 +436,7 @@ platerRotation = 90 #sets the angle of the brute forcing, default 90
 
 #Slic3r Variables                                                                                                                                                         
 slic3r = True #Slice or nah?                                                                                                                                             
-slic3rVars = " "                                                                                                                                                           
+slic3rVars = "--load /Users/mrogge/Eclipse/eWaste3DPrinter/Retr3d/Slic3r/configTest.ini"                                                                                                                                                           
                                                                                                                                                          
 #Zip Variables                                                                                                                                            
 zipName = "Printer_Files" #Name of zip file                                                                                  
