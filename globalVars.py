@@ -27,7 +27,6 @@ printerDir = "/Path/To/Store/3D/Files/"
  
 #Output Options
 level = 2
-
 #make test hole pattern. True if you would like the test hole pattern to be included in your stl files
 printTestHolePattern = True
  
@@ -436,7 +435,13 @@ platerRotation = 90 #sets the angle of the brute forcing, default 90
 
 #Slic3r Variables                                                                                                                                                         
 slic3r = True #Slice or nah?                                                                                                                                             
-slic3rVars = "--load /Users/mrogge/Eclipse/eWaste3DPrinter/Retr3d/Slic3r/configTest.ini"                                                                                                                                                           
+slic3rVars = " "                                                                                                                                                           
+
+#Heated Bed Variables
+gauge = 28 #Gauge of wire to be used as heating wire on the build plate
+amperage = 10 #ADVANCED Only change this if you know what you are doing, this is a very easy way to turn your electronics in to fuel
+voltage = 12 #ADVANCED Only change this if you know what you are doing
+
                                                                                                                                                          
 #Zip Variables                                                                                                                                            
 zipName = "Printer_Files" #Name of zip file                                                                                  

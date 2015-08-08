@@ -22,7 +22,7 @@ from itertools import product
 
 #import FreeCAD modules
 import FreeCAD as App
-import FreeCADGui as Gui
+import FreeCAD# as #
 import Part
 import Sketcher
 import Draft
@@ -39,12 +39,10 @@ class FrameSpacers(object):
 		App.ActiveDocument=App.getDocument(self.name)
 		shape = App.ActiveDocument.ActiveObject.Shape
 		App.ActiveDocument=App.getDocument("PrinterAssembly")
-		Gui.ActiveDocument=Gui.getDocument("PrinterAssembly")
 		App.ActiveDocument.addObject('Part::Feature',self.name+"FrontL").Shape= shape
 		
 		#Color Part
-		Gui.ActiveDocument.getObject(self.name+"FrontL").ShapeColor = (gv.frameR,gv.frameG,gv.frameB,gv.frameA)
-		
+
 		#Get the feature and move it into position
 		objs = App.ActiveDocument.getObjectsByLabel(self.name+"FrontL")
 		shape = objs[-1]		
@@ -74,8 +72,7 @@ class FrameSpacers(object):
 		App.ActiveDocument.addObject('Part::Feature',self.name+"BackL").Shape = shape.Shape
 		
 		#Color Part
-		Gui.ActiveDocument.getObject(self.name+"BackL").ShapeColor = (gv.frameR,gv.frameG,gv.frameB,gv.frameA)
-		
+
 		#Get the feature and move it into position
 		objs = App.ActiveDocument.getObjectsByLabel(self.name+"BackL")
 		shape = objs[-1]
@@ -94,8 +91,7 @@ class FrameSpacers(object):
 		App.ActiveDocument.addObject('Part::Feature',self.name+"BackR").Shape = shape.Shape
 		
 		#Color Part
-		Gui.ActiveDocument.getObject(self.name+"BackR").ShapeColor = (gv.frameR,gv.frameG,gv.frameB,gv.frameA)
-		
+
 		#Get the feature and move it into position
 		objs = App.ActiveDocument.getObjectsByLabel(self.name+"BackR")
 		shape = objs[-1]
@@ -116,8 +112,7 @@ class FrameSpacers(object):
 		App.ActiveDocument.addObject('Part::Feature',self.name+"FrontR").Shape = shape.Shape
 		
 		#Color Part
-		Gui.ActiveDocument.getObject(self.name+"FrontR").ShapeColor = (gv.frameR,gv.frameG,gv.frameB,gv.frameA)
-		
+
 		#Get the feature and move it into position
 		objs = App.ActiveDocument.getObjectsByLabel(self.name+"FrontR")
 		shape = objs[-1]
@@ -134,13 +129,10 @@ class FrameSpacers(object):
 
 	def draw(self):
 		try:
-			Gui.getDocument(self.name)
-			Gui.getDocument(self.name).resetEdit()
 			App.getDocument(self.name).recompute()
 			App.closeDocument(self.name)
 			App.setActiveDocument("")
 			App.ActiveDocument=None
-			Gui.ActiveDocument=None	
 		except:
 			pass
 
@@ -148,8 +140,7 @@ class FrameSpacers(object):
 		App.newDocument(self.name)
 		App.setActiveDocument(self.name)
 		App.ActiveDocument=App.getDocument(self.name)
-		Gui.ActiveDocument=Gui.getDocument(self.name)
-		
+
 		#extrude crossBarTop
 		uf.extrudeFrameMember(self.name, gv.frameSpacerLength)
 		

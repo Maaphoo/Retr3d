@@ -19,7 +19,6 @@ from __future__ import division  # allows floating point division from integers
 
 # import FreeCAD modules
 import FreeCAD as App
-import FreeCADGui as Gui
 import Part
 import Sketcher
 import Draft
@@ -61,13 +60,10 @@ class XRodBottom(object):
 
     def draw(self):
         try:
-            Gui.getDocument('xRodBottom')
-            Gui.getDocument('xRodBottom').resetEdit()
             App.getDocument('xRodBottom').recompute()
             App.closeDocument("xRodBottom")
             App.setActiveDocument("")
             App.ActiveDocument = None
-            Gui.ActiveDocument = None
         except:
             pass
 
@@ -75,14 +71,11 @@ class XRodBottom(object):
         App.newDocument("xRodBottom")
         App.setActiveDocument("xRodBottom")
         App.ActiveDocument = App.getDocument("xRodBottom")
-        Gui.ActiveDocument = Gui.getDocument("xRodBottom")
 
         # make sketch
         App.activeDocument().addObject('Sketcher::SketchObject', 'Sketch')
         App.activeDocument().Sketch.Placement = App.Placement(App.Vector(0.000000, 0.000000, 0.000000),
                                                               App.Rotation(0.500000, 0.500000, 0.500000, 0.500000))
-        # Gui.activeDocument().activeView().setCamera('#Inventor V2.1 ascii \n OrthographicCamera {\n viewportMapping ADJUST_CAMERA\n  position 87 0 0 \n  orientation 0.57735026 0.57735026 0.57735026  2.0943952 \n  nearDistance -112.887\n  farDistance 287.28699\n  aspectRatio 1\n  focalDistance 87\n  height 143.52005\n\n}')
-        # Gui.activeDocument().setEdit('Sketch')
         App.ActiveDocument.Sketch.addGeometry(
             Part.Circle(App.Vector(50, 50, 0), App.Vector(0, 0, 1), gv.xRodDiaBottom / 2))
         App.ActiveDocument.recompute()
@@ -90,7 +83,6 @@ class XRodBottom(object):
         App.ActiveDocument.recompute()
         App.ActiveDocument.Sketch.addConstraint(Sketcher.Constraint('Radius', 0, gv.xRodDiaBottom / 2))
         App.ActiveDocument.recompute()
-        # Gui.getDocument('xRodBottom').resetEdit()
         App.getDocument('xRodBottom').recompute()
 
         # Pad sketch
@@ -98,7 +90,6 @@ class XRodBottom(object):
         App.activeDocument().Pad.Sketch = App.activeDocument().Sketch
         App.activeDocument().Pad.Length = 10.0
         App.ActiveDocument.recompute()
-        Gui.activeDocument().hide("Sketch")
         App.ActiveDocument.Pad.Length = gv.xRodLength
         App.ActiveDocument.Pad.Reversed = 0
         App.ActiveDocument.Pad.Midplane = 0
@@ -107,8 +98,6 @@ class XRodBottom(object):
         App.ActiveDocument.Pad.UpToFace = None
         App.ActiveDocument.recompute()
 
-        # Gui.activeDocument().resetEdit()
 
         # set view as axiometric
 
-# Gui.activeDocument().activeView().viewAxometric()

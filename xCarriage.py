@@ -22,7 +22,6 @@ from itertools import product
 
 #import FreeCAD modules
 import FreeCAD as App
-import FreeCADGui as Gui
 import Part
 import Sketcher
 import Draft
@@ -44,12 +43,10 @@ class XCarriage(object):
 		App.ActiveDocument=App.getDocument(self.name)
 		shape = App.ActiveDocument.ActiveObject.Shape
 		App.ActiveDocument=App.getDocument("PrinterAssembly")
-		Gui.ActiveDocument=Gui.getDocument("PrinterAssembly")
 		App.ActiveDocument.addObject('Part::Feature',self.name).Shape= shape
 		
 		#Color Part
-		Gui.ActiveDocument.getObject(self.name).ShapeColor = (gv.printedR,gv.printedG,gv.printedB,gv.printedA)
-		
+
 		#Rotate into correct orientation
 		rotateAngle = -90
 		rotateCenter = App.Vector(0,0,0)
@@ -84,13 +81,10 @@ class XCarriage(object):
 		
 		#Check to see if the part is already open
 		try:
-			Gui.getDocument(self.name)
-			Gui.getDocument(self.name).resetEdit()
 			App.getDocument(self.name).recompute()
 			App.closeDocument(self.name)
 			App.setActiveDocument("")
 			App.ActiveDocument=None
-			Gui.ActiveDocument=None	
 		except:
 			pass
 		
@@ -98,8 +92,7 @@ class XCarriage(object):
 		App.newDocument(self.name)
 		App.setActiveDocument(self.name)
 		App.ActiveDocument=App.getDocument(self.name)
-		Gui.ActiveDocument=Gui.getDocument(self.name)
-		
+
 		#profile sketch points
 		p1x = 0
 		p1y = 0
@@ -128,8 +121,6 @@ class XCarriage(object):
 
 		App.activeDocument().addObject('Sketcher::SketchObject','Sketch')
 		App.activeDocument().Sketch.Placement = App.Placement(App.Vector(0.000000,0.000000,0.000000),App.Rotation(0.500000,0.500000,0.500000,0.500000))
-		Gui.activeDocument().activeView().setCamera('#Inventor V2.1 ascii \n OrthographicCamera {\n viewportMapping ADJUST_CAMERA\n  position 87 0 0 \n  orientation 0.57735026 0.57735026 0.57735026  2.0943952 \n  nearDistance -112.887\n  farDistance 287.28699\n  aspectRatio 1\n  focalDistance 87\n  height 143.52005\n\n}')
-#		Gui.activeDocument().setEdit('Sketch')
 		App.ActiveDocument.Sketch.addGeometry(Part.Line(App.Vector(p1x, p1y,0),App.Vector(p2x,p2y,0)))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch.addGeometry(Part.ArcOfCircle(Part.Circle(App.Vector(p3x,p3y,0),App.Vector(0,0,1),gv.xCarriageBushingHolderOR),0,math.pi))
@@ -224,7 +215,6 @@ class XCarriage(object):
 		App.ActiveDocument.Sketch.addConstraint(Sketcher.Constraint('Distance',1,3,6,3,gv.xRodSpacing)) 
 		App.ActiveDocument.Sketch.addConstraint(Sketcher.Constraint('Radius',1,gv.xCarriageBushingHolderOR)) 
 		App.ActiveDocument.Sketch.addConstraint(Sketcher.Constraint('Distance',4,2,8,gv.xCarriageThickness)) 
-#		Gui.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 
 		#pad Sketch
@@ -233,15 +223,12 @@ class XCarriage(object):
 		App.activeDocument().Pad.Sketch = App.activeDocument().Sketch
 		App.activeDocument().Pad.Length = 10.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch")
-#		Gui.activeDocument().setEdit('Pad',1)
 		App.ActiveDocument.Pad.Length = gv.xCarriageWidth #width of face
 		App.ActiveDocument.Pad.Reversed = 0
 		App.ActiveDocument.Pad.Midplane = 0
 		App.ActiveDocument.Pad.Length2 = 100.000000
  		App.ActiveDocument.Pad.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
 
 		#sketch profiles for cutting away extra bushing holder material
 
@@ -284,7 +271,6 @@ class XCarriage(object):
 															None,None, 
 															gv.xCarriageThickness,0)
 		App.activeDocument().recompute()
-#		Gui.activeDocument().setEdit('Sketch001')
 		App.ActiveDocument.Sketch001.addExternal("Pad",uf.getEdge(App.ActiveDocument.Pad,
  																  gv.xCarriageWidth/2,0,
  																  height,0,
@@ -359,7 +345,6 @@ class XCarriage(object):
 
 		#Add dimmensions
 		App.ActiveDocument.Sketch001.addConstraint(Sketcher.Constraint('Distance',6,2,9,2,gv.xBushingNutMaxThickness+gv.bushingNutPadding))
-#		Gui.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 
 
@@ -368,26 +353,16 @@ class XCarriage(object):
 		App.activeDocument().Pocket.Sketch = App.activeDocument().Sketch001
 		App.activeDocument().Pocket.Length = 5.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch001")
-		Gui.activeDocument().hide("Pad")
-#		Gui.ActiveDocument.Pocket.ShapeColor=Gui.ActiveDocument.Pad.ShapeColor
-#		Gui.ActiveDocument.Pocket.LineColor=Gui.ActiveDocument.Pad.LineColor
-#		Gui.ActiveDocument.Pocket.PointColor=Gui.ActiveDocument.Pad.PointColor
 		App.ActiveDocument.Pocket.Length = 5.000000
 		App.ActiveDocument.Pocket.Type = 1
 		App.ActiveDocument.Pocket.UpToFace = None
 		App.getDocument(self.name).getObject("Pocket").Reversed = True
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
 
 		#Refine Shape
 		App.ActiveDocument.addObject('Part::Feature','Pocket001').Shape=App.ActiveDocument.Pocket.Shape.removeSplitter()
 		App.ActiveDocument.ActiveObject.Label=App.ActiveDocument.Pocket001.Label
-		Gui.ActiveDocument.Pocket.hide()
 
-		Gui.ActiveDocument.ActiveObject.ShapeColor=Gui.ActiveDocument.Pocket.ShapeColor
-		Gui.ActiveDocument.ActiveObject.LineColor=Gui.ActiveDocument.Pocket.LineColor
-		Gui.ActiveDocument.ActiveObject.PointColor=Gui.ActiveDocument.Pocket.PointColor
 		App.ActiveDocument.recompute()
 
 
@@ -404,8 +379,7 @@ class XCarriage(object):
 															None,None, 
 															None,None) 
 		App.activeDocument().recompute()
-		#Gui.activeDocument().setEdit('Sketch002')
-		App.ActiveDocument.Sketch002.addExternal("Pocket001",uf.getEdge(App.ActiveDocument.Pocket001, 
+		App.ActiveDocument.Sketch002.addExternal("Pocket001",uf.getEdge(App.ActiveDocument.Pocket001,
  																  gv.xCarriageWidth,0,
  																  None,None,
  																  gv.xCarriageThickness+gv.xCarriageBushingHolderOR,1))
@@ -415,7 +389,6 @@ class XCarriage(object):
 
 		#add dimensions
 		App.ActiveDocument.Sketch002.addConstraint(Sketcher.Constraint('Radius',0,gv.xRodDiaTop/2+1))#top rod dia with 1mm gap around it
-#		Gui.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 
 		#Cut hole through all
@@ -423,16 +396,10 @@ class XCarriage(object):
 		App.activeDocument().Pocket002.Sketch = App.activeDocument().Sketch002
 		App.activeDocument().Pocket002.Length = 5.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch002")
-		Gui.activeDocument().hide("Pocket001")
-#		Gui.ActiveDocument.Pocket002.ShapeColor=Gui.ActiveDocument.Pocket001.ShapeColor
-#		Gui.ActiveDocument.Pocket002.LineColor=Gui.ActiveDocument.Pocket001.LineColor
-#		Gui.ActiveDocument.Pocket002.PointColor=Gui.ActiveDocument.Pocket001.PointColor
 		App.ActiveDocument.Pocket002.Length = 5.000000
 		App.ActiveDocument.Pocket002.Type = 1
 		App.ActiveDocument.Pocket002.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
 
 		#cut hole for bottom x axis rod
 
@@ -447,8 +414,7 @@ class XCarriage(object):
 															None, None,
 															None, None)# (App.ActiveDocument.Pocket002,["Face6"])
 		App.activeDocument().recompute()
-#		Gui.activeDocument().setEdit('Sketch003')
-		
+
 		#xCarriage chokes Here
 		App.ActiveDocument.Sketch003.addExternal("Pocket002",uf.getEdge(App.ActiveDocument.Pocket002,
  																  gv.xCarriageWidth/2,1,
@@ -460,24 +426,17 @@ class XCarriage(object):
 
 		#add dimensions
 		App.ActiveDocument.Sketch003.addConstraint(Sketcher.Constraint('Radius',0,gv.xRodDiaBottom/2+1))
-#		Gui.getDocument(self.name).resetEdit()
-		App.getDocument(self.name).recompute() 
+		App.getDocument(self.name).recompute()
 
 		#make cut through all
 		App.activeDocument().addObject("PartDesign::Pocket","Pocket003")
 		App.activeDocument().Pocket003.Sketch = App.activeDocument().Sketch003
 		App.activeDocument().Pocket003.Length = 5.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch003")
-		Gui.activeDocument().hide("Pocket002")
-#		Gui.ActiveDocument.Pocket003.ShapeColor=Gui.ActiveDocument.Pocket001.ShapeColor
-#		Gui.ActiveDocument.Pocket003.LineColor=Gui.ActiveDocument.Pocket001.LineColor
-#		Gui.ActiveDocument.Pocket003.PointColor=Gui.ActiveDocument.Pocket001.PointColor
 		App.ActiveDocument.Pocket003.Length = 5.000000
 		App.ActiveDocument.Pocket003.Type = 1
 		App.ActiveDocument.Pocket003.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
 
 		#Cut out bushing nut trap
 
@@ -510,8 +469,7 @@ class XCarriage(object):
 															None,None, 
 															None,None) #(App.ActiveDocument.Pocket003,["Face7"])
 		App.activeDocument().recompute()
-#		Gui.activeDocument().setEdit('Sketch004')
-		App.ActiveDocument.Sketch004.addExternal("Pocket003",uf.getEdge(App.ActiveDocument.Pocket003, 
+		App.ActiveDocument.Sketch004.addExternal("Pocket003",uf.getEdge(App.ActiveDocument.Pocket003,
  																  gv.xCarriageWidth,0,
  																  None,None,
  																  gv.xCarriageThickness+gv.xCarriageBushingHolderOR,1))
@@ -561,7 +519,6 @@ class XCarriage(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch004.addConstraint(Sketcher.Constraint('Distance',0,2,4,gv.xBushingNutTop[2])) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 
 		#make Pocket
@@ -569,16 +526,10 @@ class XCarriage(object):
 		App.activeDocument().Pocket004.Sketch = App.activeDocument().Sketch004
 		App.activeDocument().Pocket004.Length = 5.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch004")
-		Gui.activeDocument().hide("Pocket003")
-#		Gui.ActiveDocument.Pocket004.ShapeColor=Gui.ActiveDocument.Pocket003.ShapeColor
-#		Gui.ActiveDocument.Pocket004.LineColor=Gui.ActiveDocument.Pocket003.LineColor
-#		Gui.ActiveDocument.Pocket004.PointColor=Gui.ActiveDocument.Pocket003.PointColor
 		App.ActiveDocument.Pocket004.Length = gv.xBushingNutTop[3] #nut thickness top
 		App.ActiveDocument.Pocket004.Type = 0
 		App.ActiveDocument.Pocket004.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
 
 		#cut nut trap on other top bushing holder
 		#sketch points
@@ -609,7 +560,6 @@ class XCarriage(object):
 															None,None, 
 															None,None)#(App.ActiveDocument.Pocket004,["Face2"])
 		App.activeDocument().recompute()
-#		Gui.activeDocument().setEdit('Sketch005')
 
 		App.ActiveDocument.Sketch005.addExternal("Pocket004",uf.getEdge(App.ActiveDocument.Pocket004, 
  																  0,0,
@@ -662,7 +612,6 @@ class XCarriage(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch005.addConstraint(Sketcher.Constraint('Distance',0,2,4,gv.xBushingNutTop[2])) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 
 		#make pocket for second bushing nut trap
@@ -670,16 +619,10 @@ class XCarriage(object):
 		App.activeDocument().Pocket005.Sketch = App.activeDocument().Sketch005
 		App.activeDocument().Pocket005.Length = 5.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch005")
-		Gui.activeDocument().hide("Pocket004")
-#		Gui.ActiveDocument.Pocket005.ShapeColor=Gui.ActiveDocument.Pocket004.ShapeColor
-#		Gui.ActiveDocument.Pocket005.LineColor=Gui.ActiveDocument.Pocket004.LineColor
-#		Gui.ActiveDocument.Pocket005.PointColor=Gui.ActiveDocument.Pocket004.PointColor
 		App.ActiveDocument.Pocket005.Length = gv.xBushingNutTop[3]
 		App.ActiveDocument.Pocket005.Type = 0
 		App.ActiveDocument.Pocket005.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
 
 
 		#Make pocket for lower bushing nut
@@ -711,8 +654,7 @@ class XCarriage(object):
 															None,None, 
 															None,None)# (App.ActiveDocument.Pocket005,["Face6"])
 		App.activeDocument().recompute()
-#		Gui.activeDocument().setEdit('Sketch006')
-		App.ActiveDocument.Sketch006.addExternal("Pocket005",uf.getEdge(App.ActiveDocument.Pocket005, 
+		App.ActiveDocument.Sketch006.addExternal("Pocket005",uf.getEdge(App.ActiveDocument.Pocket005,
  																  gv.xCarriageWidth/2,1,
  																  gv.xCarriageBushingHolderOR,0,
  																  gv.xCarriageThickness+gv.xCarriageBushingHolderOR,1))
@@ -762,7 +704,6 @@ class XCarriage(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch006.addConstraint(Sketcher.Constraint('Distance',0,2,4,gv.xBushingNutBottom[2])) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 
 		#make pocket for second bushing nut trap
@@ -770,16 +711,10 @@ class XCarriage(object):
 		App.activeDocument().Pocket006.Sketch = App.activeDocument().Sketch006
 		App.activeDocument().Pocket006.Length = 5.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch006")
-		Gui.activeDocument().hide("Pocket005")
-#		Gui.ActiveDocument.Pocket006.ShapeColor=Gui.ActiveDocument.Pocket005.ShapeColor
-#		Gui.ActiveDocument.Pocket006.LineColor=Gui.ActiveDocument.Pocket005.LineColor
-#		Gui.ActiveDocument.Pocket006.PointColor=Gui.ActiveDocument.Pocket005.PointColor
 		App.ActiveDocument.Pocket006.Length = gv.xBushingNutBottom[3]
 		App.ActiveDocument.Pocket006.Type = 0
 		App.ActiveDocument.Pocket006.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
 
 
 		#Make extruder mounting holes
@@ -800,8 +735,7 @@ class XCarriage(object):
 															None,None, 
 															gv.xCarriageThickness,0)#(App.ActiveDocument.Pocket006,["Face3"])
 		App.activeDocument().recompute()
-#		Gui.activeDocument().setEdit('Sketch007')
-		App.ActiveDocument.Sketch007.addExternal("Pocket006",uf.getEdge(App.ActiveDocument.Pocket006, 
+		App.ActiveDocument.Sketch007.addExternal("Pocket006",uf.getEdge(App.ActiveDocument.Pocket006,
  																  gv.xCarriageWidth,0,
  																  height/2,-1,
  																  gv.xCarriageThickness,0))
@@ -842,7 +776,6 @@ class XCarriage(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch007.addConstraint(Sketcher.Constraint('DistanceX',0,gv.xCarriageMountHoleHorizOffset)) 
 		App.ActiveDocument.recompute()
-		Gui.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 
 		#Make cut through all
@@ -850,16 +783,10 @@ class XCarriage(object):
 		App.activeDocument().Pocket007.Sketch = App.activeDocument().Sketch007
 		App.activeDocument().Pocket007.Length = 5.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch007")
-		Gui.activeDocument().hide("Pocket006")
-#		Gui.ActiveDocument.Pocket007.ShapeColor=Gui.ActiveDocument.Pocket006.ShapeColor
-#		Gui.ActiveDocument.Pocket007.LineColor=Gui.ActiveDocument.Pocket006.LineColor
-#		Gui.ActiveDocument.Pocket007.PointColor=Gui.ActiveDocument.Pocket006.PointColor
 		App.ActiveDocument.Pocket007.Length = 5.000000
 		App.ActiveDocument.Pocket007.Type = 1
 		App.ActiveDocument.Pocket007.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()		
 
 
 		#Make wings on sides of xCarriage
@@ -884,8 +811,7 @@ class XCarriage(object):
 															None,None, 
 															0,0)#(App.ActiveDocument.Pocket007,["Face8"])
 		App.activeDocument().recompute()
-#		Gui.activeDocument().setEdit('Sketch008')
-		App.ActiveDocument.Sketch008.addExternal("Pocket007",uf.getEdge(App.ActiveDocument.Pocket007, 
+		App.ActiveDocument.Sketch008.addExternal("Pocket007",uf.getEdge(App.ActiveDocument.Pocket007,
  																  gv.xCarriageWidth,0,
  																  height/2,0,
  																  0,0))
@@ -917,19 +843,13 @@ class XCarriage(object):
 		#add dimensions
 		App.ActiveDocument.Sketch008.addConstraint(Sketcher.Constraint('DistanceX',4,-gv.xCarriageWingWidth)) 
 		App.ActiveDocument.Sketch008.addConstraint(Sketcher.Constraint('DistanceY',5,gv.xCarriageWingHeight))
-#		Gui.getDocument(self.name).resetEdit()
-		App.getDocument(self.name).recompute() 
+		App.getDocument(self.name).recompute()
 
 		#Pad to thickness of xCarriage face
 		App.activeDocument().addObject("PartDesign::Pad","Pad001")
 		App.activeDocument().Pad001.Sketch = App.activeDocument().Sketch008
 		App.activeDocument().Pad001.Length = 10.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch008")
-		Gui.activeDocument().hide("Pocket007")
-#		Gui.ActiveDocument.Pad001.ShapeColor=Gui.ActiveDocument.Pocket007.ShapeColor
-#		Gui.ActiveDocument.Pad001.LineColor=Gui.ActiveDocument.Pocket007.LineColor
-#		Gui.ActiveDocument.Pad001.PointColor=Gui.ActiveDocument.Pocket007.PointColor
 		App.ActiveDocument.Pad001.Length = gv.xCarriageThickness #thickness of xCarriage face
 		App.ActiveDocument.Pad001.Reversed = 1
 		App.ActiveDocument.Pad001.Midplane = 0
@@ -937,15 +857,10 @@ class XCarriage(object):
 		App.ActiveDocument.Pad001.Type = 0
 		App.ActiveDocument.Pad001.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
 
 		#Refine Shape
 		App.ActiveDocument.addObject('Part::Feature','Pad002').Shape=App.ActiveDocument.Pad001.Shape.removeSplitter()
 		App.ActiveDocument.ActiveObject.Label=App.ActiveDocument.Pad002.Label
-		Gui.ActiveDocument.Pad001.hide()
-#		Gui.ActiveDocument.ActiveObject.ShapeColor=Gui.ActiveDocument.Pad001.ShapeColor
-#		Gui.ActiveDocument.ActiveObject.LineColor=Gui.ActiveDocument.Pad001.LineColor
-#		Gui.ActiveDocument.ActiveObject.PointColor=Gui.ActiveDocument.Pad001.PointColor
 		App.ActiveDocument.recompute()
 		
 		#Make Belt Anchor
@@ -966,7 +881,6 @@ class XCarriage(object):
 															None,None, 
 															gv.xCarriageThickness,0)#(App.ActiveDocument.Pad002,["Face3"])
 		App.activeDocument().recompute()
-#		Gui.activeDocument().setEdit('Sketch009')
 		#App.ActiveDocument.Sketch009.addExternal("Pad002","Edge30")
 
 		App.ActiveDocument.Sketch009.addExternal("Pad002",uf.getEdge(App.ActiveDocument.Pad002, 
@@ -998,7 +912,6 @@ class XCarriage(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch009.addConstraint(Sketcher.Constraint('DistanceY',-1,1,0,2,p1y)) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument(self.name).resetEdit()
 		App.getDocument(self.name).recompute()
 		
 		#Extrude Anchor Block
@@ -1006,11 +919,6 @@ class XCarriage(object):
 		App.activeDocument().Pad003.Sketch = App.activeDocument().Sketch009
 		App.activeDocument().Pad003.Length = 10.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch009")
-		Gui.activeDocument().hide("Pad002")
-#		Gui.ActiveDocument.Pad003.ShapeColor=Gui.ActiveDocument.Pad002.ShapeColor
-#		Gui.ActiveDocument.Pad003.LineColor=Gui.ActiveDocument.Pad002.LineColor
-#		Gui.ActiveDocument.Pad003.PointColor=Gui.ActiveDocument.Pad002.PointColor
 		App.ActiveDocument.Pad003.Length = gv.xBeltAnchorHeight
 		App.ActiveDocument.Pad003.Reversed = 0
 		App.ActiveDocument.Pad003.Midplane = 0
@@ -1018,16 +926,11 @@ class XCarriage(object):
 		App.ActiveDocument.Pad003.Type = 0
 		App.ActiveDocument.Pad003.UpToFace = None
 		App.ActiveDocument.recompute()
-#		Gui.activeDocument().resetEdit()
-		
+
 		#Refine Shape
 		App.ActiveDocument.addObject('Part::Feature','Pad004').Shape=App.ActiveDocument.Pad003.Shape.removeSplitter()
 		App.ActiveDocument.ActiveObject.Label=App.ActiveDocument.Pad004.Label
-		Gui.ActiveDocument.Pad003.hide()
 
-#		Gui.ActiveDocument.ActiveObject.ShapeColor=Gui.ActiveDocument.Pad003.ShapeColor
-#		Gui.ActiveDocument.ActiveObject.LineColor=Gui.ActiveDocument.Pad003.LineColor
-#		Gui.ActiveDocument.ActiveObject.PointColor=Gui.ActiveDocument.Pad003.PointColor
 		App.ActiveDocument.recompute()
 		
 		#Cut away material between columns
@@ -1051,7 +954,6 @@ class XCarriage(object):
 															gv.xCarriageBushingHolderOR+gv.xRodSpacing/2+gv.xMotorPulleyDia/2+gv.xBeltAnchorThickness/2,0, 
 															None, None)#(App.ActiveDocument.Pad004,["Face43"])
 		App.activeDocument().recompute()
-#		Gui.activeDocument().setEdit('Sketch010')
 		#App.ActiveDocument.Sketch010.addExternal("Pad004","Edge127")
 		App.ActiveDocument.Sketch010.addExternal("Pad004",uf.getEdge(App.ActiveDocument.Pad004, 
  																  gv.xCarriageWidth/2,0,
@@ -1084,7 +986,6 @@ class XCarriage(object):
 		App.ActiveDocument.Sketch010.addConstraint(Sketcher.Constraint('Coincident',2,2,3,1)) 
 		App.ActiveDocument.Sketch010.addConstraint(Sketcher.Constraint('Coincident',3,2,0,1)) 
 		App.ActiveDocument.recompute()
-		Gui.getDocument("xCarriage").getObject("Pad004").Visibility=False
 		App.ActiveDocument.Sketch010.addGeometry(Part.Point(App.Vector(p5x,p5y,0)))
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch010.addConstraint(Sketcher.Constraint('Symmetric',-3,1,-3,2,4,1)) 
@@ -1104,7 +1005,6 @@ class XCarriage(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch010.addConstraint(Sketcher.Constraint('DistanceX',-2,1,2,2,-gv.xBeltAnchorWidthBottom)) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument('xCarriage').resetEdit()
 #		App.getDocument('xCarriage').recompute()
 
 		#Cut away excess material
@@ -1112,25 +1012,14 @@ class XCarriage(object):
 		App.activeDocument().Pocket008.Sketch = App.activeDocument().Sketch010
 #		App.activeDocument().Pocket008.Length = 5.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch010")
-		Gui.activeDocument().hide("Pad004")
-#		Gui.activeDocument().setEdit('Pocket008')
-		Gui.ActiveDocument.Pocket008.ShapeColor=Gui.ActiveDocument.Pad004.ShapeColor
-		Gui.ActiveDocument.Pocket008.LineColor=Gui.ActiveDocument.Pad004.LineColor
-		Gui.ActiveDocument.Pocket008.PointColor=Gui.ActiveDocument.Pad004.PointColor
 		App.ActiveDocument.Pocket008.Length = gv.xBeltAnchorThickness
 		App.ActiveDocument.Pocket008.Type = 0
 		App.ActiveDocument.Pocket008.UpToFace = (App.ActiveDocument.Pad004,["Face23"])
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().resetEdit()
-		
+
 		#Refine Shape
 		App.ActiveDocument.addObject('Part::Feature','Pocket009').Shape=App.ActiveDocument.Pocket008.Shape.removeSplitter()
 		App.ActiveDocument.ActiveObject.Label=App.ActiveDocument.Pocket009.Label
-		Gui.ActiveDocument.Pocket008.hide()
-#		Gui.ActiveDocument.ActiveObject.ShapeColor=Gui.ActiveDocument.Pocket008.ShapeColor
-#		Gui.ActiveDocument.ActiveObject.LineColor=Gui.ActiveDocument.Pocket008.LineColor
-#		Gui.ActiveDocument.ActiveObject.PointColor=Gui.ActiveDocument.Pocket008.PointColor
 		App.ActiveDocument.recompute()
 		
 		#Cut slots in Belt anchors
@@ -1164,8 +1053,7 @@ class XCarriage(object):
 															None, None)#(App.ActiveDocument.Pocket009,["Face32"])	
 
 		App.activeDocument().recompute()
-#		Gui.activeDocument().setEdit('Sketch011')
-		App.ActiveDocument.Sketch011.addExternal("Pocket009",uf.getEdge(App.ActiveDocument.Pocket009, 
+		App.ActiveDocument.Sketch011.addExternal("Pocket009",uf.getEdge(App.ActiveDocument.Pocket009,
  																  gv.xBeltAnchorWidthTop/2,0,
  																  gv.xCarriageBushingHolderOR+gv.xRodSpacing/2+gv.xMotorPulleyDia/2-gv.xBeltAnchorThickness/2, 0,
  																  gv.xCarriageThickness+gv.xBeltAnchorHeight,0))
@@ -1240,7 +1128,6 @@ class XCarriage(object):
 		App.ActiveDocument.recompute()
 		App.ActiveDocument.Sketch011.addConstraint(Sketcher.Constraint('Distance',2,2,-3,gv.xBeltAnchorBridgeThickness)) 
 		App.ActiveDocument.recompute()
-#		Gui.getDocument('xCarriage').resetEdit()
 		App.getDocument('xCarriage').recompute()
 		
 		#Cut slots
@@ -1248,27 +1135,16 @@ class XCarriage(object):
 		App.activeDocument().Pocket010.Sketch = App.activeDocument().Sketch011
 		App.activeDocument().Pocket010.Length = 5.0
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch011")
-		Gui.activeDocument().hide("Pocket009")
-#		Gui.ActiveDocument.Pocket010.ShapeColor=Gui.ActiveDocument.Pocket009.ShapeColor
-#		Gui.ActiveDocument.Pocket010.LineColor=Gui.ActiveDocument.Pocket009.LineColor
-#		Gui.ActiveDocument.Pocket010.PointColor=Gui.ActiveDocument.Pocket009.PointColor
 		App.ActiveDocument.Pocket010.Length = gv.xBeltAnchorThickness
 		App.ActiveDocument.Pocket010.Type = 0
 		App.ActiveDocument.Pocket010.UpToFace = None
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().resetEdit()
 
 		#Refine Shape
 		App.ActiveDocument.addObject('Part::Feature','Pocket011').Shape=App.ActiveDocument.Pocket010.Shape.removeSplitter()
 		App.ActiveDocument.ActiveObject.Label=App.ActiveDocument.Pocket011.Label
-		Gui.ActiveDocument.Pocket010.hide()
-#		Gui.ActiveDocument.ActiveObject.ShapeColor=Gui.ActiveDocument.Pocket010.ShapeColor
-#		Gui.ActiveDocument.ActiveObject.LineColor=Gui.ActiveDocument.Pocket010.LineColor
-#		Gui.ActiveDocument.ActiveObject.PointColor=Gui.ActiveDocument.Pocket010.PointColor
 		App.ActiveDocument.recompute()
 
 
 		#set View as axometric
-#		Gui.activeDocument().activeView().viewAxometric()
 

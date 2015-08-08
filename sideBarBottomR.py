@@ -22,7 +22,7 @@ from itertools import product
 
 #import FreeCAD modules
 import FreeCAD as App
-import FreeCADGui as Gui
+import FreeCAD# as #
 import Part
 import Sketcher
 import Draft
@@ -39,12 +39,10 @@ class SideBarBottomR(object):
 		App.ActiveDocument=App.getDocument(self.name)
 		shape = App.ActiveDocument.ActiveObject.Shape
 		App.ActiveDocument=App.getDocument("PrinterAssembly")
-		Gui.ActiveDocument=Gui.getDocument("PrinterAssembly")
 		App.ActiveDocument.addObject('Part::Feature',self.name).Shape= shape
 		
 		#Color Part
-		Gui.ActiveDocument.getObject(self.name).ShapeColor = (gv.frameR,gv.frameG,gv.frameB,gv.frameA)
-		
+
 		#Get the feature and move it into position
 		objs = App.ActiveDocument.getObjectsByLabel(self.name)
 		shape = objs[-1]		
@@ -67,13 +65,10 @@ class SideBarBottomR(object):
 
 	def draw(self):
 		try:
-			Gui.getDocument(self.name)
-			Gui.getDocument(self.name).resetEdit()
 			App.getDocument(self.name).recompute()
 			App.closeDocument(self.name)
 			App.setActiveDocument("")
 			App.ActiveDocument=None
-			Gui.ActiveDocument=None	
 		except:
 			pass
 
@@ -81,8 +76,7 @@ class SideBarBottomR(object):
 		App.newDocument(self.name)
 		App.setActiveDocument(self.name)
 		App.ActiveDocument=App.getDocument(self.name)
-		Gui.ActiveDocument=Gui.getDocument(self.name)
-		
+
 		#extrude crossBarBottom
 		uf.extrudeFrameMember(self.name, gv.sideBarLength)
 		
