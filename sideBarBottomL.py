@@ -144,9 +144,9 @@ class SideBarBottomL(object):
 		App.activeDocument().addObject("PartDesign::Pocket","Pocket")
 		App.activeDocument().Pocket.Sketch = App.activeDocument().Sketch001
 		App.ActiveDocument.recompute()
-		Gui.activeDocument().hide("Sketch001")
-		Gui.activeDocument().hide("Pad")
-# 		Gui.activeDocument().setEdit('Pocket')
+		# Gui.activeDocument().hide("Sketch001")
+		# Gui.activeDocument().hide("Pad")
+		# Gui.activeDocument().setEdit('Pocket')
 # 		Gui.ActiveDocument.Pocket.ShapeColor=Gui.ActiveDocument.Pad.ShapeColor
 # 		Gui.ActiveDocument.Pocket.LineColor=Gui.ActiveDocument.Pad.LineColor
 # 		Gui.ActiveDocument.Pocket.PointColor=Gui.ActiveDocument.Pad.PointColor
