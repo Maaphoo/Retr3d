@@ -36,34 +36,147 @@ class LeadScrewCoupler(object):
         self.name = "leadScrewCoupler"
 
     def assemble(self):
+        # Add first leadScrewCoupler
         App.ActiveDocument=App.getDocument(self.name)
         shape = App.ActiveDocument.ActiveObject.Shape
         App.ActiveDocument=App.getDocument("PrinterAssembly")
-        App.ActiveDocument.addObject('Part::Feature',self.name).Shape= shape
+        App.ActiveDocument.addObject('Part::Feature',self.name+"1").Shape= shape
         
         #Color Part
 
-        #Get the feature and move it into position
-        objs = App.ActiveDocument.getObjectsByLabel(self.name)
+        # Get the feature and move it into position
+        objs = App.ActiveDocument.getObjectsByLabel(self.name+"1")
         shape = objs[-1]        
         
-        #Rotate into correct orientation
-        rotateAngle = 0
+        # Rotate into correct orientation
+        rotateAngle = 90
+        rotateCenter = App.Vector(0,0,0)
+        rotateAxis = App.Vector(1,0,0)
+        Draft.rotate([shape],rotateAngle,rotateCenter,axis = rotateAxis,copy=False)
+
+        # Define shifts and move the left clamp into place
+        xShift = -gv.zRodSpacing/2 + gv.zRodZScrewDist
+        yShift = gv.extruderNozzleStandoff - gv.zRodStandoff+(gv.leadScrewCouplerBaseThicnkess
+                        +(gv.leadScrewCouplerScrewClampDia if gv.leadScrewCouplerScrewClampDia > gv.leadScrewCouplerShaftClampDia else gv.leadScrewCouplerShaftClampDia)/2)
+        zShift = (gv.leadScrewCouplerLength/2
+                  - gv.yRodStandoff
+                  +gv.zMotorMountPlateThickness
+                  +gv.leadScrewCouplerGap)
+
+
+        # Add second leadScrewCoupler
+        App.ActiveDocument=App.getDocument("PrinterAssembly")
+        Draft.move([shape],App.Vector(xShift, yShift, zShift),copy=False)
+        App.ActiveDocument.recompute()
+        App.ActiveDocument=App.getDocument(self.name)
+        shape = App.ActiveDocument.ActiveObject.Shape
+        App.ActiveDocument=App.getDocument("PrinterAssembly")
+        App.ActiveDocument.addObject('Part::Feature',self.name+"2").Shape= shape
+
+        #Color Part
+
+        # Get the feature and move it into position
+        objs = App.ActiveDocument.getObjectsByLabel(self.name+"2")
+        shape = objs[-1]
+
+        # Rotate into correct orientation
+        rotateAngle = 90
+        rotateCenter = App.Vector(0,0,0)
+        rotateAxis = App.Vector(1,0,0)
+        Draft.rotate([shape],rotateAngle,rotateCenter,axis = rotateAxis,copy=False)
+
+        rotateAngle = 180
         rotateCenter = App.Vector(0,0,0)
         rotateAxis = App.Vector(0,0,1)
         Draft.rotate([shape],rotateAngle,rotateCenter,axis = rotateAxis,copy=False)
 
-        #Define shifts and move the left clamp into place
-        xShift = 0
-        yShift = 0
-        zShift = 0
-    
+        # Define shifts and move the left clamp into place
+        xShift = -gv.zRodSpacing/2 + gv.zRodZScrewDist
+        yShift = gv.extruderNozzleStandoff - gv.zRodStandoff -(gv.leadScrewCouplerBaseThicnkess
+                                                               +(gv.leadScrewCouplerScrewClampDia if gv.leadScrewCouplerScrewClampDia > gv.leadScrewCouplerShaftClampDia else gv.leadScrewCouplerShaftClampDia)/2)
+        zShift = (gv.leadScrewCouplerLength/2
+                  - gv.yRodStandoff
+                  +gv.zMotorMountPlateThickness
+                  +gv.leadScrewCouplerGap)
+
+
+
         App.ActiveDocument=App.getDocument("PrinterAssembly")
         Draft.move([shape],App.Vector(xShift, yShift, zShift),copy=False)
         App.ActiveDocument.recompute()
 
-        if shape not in gv.xAxisParts:
-            gv.xAxisParts.append(shape)
+
+        # Add Third leadScrewCoupler
+        App.ActiveDocument=App.getDocument(self.name)
+        shape = App.ActiveDocument.ActiveObject.Shape
+        App.ActiveDocument=App.getDocument("PrinterAssembly")
+        App.ActiveDocument.addObject('Part::Feature',self.name+"3").Shape= shape
+
+        #Color Part
+
+        # Get the feature and move it into position
+        objs = App.ActiveDocument.getObjectsByLabel(self.name+"3")
+        shape = objs[-1]
+
+        # Rotate into correct orientation
+        rotateAngle = 90
+        rotateCenter = App.Vector(0,0,0)
+        rotateAxis = App.Vector(1,0,0)
+        Draft.rotate([shape],rotateAngle,rotateCenter,axis = rotateAxis,copy=False)
+
+        rotateAngle = 180
+        rotateCenter = App.Vector(0,0,0)
+        rotateAxis = App.Vector(0,0,1)
+        Draft.rotate([shape],rotateAngle,rotateCenter,axis = rotateAxis,copy=False)
+
+        # Define shifts and move the left clamp into place
+        xShift = -(-gv.zRodSpacing/2 + gv.zRodZScrewDist)
+        yShift = gv.extruderNozzleStandoff - gv.zRodStandoff -(gv.leadScrewCouplerBaseThicnkess
+                                                               +(gv.leadScrewCouplerScrewClampDia if gv.leadScrewCouplerScrewClampDia > gv.leadScrewCouplerShaftClampDia else gv.leadScrewCouplerShaftClampDia)/2)
+        zShift = (gv.leadScrewCouplerLength/2
+                  - gv.yRodStandoff
+                  +gv.zMotorMountPlateThickness
+                  +gv.leadScrewCouplerGap)
+
+        App.ActiveDocument=App.getDocument("PrinterAssembly")
+        Draft.move([shape],App.Vector(xShift, yShift, zShift),copy=False)
+        App.ActiveDocument.recompute()
+
+
+
+        # Add 4th leadScrewCoupler
+        App.ActiveDocument=App.getDocument(self.name)
+        shape = App.ActiveDocument.ActiveObject.Shape
+        App.ActiveDocument=App.getDocument("PrinterAssembly")
+        App.ActiveDocument.addObject('Part::Feature',self.name+"4").Shape= shape
+
+        #Color Part
+
+        # Get the feature and move it into position
+        objs = App.ActiveDocument.getObjectsByLabel(self.name+"4")
+        shape = objs[-1]
+
+        # Rotate into correct orientation
+        rotateAngle = 90
+        rotateCenter = App.Vector(0,0,0)
+        rotateAxis = App.Vector(1,0,0)
+        Draft.rotate([shape],rotateAngle,rotateCenter,axis = rotateAxis,copy=False)
+
+        # Define shifts and move the left clamp into place
+        xShift = -(-gv.zRodSpacing/2 + gv.zRodZScrewDist)
+        yShift = gv.extruderNozzleStandoff - gv.zRodStandoff +(gv.leadScrewCouplerBaseThicnkess
+                                                               +(gv.leadScrewCouplerScrewClampDia if gv.leadScrewCouplerScrewClampDia > gv.leadScrewCouplerShaftClampDia else gv.leadScrewCouplerShaftClampDia)/2)
+        zShift = (gv.leadScrewCouplerLength/2
+                  - gv.yRodStandoff
+                  +gv.zMotorMountPlateThickness
+                  +gv.leadScrewCouplerGap)
+
+
+
+        App.ActiveDocument=App.getDocument("PrinterAssembly")
+        Draft.move([shape],App.Vector(xShift, yShift, zShift),copy=False)
+        App.ActiveDocument.recompute()
+
             
     def draw(self):
         #vars
