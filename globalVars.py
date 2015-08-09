@@ -27,6 +27,7 @@ printerDir = "/Path/To/Store/3D/Files/"
  
 #Output Options
 level = 2
+
 #make test hole pattern. True if you would like the test hole pattern to be included in your stl files
 printTestHolePattern = True
  
@@ -67,14 +68,14 @@ frameJointPadding = 10 #ADVANCED Required distance at frame joints for welds whi
                                                                                                                                                                            
                                                                                                                                                                            
 #Mounting nut and bolt info                                                                                                                                                
-mountToPrintedDia = 3           #Actual diameter of holes that are used to mount items to printed parts. IE other printed parts or sheet metal.                                      
-mountToFrameDia = 4.12          #Actual diameter of holes that are used to mount items to the frame. Printed parts to frame or sheet metal to frame.                                
+mountToPrintedDia = 3 #Actual diameter of holes that are used to mount items to printed parts. IE other printed parts or sheet metal.                                      
+mountToFrameDia = 4.12 #Actual diameter of holes that are used to mount items to the frame. Printed parts to frame or sheet metal to frame.                                
 mountToFrameHeadDia = 6         #Actual head diameter of bolts used to mount items to the frame.
 mountToFrameHeadThickness = 3   #Actual head Thickness of bolts used to mount items to the frame.
-mountToPrintedPadding = 3	    #ADVANCED the minimum distance between the edge of a hole and the edge of the part                                                          
-printedToFrameDia = None 	    #CALCULATED The adjusted diameter for printed parts that will be mounted to the frame.                                                      
-printedToFrameHeadDia = None    #CALCULATED The adjusted diameter for printed parts that will be mounted to the frame.                                                      
-printedToPrintedDia = None 	    #CALCULATED The adjusted diameter for printed parts mounted to other printed parts or to non frame parts                                    
+mountToPrintedPadding = 3	#ADVANCED the minimum distance between the edge of a hole and the edge of the part                                                          
+printedToFrameDia = None 	#CALCULATED The adjusted diameter for printed parts that will be mounted to the frame.                                                      
+printedToFrameHeadDia = None    #CALCULATED The adjusted diameter for printed parts that will be mounted to the frame.                                                     
+printedToPrintedDia = None 	#CALCULATED The adjusted diameter for printed parts mounted to other printed parts or to non frame parts                                    
                                                                                                                                                                            
                                                                                                                                                                            
 #rodClamps - much of this should be combined with mounting bolt info above                                                                                                 
@@ -328,9 +329,14 @@ feetBoltHeadClearanceVert = 3   #ADVANCED The distance between the top of the bo
 feetBoltHeadClearanceHor = 0.5  #ADVANCED The gap between the bolt head and the wall of the pocket
 feetDraftAngle = 5              #ADVANCED The angle of draft on the feet. This makes the feet taper.
 
-#LeadScrewCoupler vars                                                                                                                                                     
-leadScrewCouplerLength = 25 #The length (vertical axis) of the leadScrewCouplers                                                                                           
-leadScrewCouplerGap = 5 #The space above and below the leadScrewCoupler. For keeping the coupler from  crashing into zMotor mount plate or xCarriage                       
+#LeadScrewCoupler vars
+leadScrewCouplerLength = 25         #The length (vertical axis) of the leadScrewCouplers 
+leadScrewCouplerScrewClampDia = 10  #The diameter of the cut out for clamping the lead screw. Includes space for tubing.
+leadScrewCouplerShaftClampDia = 7   #The diameter of the cutout for clamping the motor shaft. Includes space for tubing.
+leadScrewCouplerClampGap = 2        #ADVANCED The gap between the two halves of the clamp.
+leadScrewCouplerGap = 5             #ADVANCED The space above and below the leadScrewCoupler. For keeping the coupler from  crashing into zMotor mount plate or xCarriage 
+leadScrewCouplerBaseThicnkess = 3	#ADVANCED The minimum thickness of the plastic on the clamps.
+leadScrewCouplerNutTrapPadding = 1.5#ADVANCED The padding between the nut traps and the edge of the leadScrewCoupler
                                                                                                                                                                            
 #Hole Calibration table                                                                                                                                                    
 #small hole diameters are adjusted for printed parts using this array.                                                                                                     
@@ -425,7 +431,7 @@ yAxisParts = []
 zAxisParts = []                                                                                                                                                            
 
 #Plater Variables                                                                                                                                                          
-plate = True #To Plate or not to Plate, that is the Question                                                                                                               
+plate = False #To Plate or not to Plate, that is the Question                                                                                                               
 platerWidth = 150 #width, width of the plate, in mm (default 150)                                                                                                          
 platerHeight = 150 #height of the plate, in mm (default 150)                                                                                                               
 platerPrecision = 0.5 #precision, in mm (default 0.5)                                                                                                                      
@@ -434,14 +440,8 @@ platerDelta = 2 #sets the spacing of the brute forcing (see below), default 2mm
 platerRotation = 90 #sets the angle of the brute forcing, default 90                                                     
 
 #Slic3r Variables                                                                                                                                                         
-slic3r = True #Slice or nah?                                                                                                                                             
-slic3rVars = " "                                                                                                                                                           
-
-#Heated Bed Variables
-gauge = 28 #Gauge of wire to be used as heating wire on the build plate
-amperage = 10 #ADVANCED Only change this if you know what you are doing, this is a very easy way to turn your electronics in to fuel
-voltage = 12 #ADVANCED Only change this if you know what you are doing
-
+slic3r = False #Slice or nah?                                                                                                                                             
+slic3rVars = ""                                                                                                                                                           
                                                                                                                                                          
 #Zip Variables                                                                                                                                            
 zipName = "Printer_Files" #Name of zip file                                                                                  
