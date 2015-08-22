@@ -80,3 +80,77 @@ class SideBarBottomR(object):
 		#extrude crossBarBottom
 		uf.extrudeFrameMember(self.name, gv.sideBarLength)
 		
+		#Make mounting holes for feet
+		#Sketch points
+		x1 = 0
+		y1 = 0
+		x2 = 0
+		y2 = 2*gv.frameSpacerOffset+gv.frameHeight
+		x3 = 0
+		y3 = gv.sideBarLength
+		x4 = 0
+		y4 = gv.sideBarLength-y2
+
+		App.activeDocument().addObject('Sketcher::SketchObject','Sketch001')
+		App.activeDocument().Sketch001.Support = uf.getFace(App.ActiveDocument.Pad,
+															None, None, 
+															None, None, 
+															gv.frameHeight/2, 0)
+
+		App.activeDocument().recompute()
+# 		Gui.activeDocument().setEdit('Sketch001')
+		App.ActiveDocument.Sketch001.addExternal("Pad",uf.getEdge(App.ActiveDocument.Pad,
+ 																  gv.sideBarLength,0,
+ 																  0,0,
+ 																  gv.frameHeight/2,0))
+		App.ActiveDocument.recompute()
+		App.ActiveDocument.Sketch001.addGeometry(Part.Line(App.Vector(x1,y1,0),App.Vector(x2,y2,0)))
+		App.ActiveDocument.recompute()
+		App.ActiveDocument.Sketch001.addConstraint(Sketcher.Constraint('Coincident',0,1,-1,1)) 
+		App.ActiveDocument.recompute()
+		App.ActiveDocument.Sketch001.addConstraint(Sketcher.Constraint('PointOnObject',0,2,-2)) 
+		App.ActiveDocument.recompute()
+		App.ActiveDocument.Sketch001.addGeometry(Part.Line(App.Vector(x3,y3,0),App.Vector(x4,y4,0)))
+		App.ActiveDocument.recompute()
+		App.ActiveDocument.Sketch001.addConstraint(Sketcher.Constraint('PointOnObject',1,1,-3)) 
+		App.ActiveDocument.recompute()
+		App.ActiveDocument.Sketch001.addConstraint(Sketcher.Constraint('Vertical',1)) 
+		App.ActiveDocument.recompute()
+		App.ActiveDocument.Sketch001.addConstraint(Sketcher.Constraint('PointOnObject',-1,1,1)) 
+		App.ActiveDocument.Sketch001.addConstraint(Sketcher.Constraint('Equal',1,0)) 
+		App.ActiveDocument.recompute()
+		App.ActiveDocument.Sketch001.toggleConstruction(1) 
+		App.ActiveDocument.Sketch001.toggleConstruction(0) 
+		App.ActiveDocument.recompute()
+		App.ActiveDocument.Sketch001.addGeometry(Part.Circle(App.Vector(x2,y2,0),App.Vector(0,0,1),gv.mountToFrameDia/2))
+		App.ActiveDocument.recompute()
+		App.ActiveDocument.Sketch001.addConstraint(Sketcher.Constraint('Coincident',2,3,0,2)) 
+		App.ActiveDocument.recompute()
+		App.ActiveDocument.Sketch001.addGeometry(Part.Circle(App.Vector(x4,y4,0),App.Vector(0,0,1),gv.mountToFrameDia/2))
+		App.ActiveDocument.recompute()
+		App.ActiveDocument.Sketch001.addConstraint(Sketcher.Constraint('Coincident',3,3,1,2)) 
+		App.ActiveDocument.recompute()
+		App.ActiveDocument.Sketch001.addConstraint(Sketcher.Constraint('Equal',3,2)) 
+		App.ActiveDocument.recompute()
+		
+		#add Dimmensions
+		App.ActiveDocument.Sketch001.addConstraint(Sketcher.Constraint('DistanceY',0,y2)) 
+		App.ActiveDocument.recompute()
+		App.ActiveDocument.Sketch001.addConstraint(Sketcher.Constraint('Radius',2,gv.mountToFrameDia/2)) 
+		App.ActiveDocument.recompute()
+# 		Gui.getDocument('sideBarBottomL').resetEdit()
+		
+		#Cut Pocket
+		App.activeDocument().addObject("PartDesign::Pocket","Pocket")
+		App.activeDocument().Pocket.Sketch = App.activeDocument().Sketch001
+		App.ActiveDocument.recompute()
+		# Gui.activeDocument().hide("Sketch001")
+		# Gui.activeDocument().hide("Pad")
+		# Gui.activeDocument().setEdit('Pocket')
+# 		Gui.ActiveDocument.Pocket.ShapeColor=Gui.ActiveDocument.Pad.ShapeColor
+# 		Gui.ActiveDocument.Pocket.LineColor=Gui.ActiveDocument.Pad.LineColor
+# 		Gui.ActiveDocument.Pocket.PointColor=Gui.ActiveDocument.Pad.PointColor
+		App.ActiveDocument.Pocket.Type = 1
+		App.ActiveDocument.Pocket.UpToFace = None
+		App.ActiveDocument.recompute()
+# 		Gui.activeDocument().resetEdit()		

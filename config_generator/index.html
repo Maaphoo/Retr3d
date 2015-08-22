@@ -1,3 +1,23 @@
+<!--
+Copyright 2015 Michael Uttmark
+
+This file is part of Retr3d.
+
+Retr3d is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Retr3d is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Retr3d.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
@@ -73,7 +93,25 @@
 	if(document.getElementById('radio3').checked==true){level=2}
 	if(document.getElementById('radio4').checked==true){level=1}
         
-	document.getElementById('python').value='from __future__ import division # allows floating point division from integersimport math'+'\n'+
+	document.getElementById('python').value=
+	'# Copyright 2015 Matthew Rogge and Michael Uttmark\n'+
+	'# \n'+
+	'# This file is part of Retr3d.\n'+
+	'# \n'+
+	'# Retr3d is free software: you can redistribute it and/or modify\n'+
+	'# it under the terms of the GNU General Public License as published by\n'+
+	'# the Free Software Foundation, either version 3 of the License, or\n'+
+	'# (at your option) any later version.\n'+
+	'# \n'+
+	'# Retr3d is distributed in the hope that it will be useful,\n'+
+	'# but WITHOUT ANY WARRANTY; without even the implied warranty of\n'+
+	'# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n'+
+	'# GNU General Public License for more details.\n'+
+	'# \n'+
+	'# You should have received a copy of the GNU General Public License\n'+
+	'# along with Retr3d.  If not, see <http://www.gnu.org/licenses/>.\n'+
+	'\n'+
+	'from __future__ import division # allows floating point division from integersimport math'+'\n'+
 	'\n'+
 	'reloadClasses = False'+'\n'+
 
@@ -129,8 +167,11 @@
 	'#Mounting nut and bolt info                                                                                                                                                '+'\n'+
 	'mountToPrintedDia = '+document.getElementById('mountToPrintedDia').value+' #Actual diameter of holes that are used to mount items to printed parts. IE other printed parts or sheet metal.                                      '+'\n'+
 	'mountToFrameDia = '+document.getElementById('mountToFrameDia').value+' #Actual diameter of holes that are used to mount items to the frame. Printed parts to frame or sheet metal to frame.                                '+'\n'+
+	'mountToFrameHeadDia = '+document.getElementById('mountToFrameHeadDia').value+'         #Actual head diameter of bolts used to mount items to the frame.'+'\n'+
+	'mountToFrameHeadThickness = '+document.getElementById('mountToFrameHeadThickness').value+'   #Actual head Thickness of bolts used to mount items to the frame.'+'\n'+
 	'mountToPrintedPadding = 3	#ADVANCED the minimum distance between the edge of a hole and the edge of the part                                                          '+'\n'+
 	'printedToFrameDia = None 	#CALCULATED The adjusted diameter for printed parts that will be mounted to the frame.                                                      '+'\n'+
+	'printedToFrameHeadDia = None    #CALCULATED The adjusted diameter for printed parts that will be mounted to the frame.                                                     '+'\n'+
 	'printedToPrintedDia = None 	#CALCULATED The adjusted diameter for printed parts mounted to other printed parts or to non frame parts                                    '+'\n'+
 	'                                                                                                                                                                           '+'\n'+
 	'                                                                                                                                                                           '+'\n'+
@@ -377,10 +418,22 @@
 	'zEndstopSupportWidth = None		#CALCULATED The width of the zEndstop                                                                                               '+'\n'+
 	'zEndStopClampLength = None		#CALCULATED The length along the z axis of the zEndStop clamp                                                                       '+'\n'+
 	'zEndstopBodyThickness = None 	#CALCULATED The thickness of the zEndstop between the zRod and the zEndStopCap                                                              '+'\n'+
-	'                                                                                                                                                                           '+'\n'+
-	'#LeadScrewCoupler vars                                                                                                                                                     '+'\n'+
-	'leadScrewCouplerLength = '+document.getElementById('leadScrewCouplerLength').value+' #The length (vertical axis) of the leadScrewCouplers                                                                                           '+'\n'+
-	'leadScrewCouplerGap = '+document.getElementById('leadScrewCouplerGap').value+' #The space above and below the leadScrewCoupler. For keeping the coupler from  crashing into zMotor mount plate or xCarriage                       '+'\n'+
+	''+'\n'+
+	'#feet vars'+'\n'+
+	'feetOffset = 2                  #ADVANCED The distance between the edge of the frame and the foot'+'\n'+
+	'feetBaseThickness = 3           #ADVANCED The thickness of plastic clamped by the mounting bolt'+'\n'+
+	'feetBoltHeadClearanceVert = 3   #ADVANCED The distance between the top of the bolt head and the bottom of the foot '+'\n'+
+	'feetBoltHeadClearanceHor = 0.5  #ADVANCED The gap between the bolt head and the wall of the pocket'+'\n'+
+	'feetDraftAngle = 5              #ADVANCED The angle of draft on the feet. This makes the feet taper.'+'\n'+
+	''+'\n'+
+	'#LeadScrewCoupler vars\n'+
+	'leadScrewCouplerLength = '+document.getElementById('leadScrewCouplerLength').value+'         #The length (vertical axis) of the leadScrewCouplers \n'+
+	'leadScrewCouplerScrewClampDia = '+document.getElementById('leadScrewCouplerScrewClampDia').value+'  #The diameter of the cut out for clamping the lead screw. Includes space for tubing.\n'+
+	'leadScrewCouplerShaftClampDia = '+document.getElementById('leadScrewCouplerShaftClampDia').value+'   #The diameter of the cutout for clamping the motor shaft. Includes space for tubing.\n'+
+	'leadScrewCouplerClampGap = 2        #ADVANCED The gap between the two halves of the clamp.\n'+
+	'leadScrewCouplerGap = 5             #ADVANCED The space above and below the leadScrewCoupler. For keeping the coupler from  crashing into zMotor mount plate or xCarriage \n'+
+	'leadScrewCouplerBaseThicnkess = 3	#ADVANCED The minimum thickness of the plastic on the clamps.\n'+
+	'leadScrewCouplerNutTrapPadding = 1.5#ADVANCED The padding between the nut traps and the edge of the leadScrewCoupler\n'+
 	'                                                                                                                                                                           '+'\n'+
 	'#Hole Calibration table                                                                                                                                                    '+'\n'+
 	'#small hole diameters are adjusted for printed parts using this array.                                                                                                     '+'\n'+
@@ -574,7 +627,9 @@
             <li>Mounting Hardware<ul><li><span><table class="tbordered">
                 
 		  <tr><td>Printed Parts Mounting Hole Diameter</td><td><input onfocus="showPicture(500,'hardware'),hideDownload()" onBlur="hidePicture('hardware')" id="mountToPrintedDia" value="3" /></td></tr>
-                  <tr><td>Frame Mounting Hole Diameter</td><td><input onfocus="showPicture(500,'hardware'),hideDownload()" onBlur="hidePicture('hardware')" id="mountToFrameDia" value="4.12" /></td></tr></table></span><br />
+                  <tr><td>Frame Mounting Bolt Diameter</td><td><input onfocus="showPicture(500,'hardware'),hideDownload()" onBlur="hidePicture('hardware')" id="mountToFrameDia" value="4.12" /></td></tr>
+                  <tr><td>Frame Mounting Bolt Head Diameter</td><td><input onfocus="showPicture(500,'hardware'),hideDownload()" onBlur="hidePicture('hardware')" id="mountToFrameHeadDia" value="6" /></td></tr>
+                  <tr><td>Frame Mounting Bolt Head Thickness</td><td><input onfocus="showPicture(500,'hardware'),hideDownload()" onBlur="hidePicture('hardware')" id="mountToFrameHeadThickness" value="3" /></td></tr></table></span><br />
                   <img src="./img/hardware.png" height="0" id="hardware" align="right"/>
                   
            </li></ul></li>
@@ -763,7 +818,8 @@
             <li>Lead Screw Coupler<ul><li><span><table class="tbordered">
                 
 		  <tr><td>Length of the Lead Screw Couplers (Vertical Axis)</td><td><input onfocus="showPicture(500,'leadscrewcoupler'),hideDownload()" onBlur="hidePicture('leadscrewcoupler')" id="leadScrewCouplerLength" value="25" /></td></tr>
-		  <tr><td>Space Above and Below the Leadscrewcoupler (To Stop Collisions with Z Motor Mount Plate or X Carriage)</td><td><input onfocus="showPicture(500,'leadscrewcoupler'),hideDownload()" onBlur="hidePicture('leadscrewcoupler')"  id="leadScrewCouplerGap" value="5" /></td></tr></table></span><br />
+		  <tr><td>Diameter of lead screw cuttout (Just a bit larger than the lead screw Diameter)</td><td><input onfocus="showPicture(500,'leadscrewcoupler'),hideDownload()" onBlur="hidePicture('leadscrewcoupler')" id="leadScrewCouplerScrewClampDia" value="10" /></td></tr>
+		  <tr><td>Diameter of motor shaft cuttout (Just a bit larger than the shaft Diameter)</td><td><input onfocus="showPicture(500,'leadscrewcoupler'),hideDownload()" onBlur="hidePicture('leadscrewcoupler')" id="leadScrewCouplerShaftClampDia" value="7" /></td></tr></table></span><br />
                   <img src="./img/leadscrewcoupler.png" height="0" id="leadscrewcoupler" align="right" />
                   
            </li></ul></li>

@@ -222,13 +222,13 @@ def getFace(feature, x, compX, y, compY, z, compZ):
                 i = i + 1
     if x is not None and compX == -1:
         while i < len(possibleFaces):
-            if possibleFaces[i][0].CenterOfMass.x - .00001 >= x:
+            if possibleFaces[i][0].CenterOfMass.x + .00001 >= x:
                 possibleFaces.pop(i)
             else:
                 i = i + 1
     if x is not None and compX == 1:
         while i < len(possibleFaces):
-            if possibleFaces[i][0].CenterOfMass.x + .00001 <= x:
+            if possibleFaces[i][0].CenterOfMass.x - .00001 <= x:
                 possibleFaces.pop(i)
             else:
                 i = i + 1
@@ -241,13 +241,13 @@ def getFace(feature, x, compX, y, compY, z, compZ):
                 i = i + 1
     if y is not None and compY == -1:
         while i < len(possibleFaces):
-            if possibleFaces[i][0].CenterOfMass.y - .00001 >= y:
+            if possibleFaces[i][0].CenterOfMass.y + .00001 >= y:
                 possibleFaces.pop(i)
             else:
                 i = i + 1
     if y is not None and compY == 1:
         while i < len(possibleFaces):
-            if possibleFaces[i][0].CenterOfMass.y + .00001 <= y:
+            if possibleFaces[i][0].CenterOfMass.y - .00001 <= y:
                 possibleFaces.pop(i)
             else:
                 i = i + 1
@@ -260,13 +260,13 @@ def getFace(feature, x, compX, y, compY, z, compZ):
                 i = i + 1
     if z is not None and compZ == -1:
         while i < len(possibleFaces):
-            if possibleFaces[i][0].CenterOfMass.z - .00001 >= z:
+            if possibleFaces[i][0].CenterOfMass.z + .00001 >= z:
                 possibleFaces.pop(i)
             else:
                 i = i + 1
     if z is not None and compZ == 1:
         while i < len(possibleFaces):
-            if possibleFaces[i][0].CenterOfMass.z + .00001 <= z:
+            if possibleFaces[i][0].CenterOfMass.z - .00001 <= z:
                 possibleFaces.pop(i)
             else:
                 i = i + 1
@@ -275,7 +275,13 @@ def getFace(feature, x, compX, y, compY, z, compZ):
         string = "Face" + str(possibleFaces[0][1] + 1)
         return (feature, [string])
     elif len(possibleFaces) > 1:
-        raise Exception("getFace() error: Unable to determine a unique face.")
+        faceString = ""
+        i=0
+        for face in possibleFaces:
+            faceString += "Face" + str(face[1] + 1)+" "
+
+
+        raise Exception("getFace() error: Unable to determine a unique face. Remaining Faces:" + faceString)
     else:
         raise Exception("getFace() error: No such face exists.")
 

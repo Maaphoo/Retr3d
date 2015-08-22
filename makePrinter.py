@@ -68,7 +68,7 @@ def makePrinter():
         uf.critical("Failure to import FreeCAD, check your configuration file.", 'Failure to import FreeCAD: ' + str(e),
                     gv.level, source)
 
-    import FreeCAD# as #
+    import FreeCADGui as Gui
 
     if platform.system() == 'Windows':
         if (App.Version()[1] > '14'):
@@ -165,6 +165,8 @@ def makePrinter():
     import nozzle
     import xEndstop
     import zEndstop
+    import feet
+    import leadScrewCoupler
     import plate
     import slic3r
     import zipup
@@ -217,6 +219,8 @@ def makePrinter():
         reload(nozzle)
         reload(xEndstop)
         reload(zEndstop)
+        reload(feet)
+        reload(leadScrewCoupler)
         reload(plate)
         reload(slic3r)
         reload(zipup)
@@ -269,6 +273,8 @@ def makePrinter():
     nozzle = nozzle.Nozzle()
     xEndstop = xEndstop.XEndstop()
     zEndstop = zEndstop.ZEndstop()
+    feet = feet.Feet()
+    leadScrewCoupler = leadScrewCoupler.LeadScrewCoupler()
 
 
     # convert standard nut sizes to mm
@@ -286,7 +292,9 @@ def makePrinter():
 
     # Determine printed mounting hole diameters
     gv.printedToFrameDia = uf.adjustHole(gv.mountToFrameDia)
+    gv.printedToFrameHeadDia = uf.adjustHole(gv.mountToFrameHeadDia)
     gv.printedToPrintedDia = uf.adjustHole(gv.mountToPrintedDia)
+    gv.printedToPrintedNutFaceToFace = uf.adjustHole(gv.mountToPrintedNutFaceToFace)
 
     # Select Bushing and Lead Screw nuts
     gv.xBushingNutBottom = uf.pickBushingNut(gv.xRodDiaBottom)
@@ -651,6 +659,7 @@ def makePrinter():
     uf.info("Starting to draw parts...", "Assembly file made", gv.level, source)
 
     heatedbed.design()
+
     # Make components for x-Axis, add to assembly, save and close
     xRodBottom.draw()
     uf.info("Done drawing xRodBottom", "Finished xRodBottom.draw()", gv.level, source)
@@ -777,6 +786,12 @@ def makePrinter():
     zEndstop.assemble()
     uf.info("Done assembling zEndstop", "Finished zEndstop.assemble()", gv.level, source)
     uf.saveAndClose("zEndstop", False)
+
+    leadScrewCoupler.draw()
+    uf.info("Done drawing leadScrewCoupler", "Finished leadScrewCoupler.draw()", gv.level, source)
+    leadScrewCoupler.assemble()
+    uf.info("Done assembling leadScrewCoupler", "Finished leadScrewCoupler.assemble()", gv.level, source)
+    uf.saveAndClose("leadScrewCoupler", True)
 
     uf.positionZAxis()
 
@@ -914,12 +929,19 @@ def makePrinter():
     uf.info("Done assembling frameSpacers", "Finished frameSpacers.assemble()", gv.level, source)
     uf.saveAndClose("frameSpacers", False)
 
+    feet.draw()
+    uf.info("Done drawing Feet", "Finished feet.draw()", gv.level, source)
+    feet.assemble()
+    uf.info("Done assembling feet", "Finished feet.assemble()", gv.level, source)
+    uf.saveAndClose("feet", True)
+
+
+
     draw.setup("printBedSupport", 'Pocket001')
     draw.setup("extruderMountPlate", 'Pocket002')
     draw.setup("xEndIdlerPlate", 'Pocket')
     draw.setup("xEndMotorPlate", 'Pocket001')
     App.ActiveDocument = App.getDocument("PrinterAssembly")
-    #.ActiveDocument = #.getDocument("PrinterAssembly")
 
     uf.saveAssembly()
 
@@ -937,7 +959,6 @@ def makePrinter():
     checklist.create()
     marlin.marlin()
     zipup.zipup()
-
 
 try:
     makePrinter()
