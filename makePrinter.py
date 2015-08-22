@@ -171,6 +171,7 @@ def makePrinter():
     import draw
     import checklist
     import heatedbed
+    import marlin
 
     # If any of the parameters have been changed, the includes must be reloaded
     # Normally, this would just be globalVariables because that is what would be changed,
@@ -222,6 +223,7 @@ def makePrinter():
         reload(draw)
         reload(checklist)
         reload(heatedbed)
+        reload(marlin)
 
     gv.reloadClasses = True
 
@@ -933,6 +935,7 @@ def makePrinter():
 
     heatedbed.design()
     checklist.create()
+    marlin.marlin()
     zipup.zipup()
 
 
