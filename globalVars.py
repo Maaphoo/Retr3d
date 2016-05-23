@@ -19,12 +19,6 @@ from __future__ import division # allows floating point division from integersim
 
 reloadClasses = False
 test = None
-
-#Change the following to the path to the directory that will hold your printer designs
-#Unless using windows, then use \\ instead of either of the above
-#Make sure to use forward slashes like this / and not back slashes like this \ 
-freecadDir = "/Path/To/FreeCAD/"
-printerDir = "/Path/To/Store/3D/Files/"
  
 #Output Options
 level = 2
@@ -74,6 +68,8 @@ mountToFrameDia = 4.12 #Actual diameter of holes that are used to mount items to
 mountToFrameHeadDia = 6         #Actual head diameter of bolts used to mount items to the frame.
 mountToFrameHeadThickness = 3   #Actual head Thickness of bolts used to mount items to the frame.
 mountToPrintedPadding = 3	#ADVANCED the minimum distance between the edge of a hole and the edge of the part                                                          
+mountToPrintedNutFaceToFace = 3 #TODO no idea what this is for but it is apparently needed by makePrinter
+mountToPrintedNutThickness = 3  #TODO no idea what this is for but it is apparently needed by leadScrewCoupler
 printedToFrameDia = None 	#CALCULATED The adjusted diameter for printed parts that will be mounted to the frame.                                                      
 printedToFrameHeadDia = None    #CALCULATED The adjusted diameter for printed parts that will be mounted to the frame.                                                     
 printedToPrintedDia = None 	#CALCULATED The adjusted diameter for printed parts mounted to other printed parts or to non frame parts                                    
@@ -456,6 +452,10 @@ invertEDirection = False #ADVANCED Inverts the Extruder stepper motor
 #Slic3r Variables                                                                                                                                                         
 slic3r = False #Slice or nah?                                                                                                                                             
 slic3rVars = ""                                                                                                                                                           
-                                                                                                                                                         
+
+gauge = 28 #Gauge of wire to be used as heating wire on the build plate
+amperage = 10 #ADVANCED Only change this if you know what you are doing, this is a very easy way to turn your electronics in to fuel
+voltage = 12 #ADVANCED Only change this if you know what you are doing
+
 #Zip Variables                                                                                                                                            
 zipName = "Printer_Files" #Name of zip file                 

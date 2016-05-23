@@ -42,10 +42,16 @@ def design():
 
     # Make dateString and add it to the directory string
     date = datetime.date.today().strftime("%m_%d_%Y")
-    printerDir = gv.printerDir+"Printer_"+date+"/"
+    printerDir = gv.printerDir+"Printer_"+date
 
     filename = os.path.join(printerDir, 'Parts', 'Heated Bed Wire Diagram.svg')
     print filename
+    if not os.path.exists(os.path.dirname(filename)):
+        try:
+            os.makedirs(os.path.dirname(filename))
+        except OSError as exc: # Guard against race condition
+            if exc.errno != errno.EEXIST:
+                raise
     svg = open(filename, 'w')
     svg.write('<svg width="'+printableWidth+'mm" height="'+printableLength+'mm">')
     svg.write('<circle cx="15mm" cy="15mm" r="1.5mm" fill="white" stroke="black" stroke-width=".5mm" />')
