@@ -15,7 +15,16 @@
 # You should have received a copy of the GNU General Public License
 # along with Retr3d.  If not, see <http://www.gnu.org/licenses/>.
 
-import sys
-import os
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-execfile(os.path.dirname(os.path.abspath(__file__))+'/makePrinter.py')
+import sys, os, subprocess
+from PySide import QtGui
+
+retr3d_path = QtGui.QFileDialog.getExistingDirectory(None,"Please indicate the location of your Retr3D folder")
+output_path = QtGui.QFileDialog.getExistingDirectory(None,"Now please choose a folder to save output files")
+
+if retr3d_path and output_path:
+    sys.path.append(retr3d_path)
+    import globalVars as gv
+    gv.printerDir = output_path + os.sep
+    import makePrinter
+else:
+    print "Aborting."

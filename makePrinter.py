@@ -23,11 +23,7 @@ import sys
 import platform
 import subprocess
 
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-
 import globalVars as gv
-
-sys.path.append(gv.freecadDir)
 
 try:
     import utilityFunctions as uf
@@ -122,10 +118,6 @@ def makePrinter():
             finally:
                 uf.info("FreeCAD Version 0." + App.Version()[1] + " Revision " + App.Version()[2],
                         "FreeCAD Version 0." + App.Version()[1] + " Revision " + App.Version()[2], gv.level, source)
-
-
-
-
 
 
     # import Part modules
